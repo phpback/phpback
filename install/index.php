@@ -54,24 +54,7 @@
 		<?php if(isset($_POST['error']) && $_POST['configfile'] != 1): ?>
 			<div style="color:#C0392B;font-size:20px"><?php echo $_POST['error']; ?></div>
 		<?php endif; ?>
-			<div class="form-group">
-              <input type="text" class="form-control login-field" value="" placeholder="Admin Name" id="adminname" name="adminname" />
-              <label class="login-field-icon" for="adminname"></label>
-            </div>
-			<div class="form-group">
-              <input type="text" class="form-control login-field" value="" placeholder="Admin Email" id="adminemail" name="adminemail" />
-              <label class="login-field-icon" for="adminemail"></label>
-            </div>
-			<div class="form-group">
-              <input type="password" class="form-control login-field" value="" placeholder="Admin password" id="adminpass" name="adminpass" />
-              <label class="login-field-icon fui-lock" for="adminpass"></label>
-            </div>
-            <div class="form-group">
-              <input type="password" class="form-control login-field" value="" placeholder="Repeat admin password" id="adminrpass" name="adminrpass" />
-              <label class="login-field-icon fui-lock" for="adminrpass"></label>
-            </div>
-            <hr>
-            <div class="form-group">
+      <div class="form-group">
               <input type="text" class="form-control login-field" value="" placeholder="MySQL hostname" id="hostname" name="hostname" />
               <label class="login-field-icon" for="hostname"></label>
             </div>
@@ -88,6 +71,26 @@
               <label class="login-field-icon" for="database"></label>
             </div>
             <small>* Left in blank for automatic database creation</small>
+            <hr>
+
+			   <div class="form-group">
+              <input type="text" class="form-control login-field" value="" placeholder="Admin Name" id="adminname" name="adminname" />
+              <label class="login-field-icon" for="adminname"></label>
+            </div>
+			   <div class="form-group">
+              <input type="text" class="form-control login-field" value="" placeholder="Admin Email" id="adminemail" name="adminemail" />
+              <label class="login-field-icon" for="adminemail"></label>
+            </div>
+			   <div class="form-group">
+              <input type="password" class="form-control login-field" value="" placeholder="Admin password" id="adminpass" name="adminpass" />
+              <label class="login-field-icon fui-lock" for="adminpass"></label>
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control login-field" value="" placeholder="Repeat admin password" id="adminrpass" name="adminrpass" />
+              <label class="login-field-icon fui-lock" for="adminrpass"></label>
+            </div>
+
+            
             <input type="submit" class="btn btn-primary btn-lg btn-block" value="Proceed">
         </form>
         <?php if(isset($_POST['configfile']) && $_POST['configfile'] == 1): ?>
