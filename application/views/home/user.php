@@ -5,13 +5,13 @@
 			  <li class="active"><?php echo $user->name; ?></li>
 	</ol></small>
 	<h5><?php echo $user->name; ?><?php if($user->isadmin): ?><span class="label label-danger" style="margin-left:7px;">Admin</span> <?php endif; ?></h5>
-	<?php if(isset($_SESSION['userid']) && $user->id == $_SESSION['userid']):?>
+	<?php if(isset($_SESSION['phpback_userid']) && $user->id == $_SESSION['phpback_userid']):?>
 	<div><?php echo $user->votes?> Votes left.</div>
-	<?php elseif(isset($_SESSION['isadmin']) && $_SESSION['isadmin'] > 1): ?>
+	<?php elseif(isset($_SESSION['phpback_isadmin']) && $_SESSION['phpback_isadmin'] > 1): ?>
 	<a href="<?php echo base_url() . 'admin/users/' . $user->id; ?>" target="_blank"><button type="submit" class="btn btn-danger btn-sm" style="width:130px">Ban User</button></a>
 	<?php endif; ?>
 	<hr>
-	<?php if(isset($_SESSION['userid']) && $user->id == $_SESSION['userid']):?>
+	<?php if(isset($_SESSION['phpback_userid']) && $user->id == $_SESSION['phpback_userid']):?>
 	<div id="account settings">
 	<?php if($error > 0): ?>
 		<p class="bg-danger" style="padding-left:20px;padding-top:5px;padding-bottom:5px;">
@@ -24,6 +24,7 @@
 		<ul class="nav nav-tabs">
 	  		<li id="table4" class="active"><a onclick="showtable4('resetvotestable','table4');">Reset votes</a></li>
 	  		<li id="table5"><a onclick="showtable4('changepasswordtable','table5');">Change Password</a></li>
+	  		<?php if($_SESSION['phpback_isadmin'] >= 1) : ?><li><a href="<?php echo base_url() . 'admin/'; ?>" target="_blank">ADMIN PANEL</a></li><?php endif; ?>
 		</ul>
 		<table id="resetvotestable" class="table table-striped">
 			<thead>

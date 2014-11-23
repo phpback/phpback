@@ -87,6 +87,10 @@
             </div>
           </form>
       </div>
+      <div id="upgradetable" style="display:none"> 
+         <div class="alert alert-warning" role="alert">You are using the beta version of PHPBack.<br>
+        Please, visit <a href="http://www.phpback.org/" target="_blank">phpback.org</a> to get the lastest version.</div> 
+      </div> 
       <div id="categorytable" style="display:none">
         <h4>Add a new Category</h4>
         <form role="form" method="post" action="<?php echo base_url() . 'adminaction/addcategory'?>">
@@ -116,9 +120,10 @@
                 <input type="checkbox" value="" id="checkbox1" name="ideas" data-toggle="checkbox">
                 Delete category's ideas
               </label>
-              <div class="form-group">
+          </div>
+          <div class="form-group">
               <button type="submit" class="btn btn-primary">Delete category</button>
-            </div>
+          </div>
         </form>
         <h4>Change names</h4>
         <form role="form" method="post" action="<?php echo base_url() . 'adminaction/updatecategories'?>">
@@ -131,10 +136,6 @@
               <button type="submit" class="btn btn-primary">Update names</button>
             </div>
         </form>
-      </div>
-      <div id="upgradetable" style="display:none">
-      <div class="alert alert-warning" role="alert">You are using the beta version of PHPBack.<br>
-      Please, visit <a href="http://phpback.org" target="_blank">phpback.org</a> to get the lastest version.</div>  
       </div>
   </div>
 </div>

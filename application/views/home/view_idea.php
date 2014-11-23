@@ -88,7 +88,7 @@
 					</div>
 				</div>
 			</div>
-			<?php if(isset($_SESSION['isadmin']) && $_SESSION['isadmin']): ?>
+			<?php if(isset($_SESSION['phpback_isadmin']) && $_SESSION['phpback_isadmin']): ?>
 			<div class="row">
 				<div class="col-md-10 col-md-offset-1" style="margin-top:10px">
 				<ul class="nav-pills" style="list-style:none;margin-left:-40px;">
@@ -120,7 +120,7 @@
 				</div>
 			</div>
 			<?php endif; ?>
-			<?php if(isset($_SESSION['userid'])): ?>
+			<?php if(isset($_SESSION['phpback_userid'])): ?>
 			<div class="row">
 				<div class="col-md-10 col-md-offset-1" style="margin-top:10px">
 					<form role="form" method="post" action="<?php echo base_url() . 'action/comment/' . $idea->id; ?>">
@@ -141,7 +141,7 @@
 					 <a href="<?php echo base_url() . 'home/profile/' . $comment->userid . '/' . str_replace(" ", "-", $comment->user); ?>"><?php echo $comment->user; ?></a>
 					 <span style="margin-left:15px;color:#555"><?php echo $comment->date; ?></span>
 					  <span style="margin-left:15px;margin-right:5px">
-					  	<?php if(isset($_SESSION['isadmin']) && $_SESSION['isadmin']): ?>
+					  	<?php if(isset($_SESSION['phpback_isadmin']) && $_SESSION['phpback_isadmin']): ?>
 					  	<?php $temp = base_url() . 'adminaction/deletecomment/' . $comment->id; ?>
 					  		<a style="color:#E25F5F" href="#" onclick="popup_sure('Are you sure you want to delete this comment?','<?php echo $temp; ?>');"><i><small>delete commment</small></i></a>
 					  	<?php else: ?>

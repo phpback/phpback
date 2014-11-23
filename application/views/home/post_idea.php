@@ -3,7 +3,7 @@
         <li><a href="<?php echo base_url();?>">Feedback</a></li>
         <li class="active">Post a new idea</li>
   </ol></small>
-	<?php if(@!isset($_SESSION['userid'])): ?>
+	<?php if(@!isset($_SESSION['phpback_userid'])): ?>
 	<p class="bg-danger" style="padding-left:20px;padding-top:5px;padding-bottom:5px;">You must <a href="<?php echo base_url() . 'home/login'; ?>">log in</a> to post a new idea</p>
 	<?php else: ?>
 	<?php if($error != "none"): ?>
