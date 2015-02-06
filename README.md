@@ -14,6 +14,6 @@ Upload this folder in your web server, go to `yourwebsite.com/feedback/` (or fol
 If you have any questions, plase visit our [Wiki](http://www.phpback.org/wiki/) or our [Support Center](http://www.phpback.org/support/)  
 
 ##License
-PHPBack is licensed under GPLv2 (see `LICENSE.TXT` file) and it was made using Codeigniter Framework (see `system/license.txt` file).
+PHPBack is licensed under GPLv3 (see `LICENSE.TXT` file) and it was made using Codeigniter Framework (see `system/license.txt` file).
 
 `Ivan Diaz <ivan@phpback.org> © 2014`
