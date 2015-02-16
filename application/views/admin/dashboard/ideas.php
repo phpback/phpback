@@ -191,7 +191,7 @@
             <a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>" target="_blank"><?php echo $idea->title; ?></a>
           </td>
           <td>
-            <?php echo $categories[$idea->categoryid - 1]->name; ?>
+            <?php echo $categories[$idea->categoryid]->name; ?>
           </td>
           <td>
             <?php echo $idea->votes; ?> Votes
