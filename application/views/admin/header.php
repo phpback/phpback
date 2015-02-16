@@ -8,7 +8,7 @@ See LICENSE.TXT for details.  -->
 <html>
 <head>
 	<title>Admin Panel - PHPBack</title>
-
+    
     <!-- Loading Bootstrap -->
     <link href="<?php echo base_url(); ?>public/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>public/bootstrap/css/prettify.css" rel="stylesheet">
