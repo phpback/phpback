@@ -8,9 +8,6 @@ See LICENSE.TXT for details.  -->
 <html>
 <head>
 	<title>Admin Panel - PHPBack</title>
-	<!-- Latest compiled and minified JavaScript -->
-  <script src="<?php echo base_url(); ?>public/bootstrap/js/bootstrap.min.js"></script> 
-  <script src="<?php echo base_url(); ?>public/bootstrap/js/bootstrap.js"></script> 
 
     <!-- Loading Bootstrap -->
     <link href="<?php echo base_url(); ?>public/bootstrap/css/bootstrap.css" rel="stylesheet">
