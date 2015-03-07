@@ -11,10 +11,10 @@
 			<table id="ideastable" class="table table-condensed">
 			<thead>
 		        <tr>
-		          <th><small>Idea <a href="<?php echo base_url() . 'home/category/'. ($id) .'/'. $freename .'/title/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
-		          <th><small>Votes <a href="<?php echo base_url() . 'home/category/'. ($id) .'/'. $freename .'/votes/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
-		          <th><small>Comments</small></th>
-		          <th><small>Date <a href="<?php echo base_url() . 'home/category/'. ($id) .'/'. $freename .'/id/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
+		          <th><small><?php echo $lang['label_idea']; ?> <a href="<?php echo base_url() . 'home/category/'. ($id) .'/'. $freename .'/title/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
+		          <th><small><?php echo $lang['label_votes']; ?> <a href="<?php echo base_url() . 'home/category/'. ($id) .'/'. $freename .'/votes/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
+		          <th><small><?php echo $lang['label_comments']; ?></small></th>
+		          <th><small><?php echo $lang['label_date']; ?> <a href="<?php echo base_url() . 'home/category/'. ($id) .'/'. $freename .'/id/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
 		        </tr>
 		    </thead>
 		    </table>
@@ -36,7 +36,7 @@
 								echo "," . (((int) ($idea->votes / 100000)) - $t*10);
 							echo "M";
 							}?>
-						</b></span><br><div style="margin-top:-10px;font-size:14px">Votes</div>
+						</b></span><br><div style="margin-top:-10px;font-size:14px"><?php echo $lang['label_votes']; ?></div>
 						<span class="label label-<?php
 				switch ($idea->status) {
 					case 'considered':
@@ -58,19 +58,19 @@
 				?>" style="font-size:12px"><?php
 				switch ($idea->status) {
 					case 'considered':
-						echo 'Considered';
+						echo $lang['idea_considered'];
 						break;
 					case 'declined':
-						echo 'Declined';
+						echo $lang['idea_declined'];
 						break;
 					case 'started':
-						echo 'Started';
+						echo $lang['idea_started'];
 						break;
 					case 'planned':
-						echo 'Planned';
+						echo $lang['idea_planned'];
 						break;
 					case 'completed':
-						echo 'Completed';
+						echo $lang['idea_completed'];
 						break;
 				}
 				?></span>
@@ -93,7 +93,7 @@
 					</div>
 					<div style="margin-top:-10px"> 
 					<ul class="nav-pills" style="list-style:none;margin-left:-30px">
-					<li><small><?php echo $idea->comments; ?> Comments</small></li>
+					<li><small><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
 					</ul><br><br>
 					</div>
 				</div>

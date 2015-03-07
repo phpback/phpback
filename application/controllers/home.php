@@ -14,8 +14,12 @@ class Home extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
         session_start();
+
 		$this->load->helper('url');
 		$this->load->model('get');
+
+		$this->lang->load('default', 'english');
+
         if(@isset($_SESSION['phpback_userid']) && $this->get->isbanned($_SESSION['phpback_userid']) != 0){
             date_default_timezone_set('America/Los_Angeles');
             $ban = $this->get->isbanned($_SESSION['phpback_userid']);
@@ -63,6 +67,8 @@ class Home extends CI_Controller {
                 return;
             }
         }
+
+        $data['lang'] = $this->lang->language;
 
 		$this->load->view('_templates/header', $data);
 		$this->load->view('home/index', $data);

@@ -21,15 +21,15 @@
 							echo "m";
 							}?>
 							</b></span><br>
-						<div style="margin-top:-10px"><small>Votes</small></div>
+						<div style="margin-top:-10px"><small><?php echo $lang['label_votes']; ?></small></div>
 					</div>
 					<div class="dropdown">
-					  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="width:100%">Vote</button>
+					  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="width:100%"><?php echo $lang['label_vote']; ?></button>
 					  <span class="dropdown-arrow dropdown-arrow-inverse"></span>
 					  <ul class="dropdown-menu dropdown-inverse">
-					    <li><a href="<?php echo base_url() . "action/vote/1/" . $idea->id;?>">1 Vote</a></li>
-					    <li><a href="<?php echo base_url() . "action/vote/2/" . $idea->id;?>">2 Votes</a></li>
-					    <li><a href="<?php echo base_url() . "action/vote/3/" . $idea->id;?>">3 Votes</a></li>
+					    <li><a href="<?php echo base_url() . "action/vote/1/" . $idea->id;?>">1 <?php echo $lang['label_vote']; ?></a></li>
+					    <li><a href="<?php echo base_url() . "action/vote/2/" . $idea->id;?>">2 <?php echo $lang['label_votes']; ?></a></li>
+					    <li><a href="<?php echo base_url() . "action/vote/3/" . $idea->id;?>">3 <?php echo $lang['label_votes']; ?></a></li>
 					  </u>
 					</div>
 				</div>
@@ -62,29 +62,29 @@
 				?>"><small><?php
 				switch ($idea->status) {
 					case 'considered':
-						echo 'Considered';
+						echo $lang['idea_considered'];
 						break;
 					case 'declined':
-						echo 'Declined';
+                        echo $lang['idea_declined'];
 						break;
 					case 'started':
-						echo 'Started';
+                        echo $lang['idea_started'];
 						break;
 					case 'planned':
-						echo 'Planned';
+                        echo $lang['idea_planned'];
 						break;
 					case 'completed':
-						echo 'Completed';
+                        echo $lang['idea_completed'];
 						break;
 					case 'new':
-						echo 'Under Review';
+						echo $lang['idea_new'];
 						break;
 				}
 				?></small></span></li>
-					<li style="padding-right:10px"><small><?php echo $idea->comments;?> Comments</small></li>
+					<li style="padding-right:10px"><small><?php echo $idea->comments;?> <?php echo $lang['label_comments']; ?></small></li>
 					<li style="padding-right:10px"><a href="<?php echo base_url() . 'home/category/' . $idea->categoryid . '/' . str_replace(" ", "-", $categories[$idea->categoryid]->name); ?>"><small><?php echo $categories[$idea->categoryid]->name;?></small></a></li>
 					</ul><br><br>
-					<small><span class="glyphicon glyphicon-user"></span> <a href="<?php echo base_url() . 'home/profile/' . $idea->authorid . '/' . str_replace(" ", "-", $idea->user); ?>"><?php echo $idea->user; ?></a> <i>shared this idea</i> <span style='color:#555;margin-left:30px;'>September 21, 2013</span></small>
+					<small><span class="glyphicon glyphicon-user"></span> <a href="<?php echo base_url() . 'home/profile/' . $idea->authorid . '/' . str_replace(" ", "-", $idea->user); ?>"><?php echo $idea->user; ?></a> <i><?php echo $lang['text_shared_this_idea']; ?></i> <span style='color:#555;margin-left:30px;'><?php echo $idea->date; ?></span></small>
 					</div>
 				</div>
 			</div>
@@ -97,23 +97,23 @@
 						<a href="<?php echo base_url() . 'adminaction/approveidea/' . $idea->id; ?>"><button type="submit" class="btn btn-success btn-sm" style="width:130px">Approve Idea</button></a>
 					<?php elseif($idea->status != 'completed' && $idea->status != 'declined'): ?>
 						<div class="dropdown">
-						  <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" style="width:130px">Change status</button>
+						  <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" style="width:130px"><?php echo $lang['label_change_status']; ?></button>
 						  <span class="dropdown-arrow dropdown-arrow-inverse"></span>
 						  <ul class="dropdown-menu dropdown-inverse">
-						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/declined/" . $idea->id;?>">Declined</a></li>
-						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/considered/" . $idea->id;?>">Under Consideration</a></li>
-						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/planned/" . $idea->id;?>">Planned</a></li>
-						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/started/" . $idea->id;?>">Started</a></li>
-						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/completed/" . $idea->id;?>">Completed</a></li>
+						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/declined/" . $idea->id;?>"><?php echo $lang['idea_declined']; ?></a></li>
+						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/considered/" . $idea->id;?>"><?php echo $lang['idea_considered']; ?></a></li>
+						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/planned/" . $idea->id;?>"><?php echo $lang['idea_planned']; ?></a></li>
+						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/started/" . $idea->id;?>"><?php echo $lang['idea_started']; ?></a></li>
+						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/completed/" . $idea->id;?>"><?php echo $lang['idea_completed']; ?></a></li>
 						  </u>
 						</div>
 					<?php endif; ?>
 				</li>
 				<li>
-					<button type="submit" class="btn btn-danger btn-sm" style="width:130px" <?php $temp = base_url() . 'adminaction/deleteidea/' . $idea->id;?>onclick="popup_sure('Are you sure you want to delete this idea?','<?php echo $temp; ?>');">Delete Idea</button>
+					<button type="submit" class="btn btn-danger btn-sm" style="width:130px" <?php $temp = base_url() . 'adminaction/deleteidea/' . $idea->id;?>onclick="popup_sure(<?php echo $lang['text_sure_delete_idea']; ?>,'<?php echo $temp; ?>');"><?php echo $lang['label_delete_idea']; ?></button>
 				</li>
 				<li>
-					<a href="<?php echo base_url() . 'admin/users/' . $idea->authorid; ?>" target="_blank"><button type="submit" class="btn btn-danger btn-sm" style="width:130px">Ban User</button></a>
+					<a href="<?php echo base_url() . 'admin/users/' . $idea->authorid; ?>" target="_blank"><button type="submit" class="btn btn-danger btn-sm" style="width:130px"><?php echo $lang['label_ban_user']; ?></button></a>
 				</li>
 				
 				</ul>
@@ -129,7 +129,7 @@
 						    <textarea class="form-control" rows="4" name="content"></textarea>
 						  </div>
 						  <input type="hidden" name="ideaname" value="<?php echo str_replace(" ", "-", $idea->title); ?>">
-						  <button type="submit" class="btn btn-default">Submit</button>
+						  <button type="submit" class="btn btn-default"><?php echo $lang['label_submit']; ?></button>
 					</form>
 				</div>
 			</div>
@@ -143,9 +143,9 @@
 					  <span style="margin-left:15px;margin-right:5px">
 					  	<?php if(isset($_SESSION['phpback_isadmin']) && $_SESSION['phpback_isadmin']): ?>
 					  	<?php $temp = base_url() . 'adminaction/deletecomment/' . $comment->id; ?>
-					  		<a style="color:#E25F5F" href="#" onclick="popup_sure('Are you sure you want to delete this comment?','<?php echo $temp; ?>');"><i><small>delete commment</small></i></a>
+					  		<a style="color:#E25F5F" href="#" onclick="popup_sure(<?php echo $lang['text_sure_delete_comment']; ?>,'<?php echo $temp; ?>');"><i><small><?php echo $lang['label_delete_comment']; ?></small></i></a>
 					  	<?php else: ?>
-					  		<a style="color:#E25F5F" href="<?php echo base_url() . 'action/flag/'. $comment->id . '/' . $idea->id . '/' . str_replace(" ", "-", $idea->title);?>"><i><small>flag comment</small></i></a>
+					  		<a style="color:#E25F5F" href="<?php echo base_url() . 'action/flag/'. $comment->id . '/' . $idea->id . '/' . str_replace(" ", "-", $idea->title);?>"><i><small><?php echo $lang['text_flag_comment']; ?></small></i></a>
 					  	<?php endif;?>
 					  </span>
 					 <div style="padding-left:10px">

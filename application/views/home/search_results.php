@@ -1,10 +1,10 @@
 <div class="contentdiv pull-left" style="padding-left:40px;padding-right:50px;width:70%">
 <small><ol class="breadcrumb" style="margin-bottom:20px">
 			  <li><a href="<?php echo base_url();?>">Feedback</a></li>
-			  <li class="active">Search</li>
+			  <li class="active"><?php echo $lang['label_search']; ?></li>
 </ol></small>
 <?php
-if(!count($ideas)) echo "<h3><small>Nothing was found...</small></h3>";
+if(!count($ideas)) echo "<h3><small>" . $lang['text_nothing_found'] . "</small></h3>";
 ?>
 <?php foreach ($ideas as $idea): ?>
 			<?php $freename = str_replace(" ", "-", $idea->title); ?>
@@ -23,7 +23,7 @@ if(!count($ideas)) echo "<h3><small>Nothing was found...</small></h3>";
 							if((int) ($idea->votes / 100000) - $t*10 > 0)
 								echo "," . (((int) ($idea->votes / 100000)) - $t*10);
 							echo "M";
-							}?></b></span><br><div style="margin-top:-10px;font-size:14px">Votes</div>
+							}?></b></span><br><div style="margin-top:-10px;font-size:14px"><?php echo $lang['label_votes']; ?></div>
 						<span class="label label-<?php
 				switch ($idea->status) {
 					case 'considered':
@@ -45,19 +45,19 @@ if(!count($ideas)) echo "<h3><small>Nothing was found...</small></h3>";
 				?>" style="font-size:12px"><?php
 				switch ($idea->status) {
 					case 'considered':
-						echo 'Considered';
+						echo $lang['idea_considered'];
 						break;
 					case 'declined':
-						echo 'Declined';
+						echo $lang['idea_declined'];
 						break;
 					case 'started':
-						echo 'Started';
+						echo $lang['idea_started'];
 						break;
 					case 'planned':
-						echo 'Planned';
+						echo $lang['idea_planned'];
 						break;
 					case 'completed':
-						echo 'Completed';
+						echo $lang['idea_completed'];
 						break;
 				}
 				?></span>
@@ -80,7 +80,7 @@ if(!count($ideas)) echo "<h3><small>Nothing was found...</small></h3>";
 					</div>
 					<div style="margin-top:-10px"> 
 					<ul class="nav-pills" style="list-style:none;margin-left:-40px">
-					<li style="padding-right:5px"><small><?php echo $idea->comments; ?> Comments</small></li>
+					<li style="padding-right:5px"><small><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
 					</ul><br><br>
 					</div>
 				</div>
