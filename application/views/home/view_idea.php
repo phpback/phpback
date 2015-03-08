@@ -30,7 +30,7 @@
 					    <li><a href="<?php echo base_url() . "action/vote/1/" . $idea->id;?>">1 <?php echo $lang['label_vote']; ?></a></li>
 					    <li><a href="<?php echo base_url() . "action/vote/2/" . $idea->id;?>">2 <?php echo $lang['label_votes']; ?></a></li>
 					    <li><a href="<?php echo base_url() . "action/vote/3/" . $idea->id;?>">3 <?php echo $lang['label_votes']; ?></a></li>
-					  </u>
+					  </ul>
 					</div>
 				</div>
 				<div style="margin-top:-10px;margin-left:90px">
@@ -105,7 +105,7 @@
 						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/planned/" . $idea->id;?>"><?php echo $lang['idea_planned']; ?></a></li>
 						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/started/" . $idea->id;?>"><?php echo $lang['idea_started']; ?></a></li>
 						    <li><a href="<?php echo base_url() . "adminaction/ideastatus/completed/" . $idea->id;?>"><?php echo $lang['idea_completed']; ?></a></li>
-						  </u>
+						  </ul>
 						</div>
 					<?php endif; ?>
 				</li>

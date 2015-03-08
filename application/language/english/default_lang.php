@@ -30,7 +30,6 @@
     $lang['label_vote'] = 'Vote';
     $lang['label_votes'] = 'Votes';
 
-
     $lang['text_shared_this_idea'] = 'shared this idea';
     $lang['text_flag_comment'] = 'flag comment';
     $lang['text_create_an_account'] = 'Or Create an account';
@@ -41,11 +40,17 @@
     $lang['text_sure_delete_idea'] = 'Are you sure you want to delete this idea?';
     $lang['text_sure_delete_comment'] = 'Are you sure you want to delete this comment?';
 
+    $lang['idea_completed'] = 'Completed';
+    $lang['idea_started'] = 'Started';
+    $lang['idea_planned'] = 'Planned';
+    $lang['idea_considered'] = 'Considered';
+    $lang['idea_declined'] = 'Declined';
+    $lang['idea_new'] = 'Under Review';
 
-    $lang['log_commented'] = 'Idea %s commented';
-    $lang['log_approved'] = 'Approved idea %s';
-    $lang['log_change_status'] = 'Changed status of idea %s to planned';
-    $lang['log_new_category'] = 'category as been created';
+    $lang['last_completed_ideas'] = 'Last Completed Ideas';
+    $lang['last_started_ideas'] = 'Last Started Ideas';
+    $lang['last_planned_ideas'] = 'Last Planned Ideas';
+    $lang['last_considered_ideas'] = 'Last Considered Ideas';
 
     $lang['form_remember'] = 'Remember Me';
     $lang['form_full_name'] = 'Full name';
@@ -70,17 +75,3 @@
     $lang['error_title'] = 'Title is to short';
     $lang['error_category'] = 'Please, select a category';
     $lang['error_description'] = 'Description is too short';
-
-
-    $lang['idea_completed'] = 'Completed';
-    $lang['idea_started'] = 'Started';
-    $lang['idea_planned'] = 'Planned';
-    $lang['idea_considered'] = 'Considered';
-    $lang['idea_declined'] = 'Declined';
-    $lang['idea_new'] = 'Under Review';
-
-    $lang['last_completed_ideas'] = 'Last Completed Ideas';
-    $lang['last_started_ideas'] = 'Last Started Ideas';
-    $lang['last_planned_ideas'] = 'Last Planned Ideas';
-    $lang['last_considered_ideas'] = 'Last Considered Ideas';
-?>
