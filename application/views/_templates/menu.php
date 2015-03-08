@@ -4,7 +4,7 @@
 	   			<form class="navbar-form navbar-right" action="<?php echo base_url() . 'home/search'; ?>" method="POST">
 			      <div class="form-group">
 			        <div class="input-group">
-			          <input class="form-control" name="query" id="navbarInput-01" type="search" placeholder="Search">
+			          <input class="form-control" name="query" id="navbarInput-01" type="search" placeholder="<?php echo $lang['label_search']; ?>">
 			          <span class="input-group-btn">
 			            <button type="submit" class="btn"><span class="fui-search"></span></button>
 			          </span>            
@@ -14,12 +14,12 @@
 
 			</div>
 			<div id="postidea" style="margin-top:10px;">
-				<a href="<?php echo base_url() . 'home/postidea'; ?>"><button type="button" class="btn btn-primary btn-xs">Post a new idea 
+				<a href="<?php echo base_url() . 'home/postidea'; ?>"><button type="button" class="btn btn-primary btn-xs"><?php echo $lang['label_post_new_idea'];?>
 					<span class="glyphicon glyphicon-plus" style="padding-left:20px"></span>
 				</button></a>
 			</div>
 			<div id="categories">
-				<h6>Categories</h6>
+				<h6><?php echo $lang['label_categories']; ?></h6>
 				<ul class="nav nav-pills nav-stacked">
 				 <?php foreach($categories as $cat){ 
 				 	 $freename = str_replace(" ", "-", $cat->name);

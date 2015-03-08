@@ -15,6 +15,8 @@ class Post extends CI_Model
 	public function __construct(){
 		parent::__construct();
 		$this->load->database();
+
+        $this->lang->load('log', 'english');
 	}
 	
 	public function add_user($name, $email, $pass, $votes, $isadmin){
@@ -49,7 +51,7 @@ class Post extends CI_Model
         }
 
 		$this->db->insert('users', $data);
-		$this->log("User registrated: $name($email)", "general", 0);
+		$this->log($this->lang->language['log_user_registered'] . ": $name($email)", "general", 0);
         return true;
     }
 
@@ -71,7 +73,7 @@ class Post extends CI_Model
         $this->db->insert('ideas', $data);
         $category = $this->get_row_by_id('categories', $category_id);
         $this->update_by_id('categories', 'ideas', $category->ideas + 1, $category_id);
-      	$this->log("New idea created: $title", "user", $author_id);
+      	$this->log($this->lang->language['log_new_idea'] . ": $title", "user", $author_id);
         return true;
     }
 
@@ -93,7 +95,7 @@ class Post extends CI_Model
         $sql = $this->db->query("SELECT * FROM ideas WHERE id='$idea_id'");
         $idea = $sql->row();
         $this->update_by_id('ideas', 'comments', $idea->comments + 1, $idea_id);
-        $this->log("Idea #$idea_id commented", "user", $user_id);
+        $this->log(str_replace('%s', '#' . $idea_id, $this->lang->language['log_commented']), "user", $user_id);
         return true;
     }
 
@@ -123,7 +125,7 @@ class Post extends CI_Model
                 $this->db->insert('votes', $data);
                 $this->update_by_id('users','votes', $USER->votes - $votes, $USER->id);
                 $this->update_by_id('ideas', 'votes', $idea->votes + $votes, $idea_id);
-                $this->log("Idea #$idea_id voted with $votes votes", "user", $user_id);
+                $this->log(str_replace(['%s1', '%s2'], ["#$idea_id", $votes], $this->lang->language['log_idea_voted']), "user", $user_id);
                 return true;
             }
             else return false;

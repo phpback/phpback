@@ -14,8 +14,12 @@ class Home extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
         session_start();
+
 		$this->load->helper('url');
 		$this->load->model('get');
+
+		$this->lang->load('default', 'english');
+
         if(@isset($_SESSION['phpback_userid']) && $this->get->isbanned($_SESSION['phpback_userid']) != 0){
             date_default_timezone_set('America/Los_Angeles');
             $ban = $this->get->isbanned($_SESSION['phpback_userid']);
@@ -64,6 +68,8 @@ class Home extends CI_Controller {
             }
         }
 
+        $data['lang'] = $this->lang->language;
+
 		$this->load->view('_templates/header', $data);
 		$this->load->view('home/index', $data);
 		$this->load->view('_templates/menu', $data);
@@ -90,6 +96,8 @@ class Home extends CI_Controller {
         $data['type'] = $type;
         $data['order'] = $order;
 
+        $data['lang'] = $this->lang->language;
+
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/category_ideas', $data);
 		$this->load->view('_templates/menu', $data);
@@ -101,6 +109,8 @@ class Home extends CI_Controller {
         $data['ideas'] = $this->get->search_ideas($query);
         $data['categories'] = $this->get->get_categories();
         $data['title'] = $this->get->get_setting('title');
+
+        $data['lang'] = $this->lang->language;
 
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/search_results', $data);
@@ -126,6 +136,8 @@ class Home extends CI_Controller {
         $data['categories'] = $this->get->get_categories();
         $data['idea'] = $idea;
 
+        $data['lang'] = $this->lang->language;
+
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/view_idea', $data);
 		$this->load->view('_templates/menu', $data);
@@ -148,6 +160,8 @@ class Home extends CI_Controller {
         if(@isset($_SESSION['phpback_userid']) && $data['user']->id == $_SESSION['phpback_userid']){
             $data['votes'] = $this->get->get_user_votes($_SESSION['phpback_userid']);
         }
+
+        $data['lang'] = $this->lang->language;
 
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/user', $data);
@@ -180,6 +194,8 @@ class Home extends CI_Controller {
         $data['error'] = $error;
         $data['ban'] = $ban;
 
+        $data['lang'] = $this->lang->language;
+
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/login', $data);
 		$this->load->view('_templates/menu', $data);
@@ -193,6 +209,8 @@ class Home extends CI_Controller {
         $data['error'] = $error;
         $data['POST'] = $_POST;
 
+        $data['lang'] = $this->lang->language;
+
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/post_idea', $data);
 		$this->load->view('_templates/menu', $data);
@@ -205,6 +223,8 @@ class Home extends CI_Controller {
         $data['categories'] = $this->get->get_categories();
         $data['title'] = $this->get->get_setting('title');
         $data['error'] = $error;
+
+        $data['lang'] = $this->lang->language;
 
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/register', $data);

@@ -11,11 +11,14 @@ See LICENSE.TXT for details.
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Adminaction extends CI_Controller{
+    
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('get');
 		$this->load->model('post');
+
+        $this->lang->load('log', 'english');
 	}
 
 	public function login(){
@@ -53,43 +56,43 @@ class Adminaction extends CI_Controller{
 			$days = date('Ymd', strtotime("+$days days"));
 		}
 		$sql = $this->post->do_ban($id, $days);
-		$this->post->log("Banned user #$id for $days days", 'user', $_SESSION['phpback_userid']);
-		$this->post->log("User #$id has been banned", 'user', $id);
+		$this->post->log(str_replace(['%s1', '%s2'], ["#$id", $days], $this->lang->language['log_user_banned']), 'user', $_SESSION['phpback_userid']);
+		$this->post->log(str_replace('%s', '#$id', $this->lang->language['log_user_was_banned']), 'user', $id);
 		header('Location: ' . base_url() . 'admin/users');
 	}
 
 	public function unban($userid){
 		$this->start(2);
 		$this->post->unban($userid);
-		$this->post->log("Disable ban for user #$userid", 'user', $_SESSION['phpback_userid']);
+		$this->post->log(str_replace('%s', "#$userid", $this->lang->language['log_user_unbanned']), 'user', $_SESSION['phpback_userid']);
 		header('Location: ' . base_url() . 'admin/users');
 	}
 
 	public function deletecomment($commentid){
 		$this->start(1);
 		$this->post->deletecomment($commentid);
-		$this->post->log("Deleted comment #$commentid", 'user', $_SESSION['phpback_userid']);
+		$this->post->log(str_replace('%s', "#$commentid", $this->lang->language['log_comment_deleted']), 'user', $_SESSION['phpback_userid']);
 		header('Location: ' . base_url() . "admin/ideas");
 	}
 
 	public function deleteidea($id){
 		$this->start(1);
 		$this->post->deleteidea($id);
-		$this->post->log("Deleted idea #$id", 'user', $_SESSION['phpback_userid']);
+		$this->post->log(str_replace('%s', "#$id", $this->lang->language['log_idea_deleted']), 'user', $_SESSION['phpback_userid']);
 		header('Location: ' . base_url() . "home/");
 	}
 
 	public function approveidea($id){
 		$this->start(1);
 		$this->post->approveidea($id);
-		$this->post->log("Approved idea #$id", 'user', $_SESSION['phpback_userid']);
+		$this->post->log(str_replace('%s', "#$id", $this->lang->language['log_idea_approved']), 'user', $_SESSION['phpback_userid']);
 		header('Location: ' . base_url() . "home/idea/$id");
 	}
 
 	public function ideastatus($status, $id){
 		$this->start(1);
 		$this->post->change_status($id, $status);
-		$this->post->log("Changed status of idea #$id to $status", 'user', $_SESSION['phpback_userid']);
+		$this->post->log(str_replace(['%s1', '%s2'], ["#$id", $status], $this->lang->language['log_idea_status']), 'user', $_SESSION['phpback_userid']);
 		header('Location: ' . base_url() . "home/idea/$id");
 	}
 
@@ -100,7 +103,7 @@ class Adminaction extends CI_Controller{
 			$value = $this->input->post('setting-' . $setting->id, true);
 			$this->post->update_by_id('settings', 'value', $value, $setting->id);
 		}
-		$this->post->log("Settings have been edited", 'system', $_SESSION['phpback_userid']);
+		$this->post->log($this->lang->language['log_settings'], 'system', $_SESSION['phpback_userid']);
 		header('Location: ' . base_url() . 'admin/system');
 	}
 
@@ -110,7 +113,7 @@ class Adminaction extends CI_Controller{
 		$level = $this->input->post('level', true);
 		if($_SESSION['phpback_userid'] != $id){
 			if($this->post->updateadmin($id, $level))
-				$this->post->log("User has been updated to administrator", 'user', $id);
+				$this->post->log($this->lang->language['log_user_admin'], 'user', $id);
 		}
 		header('Location: ' . base_url() . 'admin/system');
 	}
@@ -122,11 +125,11 @@ class Adminaction extends CI_Controller{
 		$result = $this->get->category_id($name);
 		if ($result){
 			$this->post->update_by_id('categories', 'description', $description, $result);
-			$this->post->log("'$name' description was updated", 'user', $_SESSION['phpback_userid']);
+			$this->post->log("'$name'" . $this->lang->language['log_category_description'], 'user', $_SESSION['phpback_userid']);
 		}
 		else{
 			$this->post->add_category($name, $description);
-			$this->post->log("'$name' category has been created", 'user', $_SESSION['phpback_userid']);
+			$this->post->log("'$name'" . $this->lang->language['log_category_created'], 'user', $_SESSION['phpback_userid']);
 		}
 
 		header('Location: ' . base_url() . 'admin/system');
@@ -139,7 +142,7 @@ class Adminaction extends CI_Controller{
 			$temp = $this->input->post("$cat->id", true);
 			if($temp != $cat->name){
 				$this->post->update_by_id('categories', 'name', $temp , $cat->id);
-				$this->post->log("Category '" . $cat->name . "' changed to '$temp'", 'user', $_SESSION['phpback_userid']);
+				$this->post->log(str_replace(['%s1', '%s2'], [$cat->name, $temp], $this->lang->language['log_category_changed']), 'user', $_SESSION['phpback_userid']);
 			}
 		}
 		header('Location: ' . base_url() . 'admin/system');
@@ -155,7 +158,7 @@ class Adminaction extends CI_Controller{
 			}
 		}
 		$this->post->delete_category($id);
-		$this->post->log("Category #$catid deleted", 'user', $_SESSION['phpback_userid']);
+		$this->post->log(str_replace('%s', "#$catid", $this->lang->language['log_category_deleted']), 'user', $_SESSION['phpback_userid']);
 		header('Location: ' . base_url() . 'admin/system');
 	}
 
