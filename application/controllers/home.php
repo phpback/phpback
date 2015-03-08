@@ -18,7 +18,7 @@ class Home extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('get');
 
-		$this->lang->load('default', 'english');
+		$this->lang->load('default', $this->get->get_setting('language'));
 
         if(@isset($_SESSION['phpback_userid']) && $this->get->isbanned($_SESSION['phpback_userid']) != 0){
             date_default_timezone_set('America/Los_Angeles');

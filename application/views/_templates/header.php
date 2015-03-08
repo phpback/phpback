@@ -7,7 +7,9 @@ See LICENSE.TXT for details.  -->
 <!DOCTYPE html>
 <html>
 <head>
-  <title><?php echo $title; ?></title>
+    <title><?php echo $title; ?></title>
+    <meta charset="UTF-8">
+
     <!-- Loading Bootstrap -->
     <link href="<?php echo base_url(); ?>public/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>public/bootstrap/css/prettify.css" rel="stylesheet">
@@ -65,7 +67,7 @@ See LICENSE.TXT for details.  -->
     </div>
     <?php else : ?>
     <div class="pull-right" style="padding-top:12px;padding-right:40px;">
-      <a href="<?php echo base_url() . 'home/login'; ?>"><button type="button" class="btn btn-success btn-sm btn-block" style="width:250px"><?php echo $lang['label_sign_in']; ?></button></a>
+      <a href="<?php echo base_url() . 'home/login'; ?>"><button type="button" class="btn btn-success btn-sm btn-block" style="width:250px"><?php echo $lang['label_log_in']; ?></button></a>
     </div>
     <?php endif; ?>
     
