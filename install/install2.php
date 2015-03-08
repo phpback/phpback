@@ -21,6 +21,7 @@ $mysql->multi_query("INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 ('', 'mainmail', '". $_POST['mainmail'] ."'),
 ('', 'title', '". $_POST['title'] ."'),
 ('', 'max_results', '10'),
+('', 'language', 'english'),
 ('', 'smtp-host', '". $_POST['smtp-host'] ."'),
 ('', 'smtp-port', '". $_POST['smtp-port'] ."'),
 ('', 'smtp-user', '". $_POST['smtp-user'] ."'),

@@ -23,6 +23,6 @@
       <input type="checkbox" value="" id="checkbox1" name="rememberme" data-toggle="checkbox">
         <?php echo $lang['form_remember']; ?>
     </label>
-    <button type="submit" class="btn btn-primary">Log in</button> <a href="<?php echo base_url() . 'home/register';?>"><span style="padding-left:10px"><?php echo $lang['text_create_an_account']; ?></span></a>
+    <button type="submit" class="btn btn-primary"><?php echo $lang['label_log_in']; ?></button> <a href="<?php echo base_url() . 'home/register';?>"><span style="padding-left:10px"><?php echo $lang['text_create_an_account']; ?></span></a>
   </form>
 </div>

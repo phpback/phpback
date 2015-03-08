@@ -27,7 +27,7 @@
 					  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="width:100%"><?php echo $lang['label_vote']; ?></button>
 					  <span class="dropdown-arrow dropdown-arrow-inverse"></span>
 					  <ul class="dropdown-menu dropdown-inverse">
-					    <li><a href="<?php echo base_url() . "action/vote/1/" . $idea->id;?>">1 <?php echo $lang['label_vote']; ?></a></li>
+					    <li><a href="<?php echo base_url() . "action/vote/1/" . $idea->id;?>">1 <?php echo $lang['label_votes']; ?></a></li>
 					    <li><a href="<?php echo base_url() . "action/vote/2/" . $idea->id;?>">2 <?php echo $lang['label_votes']; ?></a></li>
 					    <li><a href="<?php echo base_url() . "action/vote/3/" . $idea->id;?>">3 <?php echo $lang['label_votes']; ?></a></li>
 					  </ul>

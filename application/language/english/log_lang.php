@@ -4,7 +4,6 @@
     $lang['log_idea_approved'] = 'Approved idea %s';
     $lang['log_idea_deleted'] = 'Deleted idea %s';
     $lang['log_idea_status'] = 'Changed status of idea %s1 to %s2';
-    $lang['log_new_category'] = 'category as been created';
     $lang['log_user_registered'] = 'User registered';
     $lang['log_new_idea'] = 'New idea created';
     $lang['log_idea_voted'] = 'Idea %s1 voted with %s2 votes';

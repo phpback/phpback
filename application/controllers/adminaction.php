@@ -18,7 +18,7 @@ class Adminaction extends CI_Controller{
 		$this->load->model('get');
 		$this->load->model('post');
 
-        $this->lang->load('log', 'english');
+        $this->lang->load('log', $this->get->get_setting('language'));
 	}
 
 	public function login(){
@@ -56,7 +56,7 @@ class Adminaction extends CI_Controller{
 			$days = date('Ymd', strtotime("+$days days"));
 		}
 		$sql = $this->post->do_ban($id, $days);
-		$this->post->log(str_replace(['%s1', '%s2'], ["#$id", $days], $this->lang->language['log_user_banned']), 'user', $_SESSION['phpback_userid']);
+		$this->post->log(str_replace(array('%s1', '%s2'), array("#$id", $days), $this->lang->language['log_user_banned']), 'user', $_SESSION['phpback_userid']);
 		$this->post->log(str_replace('%s', '#$id', $this->lang->language['log_user_was_banned']), 'user', $id);
 		header('Location: ' . base_url() . 'admin/users');
 	}
@@ -92,7 +92,7 @@ class Adminaction extends CI_Controller{
 	public function ideastatus($status, $id){
 		$this->start(1);
 		$this->post->change_status($id, $status);
-		$this->post->log(str_replace(['%s1', '%s2'], ["#$id", $status], $this->lang->language['log_idea_status']), 'user', $_SESSION['phpback_userid']);
+		$this->post->log(str_replace(array('%s1', '%s2'), array("#$id", $status), $this->lang->language['log_idea_status']), 'user', $_SESSION['phpback_userid']);
 		header('Location: ' . base_url() . "home/idea/$id");
 	}
 
@@ -142,7 +142,7 @@ class Adminaction extends CI_Controller{
 			$temp = $this->input->post("$cat->id", true);
 			if($temp != $cat->name){
 				$this->post->update_by_id('categories', 'name', $temp , $cat->id);
-				$this->post->log(str_replace(['%s1', '%s2'], [$cat->name, $temp], $this->lang->language['log_category_changed']), 'user', $_SESSION['phpback_userid']);
+				$this->post->log(str_replace(array('%s1', '%s2'), array($cat->name, $temp), $this->lang->language['log_category_changed']), 'user', $_SESSION['phpback_userid']);
 			}
 		}
 		header('Location: ' . base_url() . 'admin/system');
@@ -158,7 +158,7 @@ class Adminaction extends CI_Controller{
 			}
 		}
 		$this->post->delete_category($id);
-		$this->post->log(str_replace('%s', "#$catid", $this->lang->language['log_category_deleted']), 'user', $_SESSION['phpback_userid']);
+		$this->post->log(str_replace('%s', "#$id", $this->lang->language['log_category_deleted']), 'user', $_SESSION['phpback_userid']);
 		header('Location: ' . base_url() . 'admin/system');
 	}
 

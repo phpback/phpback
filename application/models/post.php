@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 /*********************************************************************
 PHPBack
 Ivan Diaz <ivan@phpback.org>
@@ -16,10 +19,12 @@ class Post extends CI_Model
 		parent::__construct();
 		$this->load->database();
 
-        $this->lang->load('log', 'english');
+        $this->lang->load('log', $this->get_setting('language'));
 	}
-	
+
 	public function add_user($name, $email, $pass, $votes, $isadmin){
+        
+
         $pass = crypt($pass);
         $votes = (int) $votes;
         $isadmin = (int) $isadmin;
@@ -56,6 +61,8 @@ class Post extends CI_Model
     }
 
     public function add_idea($title, $content, $author_id, $category_id){
+        
+
         $author_id = (int) $author_id;
         $category_id = (int) $category_id;
         if($author_id < 1 || $category_id < 1) return false;
@@ -77,8 +84,9 @@ class Post extends CI_Model
         return true;
     }
 
-    
     public function add_comment($idea_id, $comment, $user_id){
+        
+
         $idea_id = (int) $idea_id;
         $user_id = (int) $user_id;
         if($idea_id < 1 || $user_id < 1) return false;
@@ -89,7 +97,7 @@ class Post extends CI_Model
 	   			'ideaid' => $idea_id,
 	   			'userid' => $user_id,
 	   			'date' => date("d/m/y H:i"),
-			); 
+			);
         $this->db->insert('comments', $data);
 
         $sql = $this->db->query("SELECT * FROM ideas WHERE id='$idea_id'");
@@ -99,21 +107,23 @@ class Post extends CI_Model
         return true;
     }
 
-    
+
     public function vote($idea_id, $user_id, $votes){
+        
+
         $idea_id = (int) $idea_id;
         $user_id = (int) $user_id;
         $votes = (int) $votes;
         if($idea_id < 1 || $user_id < 1) return false;
         if($votes > 3 || $votes < 1) return false;
-        
+
         $USER = $this->get_row_by_id('users', $user_id);
         $idea = $this->get_row_by_id('ideas', $idea_id);
 
         if($idea->status == 'completed' || $idea->status == 'declined') return false;
 
         $sql = $this->db->query("SELECT * FROM votes WHERE userid='$user_id' AND ideaid='$idea_id'");
-        
+
         if(!$sql->num_rows()){
             if($votes <= $USER->votes){
                 $data = array(
@@ -125,7 +135,7 @@ class Post extends CI_Model
                 $this->db->insert('votes', $data);
                 $this->update_by_id('users','votes', $USER->votes - $votes, $USER->id);
                 $this->update_by_id('ideas', 'votes', $idea->votes + $votes, $idea_id);
-                $this->log(str_replace(['%s1', '%s2'], ["#$idea_id", $votes], $this->lang->language['log_idea_voted']), "user", $user_id);
+                $this->log(str_replace(array('%s1', '%s2'), array("#$idea_id", $votes), $this->lang->language['log_idea_voted']), "user", $user_id);
                 return true;
             }
             else return false;
@@ -140,7 +150,7 @@ class Post extends CI_Model
             }
             else return false;
         }
-    } 
+    }
 
     public function updateadmin($id, $level){
         $id = (int) $id;
@@ -152,7 +162,7 @@ class Post extends CI_Model
             }
         }
         return false;
-    } 
+    }
 
     public function update_by_id($table, $field, $value, $id){
         $id = (int) $id;
@@ -164,7 +174,7 @@ class Post extends CI_Model
         $id = (int) $id;
         $this->db->query("DELETE FROM $table WHERE id='$id'");
     }
-    
+
     public function flag($cid, $userid){
     	$cid = (int) $cid;
     	$userid = (int) $userid;
@@ -228,6 +238,7 @@ class Post extends CI_Model
         $this->db->query("DELETE FROM ideas WHERE id='$id'");
     }
 
+
     public function change_status($ideaid, $status){
         $ideaid = (int) $ideaid;
         if($status == 'completed' || $status == 'declined'){
@@ -246,7 +257,7 @@ class Post extends CI_Model
     public function approveidea($id){
         $this->change_status($id, 'considered');
     }
-    
+
     public function log($string, $to, $toid){
         $toid = (int) $toid;
         $data = array(
@@ -278,6 +289,13 @@ class Post extends CI_Model
         $id = (int) $id;
         $sql = $this->db->query("SELECT * FROM $table WHERE id='$id'");
         return $sql->row();
+    }
+
+    private function get_setting($name){
+        $sql = $this->db->query("SELECT * FROM settings WHERE name=" . $this->db->escape($name));
+        $data = $sql->row();
+        if(@isset($data->value)) return $data->value;
+        else return false;
     }
 }
 
