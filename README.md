@@ -1,4 +1,4 @@
-PHPBack
+![PHPBack](http://www.phpback.org/img/logo_300.png)
 =======
 
 ##About
