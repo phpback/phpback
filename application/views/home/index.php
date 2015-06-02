@@ -6,7 +6,7 @@
 			</small>
 			<div class="row" style="margin-top:10px;">
 			<h4>Welcome to our FeedBack</h4>
-				<div>Here you can suggest ideas to improve out services or vote ideas from other people.</div>
+				<div>Here you can suggest ideas to improve our services or vote ideas from other people.</div>
 			</div>
 			<div class="row" style="margin-bottom:20px; margin-top:20px;">
 				<div class="col-md-5" style="border-style:solid;border-width:1px;border-radius:5px;border-color:#3498DB;">
