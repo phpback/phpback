@@ -125,6 +125,7 @@ class Admin extends CI_Controller {
         $data['settings'] = $this->get->get_all_settings();
         $data['adminusers'] = $this->get->get_admin_users();
         $data['categories'] = $this->get->get_categories();
+        $data['lastversion'] = trim(preg_replace('/\s+/', ' ', file_get_contents('http://www.phpback.org/update_server/latest.txt')));
         $this->load->view('admin/dashboard/header', $data);
         $this->load->view('admin/dashboard/system', $data);
     }

@@ -87,9 +87,13 @@
             </div>
           </form>
       </div>
-      <div id="upgradetable" style="display:none"> 
-         <div class="alert alert-warning" role="alert">You are using the beta version of PHPBack.<br>
-        Please, visit <a href="http://www.phpback.org/" target="_blank">phpback.org</a> to get the lastest version.</div> 
+      <div id="upgradetable" style="display:none">
+          <?php if ($lastversion != 'v1.0') { ?>
+         <div class="alert alert-warning" role="alert">You are running PHPBack v1.0<br>
+        Please, visit <a href="http://www.phpback.org/" target="_blank">phpback.org</a> to get the latest version (<?php echo $lastversion; ?>).</div>
+          <?php } else { ?>
+          <div class="alert alert-success" role="alert">You are running the latest version of PHPBack (v1.0)<br></div>
+          <?php } ?>
       </div> 
       <div id="categorytable" style="display:none">
         <h4>Add a new Category</h4>
