@@ -13,7 +13,7 @@
           <li><a href="<?php echo base_url() . 'admin/users'; ?>">Users Management</a></li>
           <li class="active"><a href="<?php echo base_url() . 'admin/system'; ?>">System Settings</a></li>
         </ul>
-          <p class="navbar-text navbar-right">Signed in as <span style="color:#27AE60">Ivan Diaz</span><a href="<?php echo base_url() . 'action/logout'; ?>"><button type="button" class="btn btn-danger btn-xs" style="margin-left:10px;">Log out</button></a></p>
+          <p class="navbar-text navbar-right">Signed in as <span style="color:#27AE60"><?php echo $_SESSION['phpback_username']; ?></span><a href="<?php echo base_url() . 'action/logout'; ?>"><button type="button" class="btn btn-danger btn-xs" style="margin-left:10px;">Log out</button></a></p>
            
       </div><!-- /.navbar-collapse -->
     </nav><!-- /navbar -->
@@ -24,7 +24,7 @@
         <li id="table2"><a onclick="showtable3('admintable','table2');">Create Admin</a></li>
         <li id="table3"><a onclick="showtable3('categorytable','table3');">Categories</a></li>
         <li id="table4"><a onclick="showtable3('upgradetable','table4');">Upgrade Version</a></li>
-      </ul>
+      </ul>m
       <div id="generaltable">
           <form role="form" method="post" action="<?php echo base_url() . 'adminaction/editsettings'?>">
             <?php foreach ($settings as $setting): ?>
