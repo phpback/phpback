@@ -24,7 +24,7 @@
         <li id="table2"><a onclick="showtable3('admintable','table2');">Create Admin</a></li>
         <li id="table3"><a onclick="showtable3('categorytable','table3');">Categories</a></li>
         <li id="table4"><a onclick="showtable3('upgradetable','table4');">Upgrade Version</a></li>
-      </ul>m
+      </ul>
       <div id="generaltable">
           <form role="form" method="post" action="<?php echo base_url() . 'adminaction/editsettings'?>">
             <?php foreach ($settings as $setting): ?>
