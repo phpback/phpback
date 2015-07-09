@@ -1,4 +1,5 @@
 <?php
+define('BASEPATH', '');
 /*********************************************************************
 PHPBack
 Ivan Diaz <ivan@phpback.org>
@@ -27,8 +28,8 @@ $mysql->multi_query("INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 ('', 'smtp-user', '". $_POST['smtp-user'] ."'),
 ('', 'smtp-pass', '". $_POST['smtp-password'] ."');");
 
-unlink('index2.php');
-unlink('install2.php');
-
-header('Location: ../admin');
-exit;
+if(unlink('index2.php') && unlink('install2.php')) {
+    header('Location: ../admin');
+} else {
+    echo "PLEASE DELETE install/ FOLDER MANUALLY. THEN GO TO yourwebsite.com/feedback/admin/ TO LOG IN";
+}

@@ -51,8 +51,14 @@
 				<img src="../public/img/logo_free.png" />
 			</div>
 			<h5>PHPBack installation</h5>
-		<?php if(isset($_POST['error']) && $_POST['configfile'] != 1): ?>
+		<?php if(isset($_POST['error'])): ?>
 			<div style="color:#C0392B;font-size:20px"><?php echo $_POST['error']; ?></div>
+			<div style="color:#3C6E8F;font-size:15px;margin-bottom: 15px;">
+                Need help? Please, visit our
+                <a href="https://github.com/ivandiazwm/phpback/wiki/How-To-install#frequent-installation-issues" target="_blank">
+                    frequent issues documentation.
+                </a>
+            </div>
 		<?php endif; ?>
       <div class="form-group">
               <input type="text" class="form-control login-field" value="" placeholder="MySQL hostname" id="hostname" name="hostname" />
@@ -73,7 +79,8 @@
             <small>* Left in blank for automatic database creation</small>
             <hr>
 
-			   <div class="form-group">
+            <h6>PHPBack installation</h6>
+            <div class="form-group">
               <input type="text" class="form-control login-field" value="" placeholder="Admin Name" id="adminname" name="adminname" />
               <label class="login-field-icon" for="adminname"></label>
             </div>
@@ -93,38 +100,6 @@
             
             <input type="submit" class="btn btn-primary btn-lg btn-block" value="Proceed">
         </form>
-        <?php if(isset($_POST['configfile']) && $_POST['configfile'] == 1): ?>
-        <div class="configfile">
-				<h6>Please, create a config file</h6>
-				<small>
-				PHPBack could not create the configuration file for the database.<br>
-				Go to /application/config/ and create a <i>database.php</i> file with the fallowing content:<br>
-				<div class="phpcode">
-				<code>
-				&lt;?php<br>
-				&#36;active_group = 'default';<br>
-				$active_record = TRUE;<br>
-				<br>
-				&#36;db['default']['hostname'] = 'YOUR_MYSQL_SERVER';<br>
-				&#36;db['default']['username'] = 'YOUR_USERNAME';<br>
-				&#36;db['default']['password'] = 'YOUR_PASSWORD';<br>
-				&#36;db['default']['database'] = 'YOUT_DATABASE_NAME';<br>
-				&#36;db['default']['dbdriver'] = 'mysql';<br>
-				&#36;db['default']['dbprefix'] = '';<br>
-				&#36;db['default']['pconnect'] = TRUE;<br>
-				&#36;db['default']['db_debug'] = TRUE;<br>
-				&#36;db['default']['cache_on'] = FALSE;<br>
-				&#36;db['default']['cachedir'] = '';<br>
-				&#36;db['default']['char_set'] = 'utf8';<br>
-				&#36;db['default']['dbcollat'] = 'utf8_general_ci';<br>
-				&#36;db['default']['swap_pre'] = '';<br>
-				&#36;db['default']['autoinit'] = TRUE;<br>
-				&#36;db['default']['stricton'] = FALSE;<br>
-				</code> 
-				</div>
-				</small>
-			</div>
-		<?php endif; ?>
         </div>
         </div>
 </div>
