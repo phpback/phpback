@@ -36,7 +36,7 @@
 			<?php foreach($votes as $vote): ?>
 				<?php $freename = str_replace(" ", "-", $vote['idea']); ?>
 				<tr>
-					<td><a href="<?php echo base_url() . 'home/idea/' . $vote['ideaid'] . "/$freename"; ?>" target="_blank"><?php echo $vote['idea']; ?></a></td>
+					<td><a href="<?php echo base_url() . 'home/idea/' . $vote['ideaid'] . "/$freename"; ?>"><?php echo $vote['idea']; ?></a></td>
 					<td><?php echo $vote['number']; ?></td>
 					<td><a href="<?php echo base_url() . 'action/unvote/' . $vote['id'];?>"><button type="submit" class="btn btn-warning btn-sm" style="width:130px"><?php echo $lang['label_delete_votes']; ?></button></a></td>
 				</tr>

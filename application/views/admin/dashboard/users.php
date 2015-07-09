@@ -54,7 +54,7 @@
               </td>
               <td>
                   <div class="pull-right">
-                    <a href="<?php echo base_url() . 'admin/users/' . $user->id; ?>" target="_blank"><button type="submit" class="btn btn-danger btn-sm" style="width:130px">Ban User</button></a>
+                    <a href="<?php echo base_url() . 'admin/users/' . $user->id; ?>"><button type="submit" class="btn btn-danger btn-sm" style="width:130px">Ban User</button></a>
                   </div>
               </td>
             </tr>

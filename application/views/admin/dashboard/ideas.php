@@ -219,7 +219,7 @@
                   <td>
                     Comment: #<?php echo $comment['id'];?>
                     <br>User: 
-                    <a href="<?php echo base_url() . 'admin/users/' . $comment['userid'];?>" target="_blank">#<?php echo $comment['userid'];?></a>
+                    <a href="<?php echo base_url() . 'admin/users/' . $comment['userid'];?>">#<?php echo $comment['userid'];?></a>
                     <br>Idea:
                     <a href="<?php echo base_url() . 'home/idea/' . $comment['ideaid'];?>" target="_blank">#<?php echo $comment['userid'];?></a>
                   </td>
@@ -232,7 +232,7 @@
                     <span style="font-size:17px;">Flagged <span class="badge"><?php echo $comment['votes']; ?></span><span style="font-size:17px;"> times</span> 
                     <div class="pull-right">
                       <button type="submit" class="btn btn-warning btn-sm" style="width:130px" <?php $temp = base_url() . 'adminaction/deletecomment/' . $comment['id']; ?> onclick="popup_sure('Are you sure you want to delete this comment?','<?php echo $temp; ?>');">Delete Comment</button>
-                      <?php if($_SESSION['phpback_isadmin'] > 1): ?><a href="<?php echo base_url() . 'admin/users/' . $comment['userid']; ?>" target="_blank"><button type="submit" class="btn btn-danger btn-sm" style="width:130px">Ban User</button></a><?php endif;?>
+                      <?php if($_SESSION['phpback_isadmin'] > 1): ?><a href="<?php echo base_url() . 'admin/users/' . $comment['userid']; ?>"><button type="submit" class="btn btn-danger btn-sm" style="width:130px">Ban User</button></a><?php endif;?>
                     </div>
                   </td>
                   </tr>
