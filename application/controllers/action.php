@@ -150,8 +150,8 @@ class Action extends CI_Controller{
 			if($new == $rnew){
 				$user = $this->get->get_user_info($_SESSION['phpback_userid']);
 				
-				if(crypt($old, $user->pass) == $user->pass){
-					$this->post->update_by_id('users', 'pass', crypt($new), $user->id);
+				if($this->hashing->matches($old, $user->pass)){
+					$this->post->update_by_id('users', 'pass', $this->hashing->hash($new), $user->id);
 					$message = "You have changed your password to: $new\n";
 					$this->load->library('email');
 					$this->email->initialize($this->get->email_config());
