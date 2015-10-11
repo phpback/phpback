@@ -23,9 +23,7 @@ class Post extends CI_Model
 	}
 
 	public function add_user($name, $email, $pass, $votes, $isadmin){
-        
-
-        $pass = crypt($pass);
+        $pass = $this->hashing->hash($pass);
         $votes = (int) $votes;
         $isadmin = (int) $isadmin;
         if($votes < 1) return false;

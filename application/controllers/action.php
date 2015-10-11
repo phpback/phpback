@@ -45,7 +45,7 @@ class Action extends CI_Controller{
 			header('Location: '. base_url() .'home/register/name');
 			return;
 		}
-		if (!ereg("^([a-zA-Z0-9._]+)@([a-zA-Z0-9.-]+).([a-zA-Z]{2,4})$",$email)){ 
+		if (!preg_match("^([a-zA-Z0-9._]+)@([a-zA-Z0-9.-]+).([a-zA-Z]{2,4})$",$email)){
     	    header('Location: '. base_url() .'home/register/email');
 			return;
     	}
@@ -150,8 +150,8 @@ class Action extends CI_Controller{
 			if($new == $rnew){
 				$user = $this->get->get_user_info($_SESSION['phpback_userid']);
 				
-				if(crypt($old, $user->pass) == $user->pass){
-					$this->post->update_by_id('users', 'pass', crypt($new), $user->id);
+				if($this->hashing->matches($old, $user->pass)){
+					$this->post->update_by_id('users', 'pass', $this->hashing->hash($new), $user->id);
 					$message = "You have changed your password to: $new\n";
 					$this->load->library('email');
 					$this->email->initialize($this->get->email_config());

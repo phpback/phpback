@@ -151,7 +151,7 @@ class Get extends CI_Model
         $sql = $this->db->query("SELECT * FROM users WHERE email=" . $this->db->escape($email));
         if($sql->num_rows() != 0){
             $user = $sql->row();
-            if (crypt($password, $user->pass) == $user->pass) return $user->id;
+            if ($this->hashing->matches($password, $user->pass)) return $user->id;
             else return 0;
         }
         else return 0;
@@ -183,7 +183,7 @@ class Get extends CI_Model
         $sql = $this->db->query("SELECT * FROM _sessions WHERE id='$token[0]' AND userid='$token[1]'");
         if(!$sql->num_rows()) return 0;
         $s = $sql->row();
-        if (crypt($token[2], $s->token) == $s->token){
+        if ($this->hashing->matches($token[2], $s->token)){
             $sql = $this->db->query("DELETE FROM _sessions WHERE id='$token[0]'");
             return $token[1];
         }
@@ -200,7 +200,7 @@ class Get extends CI_Model
         $data = array(
         	'id' => '0',
         	'userid' => $userid,
-        	'token' => crypt($token)
+        	'token' => $this->hashing->hash($token)
         	);
         $this->db->insert('_sessions', $data);
         $sql = $this->db->query("SELECT * FROM _sessions WHERE userid='$userid' ORDER BY id DESC LIMIT 1");
