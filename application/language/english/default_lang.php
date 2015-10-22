@@ -72,6 +72,6 @@
     $lang['error_email_exists'] = 'Email already exists';
     $lang['error_banned'] = 'You have been banned for %s days';
     $lang['error_banned_inf'] = 'You have been banned indefinitely';
-    $lang['error_title'] = 'Title is to short';
+    $lang['error_title'] = 'Title is too short';
     $lang['error_category'] = 'Please, select a category';
     $lang['error_description'] = 'Description is too short';
