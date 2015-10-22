@@ -45,7 +45,7 @@ class Action extends CI_Controller{
 			header('Location: '. base_url() .'home/register/name');
 			return;
 		}
-		if (!preg_match("^([a-zA-Z0-9._]+)@([a-zA-Z0-9.-]+).([a-zA-Z]{2,4})$",$email)){
+		if (!preg_match("/^([a-zA-Z0-9._]+)@([a-zA-Z0-9.-]+).([a-zA-Z]{2,4})$/",$email)){
     	    header('Location: '. base_url() .'home/register/email');
 			return;
     	}
