@@ -110,7 +110,7 @@
 					<?php endif; ?>
 				</li>
 				<li>
-					<button type="submit" class="btn btn-danger btn-sm" style="width:130px" <?php $temp = base_url() . 'adminaction/deleteidea/' . $idea->id;?>onclick="popup_sure(<?php echo $lang['text_sure_delete_idea']; ?>,'<?php echo $temp; ?>');"><?php echo $lang['label_delete_idea']; ?></button>
+					<button type="submit" class="btn btn-danger btn-sm" style="width:130px" <?php $temp = base_url() . 'adminaction/deleteidea/' . $idea->id;?> onclick="popup_sure('<?php echo $lang['text_sure_delete_idea']; ?>','<?php echo $temp; ?>');"><?php echo $lang['label_delete_idea']; ?></button>
 				</li>
 				<li>
 					<a href="<?php echo base_url() . 'admin/users/' . $idea->authorid; ?>" target="_blank"><button type="submit" class="btn btn-danger btn-sm" style="width:130px"><?php echo $lang['label_ban_user']; ?></button></a>
