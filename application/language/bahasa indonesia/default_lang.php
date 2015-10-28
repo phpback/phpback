@@ -1,0 +1,77 @@
+<?php
+    $lang['label_activity'] = 'Aktifitas';
+    $lang['label_ban_user'] = 'Blok Pengguna';
+    $lang['label_categories'] = 'Kategori';
+    $lang['label_category'] = 'Kategori';
+    $lang['label_change_password'] = 'Ubah Kata Sandi';
+    $lang['label_change_status'] = 'Ubah Status';
+    $lang['label_commented'] = 'Berkomentar di';
+    $lang['label_comments'] = 'Komentar';
+    $lang['label_date'] = 'Tanggal';
+    $lang['label_delete_comment'] = 'Hapus komentar';
+    $lang['label_delete_idea'] = 'Hapus ide';
+    $lang['label_delete_votes'] = 'Hapus voting';
+    $lang['label_description'] = 'Deskripsi';
+    $lang['label_idea'] = 'Ide';
+    $lang['label_idea_title'] = 'Judul ide';
+    $lang['label_ideas'] = 'Ide';
+    $lang['label_log'] = 'Log';
+    $lang['label_log_in'] = 'Masuk';
+    $lang['label_log_out'] = 'Keluar';
+    $lang['label_logged_as'] = 'Masuk sebagai';
+    $lang['label_post_new_idea'] = 'Buat ide baru';
+    $lang['label_profiles'] = 'Profil';
+    $lang['label_registration'] = 'Pendaftaran';
+    $lang['label_registration_form'] = 'Formulir Pendaftaran';
+    $lang['label_reset_votes'] = 'Reset voting';
+    $lang['label_search'] = 'Cari';
+    $lang['label_sign_in'] = 'Daftar';
+    $lang['label_submit'] = 'Kirim';
+    $lang['label_vote'] = 'Voting';
+    $lang['label_votes'] = 'Voting';
+
+    $lang['text_shared_this_idea'] = 'bagikan ide ini';
+    $lang['text_flag_comment'] = 'tandai komentar';
+    $lang['text_create_an_account'] = 'Atau Buat Akun Baru';
+    $lang['text_registration_success'] = 'Pendaftaran berhasil';
+    $lang['text_select_category'] = 'Pilih kategori...';
+    $lang['text_nothing_found'] = 'Tidak ditemukan...';
+    $lang['text_votes_left'] = 'hak voting tersisa.';
+    $lang['text_sure_delete_idea'] = 'Apakah kamu yakin ingin menghapus ide ini?';
+    $lang['text_sure_delete_comment'] = 'Apakah kamu yakin ingin menghapus komentar ini?';
+
+    $lang['idea_completed'] = 'Selesai';
+    $lang['idea_started'] = 'Dimulai';
+    $lang['idea_planned'] = 'Dalam Perencanaan';
+    $lang['idea_considered'] = 'Dipertimbangkan';
+    $lang['idea_declined'] = 'Ditolak';
+    $lang['idea_new'] = 'Sedang dibahas';
+
+    $lang['last_completed_ideas'] = 'Ide yang baru diselesaikan';
+    $lang['last_started_ideas'] = 'ide yang baru dimulai';
+    $lang['last_planned_ideas'] = 'Ide yang baru direncanakan';
+    $lang['last_considered_ideas'] = 'Ide yang baru dipertimbangkan';
+
+    $lang['form_remember'] = 'Ingat saya';
+    $lang['form_full_name'] = 'nama Lengkap';
+    $lang['form_email'] = 'Email';
+    $lang['form_password'] = 'Password';
+    $lang['form_repeat_password'] = 'Ulangi Password';
+    $lang['form_password_old'] = 'Password lama';
+    $lang['form_password_new'] = 'Password baru';
+    $lang['from_password_new_repeat'] = 'Ulangi password baru';
+
+    $lang['error_login_to_post'] = 'Anda harus login untuk memberikan ide';
+    $lang['error_login'] = 'Password atau email salah';
+    $lang['error_recaptcha'] = 'Kode Captcha salah';
+    $lang['error_name'] = 'Nama salah';
+    $lang['error_email'] = 'Email salah';
+    $lang['error_password'] = 'Password setidaknya harus terdiri dari 6 karakter';
+    $lang['error_password_old'] = 'Password lama salah';
+    $lang['error_passwords'] = 'Password tidak sama';
+    $lang['error_email_exists'] = 'Email sudah digunakan';
+    $lang['error_banned'] = 'Akun anda telah diblok selama %s hari';
+    $lang['error_banned_inf'] = 'Akun anda telah di blok';
+    $lang['error_title'] = 'Judul terlalu pendek';
+    $lang['error_category'] = 'Silahkan pilih kategori';
+    $lang['error_description'] = 'Deskripsi terlalu pendek';
