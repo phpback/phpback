@@ -76,7 +76,7 @@ function create_file($hostname, $username, $password, $database){
 	fclose($file);
 }
 
-function hash($input, $rounds = 7) {
+function hashPassword($input, $rounds = 7) {
     $salt = "";
     $salt_chars = array_merge(range('A','Z'), range('a','z'), range(0,9));
 
@@ -136,7 +136,7 @@ if ($result->num_rows == 1) {
     exit;
 
 } else {
-    $server->query("INSERT INTO users(id,name,email,pass,votes,isadmin,banned) VALUES('','". $_POST['adminname'] ."','". $_POST['adminemail'] ."','". hash($_POST['adminpass']) ."', 20, 3,0)");
+    $server->query("INSERT INTO users(id,name,email,pass,votes,isadmin,banned) VALUES('','". $_POST['adminname'] ."','". $_POST['adminemail'] ."','". hashPassword($_POST['adminpass']) ."', 20, 3,0)");
 
     if (!@chmod('../install', 0777)) {
         echo "PLEASE DELETE install/index.php, install/install1.php AND install/database_tables.sql FILES MANUALLY.<br />
