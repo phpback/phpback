@@ -1,6 +1,8 @@
 <?php
 require_once '_TestCase.php';
 
+use RedBeanPHP\Facade as RedBean;
+
 class InstallTest extends TestCase {
     public function testDatabaseInstallation() {
         $this->url('index.php');
@@ -47,6 +49,26 @@ class InstallTest extends TestCase {
         $this->assertEquals($db['default']['database'], 'phpback_test');
         $this->assertEquals($db['default']['username'], 'root');
         $this->assertEquals($db['default']['dbdriver'], 'mysql');
+
+        //Should have updated database with new tables
+        $this->assertEquals(RedBean::inspect(), array(
+            '_sessions',
+            'categories',
+            'comments',
+            'flags',
+            'ideas',
+            'logs',
+            'settings',
+            'users',
+            'votes'
+        ));
+
+        //Should have created the admin user
+        $adminUser = RedBean::load('users', 1);
+        $this->assertEquals($adminUser->name, 'admin');
+        $this->assertEquals($adminUser->email, 'admin@phpback.org');
+        $this->assertEquals($adminUser->isadmin, '3');
+        $this->assertEquals($adminUser->votes, '20');
     }
 
     /**
@@ -71,7 +93,12 @@ class InstallTest extends TestCase {
          $this->assertFileNotExists('install/index2.php');
          $this->assertFileNotExists('install/install2.php');
 
-         //Should update database
-
+         //Should update settings
+         $settings = $this->getSettings();
+         $this->assertEquals($settings['title'], 'TestBack');
+         $this->assertEquals($settings['mainmail'], 'admin@phpback.org');
+         $this->assertEquals($settings['language'], 'english');
+         $this->assertEquals($settings['max_results'], '10');
+         $this->assertEquals($settings['maxvotes'], '20');
      }
 }
