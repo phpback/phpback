@@ -1,6 +1,6 @@
 <?php
 require_once 'tests/vendor/autoload.php';
-
+require_once '_Scripts.php';
 // REDBEAN CONFIGURATION
 use RedBeanPHP\Facade as RedBean;
 RedBean::setup('mysql:host=localhost;dbname=phpback_test', 'root', '');
@@ -14,9 +14,11 @@ class TestCase extends PHPUnit_Extensions_Selenium2TestCase {
         $this->setBrowser('firefox');
         $this->setBrowserUrl('http://localhost:8080/');
         $this->mysqli = new mysqli('localhost', 'root', '', 'phpback_test');
+
+        Scripts::setInstance($this);
     }
 
-    protected function getFields($array) {
+    public function getFields($array) {
         $fields = array();
 
         foreach ($array as $value) {
@@ -26,7 +28,13 @@ class TestCase extends PHPUnit_Extensions_Selenium2TestCase {
         return $fields;
     }
 
-    protected function getSettings() {
+    public function fillFields($array) {
+        foreach ($array as $key => $value) {
+            $this->byName($key)->value($value);
+        }
+    }
+
+    public function getSettings() {
         $settings = array();
         $result = RedBean::findAll('settings');
 

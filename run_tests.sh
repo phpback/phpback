@@ -17,4 +17,7 @@ gnome-terminal -e 'php -S localhost:8080';
 gnome-terminal -e 'java -jar /usr/local/bin/selenium-server-standalone-2.48.2.jar';
 
 # RUN TESTS
-phpunit tests/cases
+phpunit --colors tests/cases/InstallTest.php
+phpunit --colors tests/cases/AdminPanelTest.php
+#phpunit --colors tests/cases/UserTest.php
+#phpunit --colors tests/cases/PostingTest.php

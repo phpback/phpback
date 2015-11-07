@@ -8,30 +8,16 @@ class InstallTest extends TestCase {
         $this->url('index.php');
 
         //All Fields initially with empty
-        $fields = $this->getFields(array(
-            'hostname',
-            'username',
-            'password',
-            'database',
-            'adminname',
-            'adminemail',
-            'adminpass',
-            'adminrpass'
+        $this->fillFields(array(
+            'hostname' => 'localhost',
+            'username' => 'root',
+            'password' => '',
+            'database' => 'phpback_test',
+            'adminemail' => 'admin@phpback.org',
+            'adminname' => 'admin',
+            'adminpass' => 'admin',
+            'adminrpass' => 'admin'
         ));
-
-        foreach ($fields as $field)  {
-            $this->assertEquals('', $field->value());
-        }
-
-        //Populate all fields
-        $fields['hostname']->value('localhost');
-        $fields['username']->value('root');
-        $fields['password']->value('');
-        $fields['database']->value('phpback_test');
-        $fields['adminemail']->value('admin@phpback.org');
-        $fields['adminname']->value('admin');
-        $fields['adminpass']->value('admin');
-        $fields['adminrpass']->value('admin');
 
         //Submit form
         $this->byName('install-form')->submit();
@@ -77,14 +63,11 @@ class InstallTest extends TestCase {
      public function testConfigurationInstallation($value='') {
          $this->url('install/index2.php');
 
-         $fields = $this->getFields(array(
-             'title',
-             'mainmail',
-         ));
-
          //Populate all fields
-         $fields['title']->value('TestBack');
-         $fields['mainmail']->value('admin@phpback.org');
+         $this->fillFields(array(
+             'title' => 'TestBack',
+             'mainmail' => 'admin@phpback.org'
+         ));
 
          //Submit form
          $this->byName('install2-form')->submit();
