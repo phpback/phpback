@@ -10,7 +10,7 @@
   <?php elseif($error == "banned"): ?>
     <p class="bg-danger" style="width:100%;height:35px;padding-left:10px;padding-top:5px;"><?php echo ($ban == -1) ? $lang['error_banned_inf'] : str_replace('%s', $ban, $lang['error_banned']); ?></p>
   <?php endif; ?>
-  <form role="form" action="<?php echo base_url() . 'action/login'; ?>" method="POST">
+  <form name="login-form" action="<?php echo base_url() . 'action/login'; ?>" method="POST">
     <div class="form-group">
       <label for="InputEmail"><?php echo $lang['form_email']; ?></label>
       <input type="email" class="form-control" id="InputEmail" placeholder="<?php echo $lang['form_email']; ?>" name="email">

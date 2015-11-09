@@ -17,8 +17,8 @@
   <?php } elseif($error == "exits"){ ?>
     <p class="bg-danger" style="width:100%;height:30px;padding-left:10px;padding-top:5px;"><?php echo $lang['error_email_exists']; ?></p>
   <?php } ?>
-  
-  <form role="form" action="<?php echo base_url() . 'action/register'; ?>" method="POST">
+
+  <form name="registration-form" action="<?php echo base_url() . 'action/register'; ?>" method="POST">
    	<div class="form-group">
       <label for="InputEmail"><?php echo $lang['form_email']; ?></label>
       <input type="email" class="form-control" id="InputEmail" placeholder="<?php echo $lang['form_email']; ?>" name="email">
