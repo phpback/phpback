@@ -7,14 +7,13 @@
         </div>
       </div>
       <div class="collapse navbar-collapse" id="navbar-collapse-01">
-        <ul class="nav navbar-nav">           
+        <ul class="nav navbar-nav">
           <li><a href="<?php echo base_url() . 'admin'; ?>">Dashboard</a></li>
           <li><a href="<?php echo base_url() . 'admin/ideas'; ?>">Ideas and Comments</a></li>
           <li><a href="<?php echo base_url() . 'admin/users'; ?>">Users Management</a></li>
           <li class="active"><a href="<?php echo base_url() . 'admin/system'; ?>">System Settings</a></li>
         </ul>
           <p class="navbar-text navbar-right">Signed in as <span style="color:#27AE60"><?php echo $_SESSION['phpback_username']; ?></span><a href="<?php echo base_url() . 'action/logout'; ?>"><button type="button" class="btn btn-danger btn-xs" style="margin-left:10px;">Log out</button></a></p>
-           
       </div><!-- /.navbar-collapse -->
     </nav><!-- /navbar -->
   <div>
@@ -88,8 +87,8 @@
           </form>
       </div>
       <div id="upgradetable" style="display:none">
-         <div class="alert alert-warning" role="alert">You are running PHPBack v1.0<br>
-        Please, visit <a href="http://www.phpback.org/" target="_blank">phpback.org</a> to get the latest version.</div>
+         <div class="alert alert-warning" role="alert">You are running PHPBack v1.1<br>
+        Please, upgrade to PHPBack v1.2 <a href="<?php echo base_url(); ?>adminaction/upgrade" target="_blank">UPGRADE</a></div>
       </div>
       <div id="categorytable" style="display:none">
         <h4>Add a new Category</h4>

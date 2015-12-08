@@ -1,0 +1,36 @@
+{
+  "name": "desarrolla2/cache",
+  "description": "Provides an cache interface for several adapters Apc, Apcu, File, Mongo, Memcache, Memcached, Mysql, Mongo, Redis is supported. New adapters is comming!",
+  "keywords": [
+    "cache",
+    "apc",
+    "apcu",
+    "file",
+    "memcached",
+    "memcache",
+    "mysql",
+    "mongo",
+    "redis"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/desarrolla2/Cache/",
+  "authors": [
+    {
+      "name": "Daniel González",
+      "homepage": "http://desarrolla2.com/"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3"
+  },
+  "require-dev": {
+    "predis/predis": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Desarrolla2\\Cache\\": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}

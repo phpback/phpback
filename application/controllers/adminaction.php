@@ -10,8 +10,11 @@ See LICENSE.TXT for details.
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once(__DIR__ . "../../../vendor/autoload.php");
+use \VisualAppeal\AutoUpdate;
+
 class Adminaction extends CI_Controller{
-    
+
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
@@ -26,7 +29,7 @@ class Adminaction extends CI_Controller{
 		$email = $this->input->post('email', true);
 		$pass = $this->input->post('password', true);
 		$result = $this->get->login($email, $pass);
-		
+
 		if($result != 0){
 			$user = $this->get->get_user_info($result);
 			if(!$user->isadmin){
@@ -40,7 +43,7 @@ class Adminaction extends CI_Controller{
 			header('Location: ' . base_url() . 'admin/dashboard');
 		}
 		else{
-			header('Location: ' . base_url() . 'admin/index/error'); 
+			header('Location: ' . base_url() . 'admin/index/error');
 		}
 	}
 
@@ -49,7 +52,7 @@ class Adminaction extends CI_Controller{
 
 		$id = $this->input->post('id', true);
 		$days = $this->input->post('days', true);
-		
+
 		if($days == 0) $days = -1;
 		else{
 			date_default_timezone_set('America/Los_Angeles');
@@ -161,6 +164,38 @@ class Adminaction extends CI_Controller{
 		$this->post->log(str_replace('%s', "#$id", $this->lang->language['log_category_deleted']), 'user', $_SESSION['phpback_userid']);
 		header('Location: ' . base_url() . 'admin/system');
 	}
+
+  public function upgrade() {
+		  $this->start(3);
+
+		  $update = new AutoUpdate(__DIR__ . '/temp', __DIR__ . '/../../', 60);
+		  $update->setCurrentVersion('1.0.0'); // Current version of your application. This value should be from a database or another file which will be updated with the installation of a new version
+		  $update->setUpdateUrl('http://www.phpback.org/upgrade/'); //Replace the url with your server update url
+
+		  //Check for a new update
+		  if ($update->checkUpdate() === false)
+		      echo('Could not check for updates! See log file for details.');
+
+		  // Check if new update is available
+		  if ($update->newVersionAvailable()) {
+		      //Install new update
+		      echo 'New Version: ' . $update->getLatestVersion();
+		      echo 'Installing Updates: <br>';
+		      echo '<pre>';
+		      var_dump(array_map(function($version) {
+		          return (string) $version;
+		      }, $update->getVersionsToUpdate()));
+		      echo '</pre>';
+		      $result = $update->update(false);
+		      if ($result === true) {
+		          echo 'Update successful<br>';
+		      } else {
+		          echo 'Update failed: ' . $result . '!<br>';
+					}
+		  } else {
+		      echo 'Your application is up to date';
+		  }
+  }
 
 	private function start($level = 1){
         session_start();
