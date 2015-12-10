@@ -10,11 +10,16 @@ See LICENSE.TXT for details.
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once(__DIR__ . "../../../vendor/autoload.php");
+use \VisualAppeal\AutoUpdate;
+
 class Admin extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('get');
+
+        $this->version = '1.1.2';
 	}
 
 	public function index($error = 'no'){
@@ -125,6 +130,13 @@ class Admin extends CI_Controller {
         $data['settings'] = $this->get->get_all_settings();
         $data['adminusers'] = $this->get->get_admin_users();
         $data['categories'] = $this->get->get_categories();
+        $data['version'] = $this->version;
+
+        $update = new AutoUpdate(__DIR__ . '/temp', __DIR__ . '/../../', 60);
+        $update->setCurrentVersion($this->version); // Current version of your application. This value should be from a database or another file which will be updated with the installation of a new version
+        $update->setUpdateUrl('http://www.phpback.org/upgrade/'); //Replace the url with your server update url
+        $data['lastversion'] = $update->getLatestVersion();
+
         $this->load->view('admin/dashboard/header', $data);
         $this->load->view('admin/dashboard/system', $data);
     }
