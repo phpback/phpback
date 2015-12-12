@@ -49,11 +49,11 @@ class Home extends CI_Controller {
         // load views. within the views we can echo out $songs and $amount_of_songs easily
         $data['categories'] = $this->get->get_categories();
         $data['title'] = $this->get->get_setting('title');
-        
+
         $data['ideas']['completed'] = $this->get->get_ideas_custom('id', 1, 0, 10, array('completed'));
         $data['ideas']['started'] = $this->get->get_ideas_custom('id', 1, 0, 10, array('started'));
         $data['ideas']['planned'] = $this->get->get_ideas_custom('id', 1, 0, 10, array('planned'));
-        $data['ideas']['considered'] = $this->get->get_ideas_custom('id', 1, 0, 10, array('considered')); 
+        $data['ideas']['considered'] = $this->get->get_ideas_custom('id', 1, 0, 10, array('considered'));
 
         if(@!isset($_SESSION['phpback_userid']) && @isset($_COOKIE['phpback_sessionid'])){
             $result = $this->get->verify_token($_COOKIE['phpback_sessionid']);
@@ -74,9 +74,9 @@ class Home extends CI_Controller {
 		$this->load->view('home/index', $data);
 		$this->load->view('_templates/menu', $data);
 		$this->load->view('_templates/footer', $data);
-		
+
 	}
-	
+
 	public function category($id, $name = "", $order = "votes", $type = "desc", $page = '1')
     {
         if(!$this->get->category_exists($id)){
@@ -144,7 +144,7 @@ class Home extends CI_Controller {
 		$this->load->view('_templates/footer', $data);
     }
 
-    
+
     public function profile($id, $error=0){
         $data['user'] = $this->get->get_user_info($id);
         if($data['user'] === false){
@@ -169,7 +169,7 @@ class Home extends CI_Controller {
 		$this->load->view('_templates/footer', $data);
     }
 
-    
+
     public function login($error = "NULL", $ban=0){
         if(@!isset($_SESSION['phpback_userid']) && @isset($_COOKIE['phpback_sessionid'])){
             $result = $this->get->verify_token($_COOKIE['phpback_sessionid']);
@@ -203,18 +203,21 @@ class Home extends CI_Controller {
     }
 
     public function postidea($error = "none"){
-        
         $data['categories'] = $this->get->get_categories();
         $data['title'] = $this->get->get_setting('title');
         $data['error'] = $error;
-        $data['POST'] = $_POST;
+        $data['POST'] = array(
+					'title' => $this->input->post('title'),
+					'catid' => $this->input->post('catid'),
+					'desc' => $this->input->post('desc')
+				);
 
         $data['lang'] = $this->lang->language;
 
         $this->load->view('_templates/header', $data);
-		$this->load->view('home/post_idea', $data);
-		$this->load->view('_templates/menu', $data);
-		$this->load->view('_templates/footer', $data);
+				$this->load->view('home/post_idea', $data);
+				$this->load->view('_templates/menu', $data);
+				$this->load->view('_templates/footer', $data);
     }
 
     public function register($error = "NULL"){
