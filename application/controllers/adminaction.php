@@ -22,6 +22,8 @@ class Adminaction extends CI_Controller{
 		$this->load->model('post');
 
         $this->lang->load('log', $this->get->get_setting('language'));
+
+        $this->version = '1.1.2';
 	}
 
 	public function login(){
@@ -166,35 +168,22 @@ class Adminaction extends CI_Controller{
 	}
 
   public function upgrade() {
-		  $this->start(3);
+        $this->start(3);
 
-		  $update = new AutoUpdate(__DIR__ . '/temp', __DIR__ . '/../../', 60);
-		  $update->setCurrentVersion('1.0.0'); // Current version of your application. This value should be from a database or another file which will be updated with the installation of a new version
-		  $update->setUpdateUrl('http://www.phpback.org/upgrade/'); //Replace the url with your server update url
+        $update = new AutoUpdate(__DIR__ . '/temp', __DIR__ . '/../../', 60);
+        $update->setCurrentVersion($this->version); // Current version of your application. This value should be from a database or another file which will be updated with the installation of a new version
+        $update->setUpdateUrl('http://www.phpback.org/upgrade/'); //Replace the url with your server update url
 
-		  //Check for a new update
-		  if ($update->checkUpdate() === false)
-		      echo('Could not check for updates! See log file for details.');
+        // Check if new update is available
+        if ($update->newVersionAvailable()) {
+            //Install new update
+            $update->update(false);
 
-		  // Check if new update is available
-		  if ($update->newVersionAvailable()) {
-		      //Install new update
-		      echo 'New Version: ' . $update->getLatestVersion();
-		      echo 'Installing Updates: <br>';
-		      echo '<pre>';
-		      var_dump(array_map(function($version) {
-		          return (string) $version;
-		      }, $update->getVersionsToUpdate()));
-		      echo '</pre>';
-		      $result = $update->update(false);
-		      if ($result === true) {
-		          echo 'Update successful<br>';
-		      } else {
-		          echo 'Update failed: ' . $result . '!<br>';
-					}
-		  } else {
-		      echo 'Your application is up to date';
-		  }
+            @include '../config/update.php';
+            unlink('../config/update.php');
+        }
+
+        header('Location: ' . base_url() . 'admin/system');
   }
 
 	private function start($level = 1){
