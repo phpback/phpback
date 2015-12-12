@@ -23,7 +23,7 @@ class Adminaction extends CI_Controller{
 
         $this->lang->load('log', $this->get->get_setting('language'));
 
-        $this->version = '1.1.2';
+        $this->version = '1.1.0';
 	}
 
 	public function login(){

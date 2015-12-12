@@ -19,7 +19,7 @@ class Admin extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('get');
 
-        $this->version = '1.1.2';
+        $this->version = '1.1.0';
 	}
 
 	public function index($error = 'no'){
@@ -51,7 +51,7 @@ class Admin extends CI_Controller {
         //$data['ideas'] = $this->get->get_new_ideas(10);
         //$data['flags'] = $this->get->get_flags();
         $data['logs'] = $this->get->get_last_logs();
-        
+
         $this->load->view('admin/dashboard/header');
         $this->load->view('admin/dashboard/index', $data);
     }
