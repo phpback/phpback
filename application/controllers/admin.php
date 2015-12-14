@@ -19,7 +19,7 @@ class Admin extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('get');
 
-        $this->version = '1.1.0';
+        $this->version = '1.2.0';
 	}
 
 	public function index($error = 'no'){
@@ -135,7 +135,11 @@ class Admin extends CI_Controller {
         $update = new AutoUpdate(__DIR__ . '/temp', __DIR__ . '/../../', 60);
         $update->setCurrentVersion($this->version); // Current version of your application. This value should be from a database or another file which will be updated with the installation of a new version
         $update->setUpdateUrl('http://www.phpback.org/upgrade/'); //Replace the url with your server update url
-        $data['lastversion'] = $update->getLatestVersion();
+        $update->checkUpdate();
+
+        $data['lastVersion'] = $update->getLatestVersion();
+        $data['version'] = $this->version;
+        $data['isLastVersion'] = !$update->newVersionAvailable();
 
         $this->load->view('admin/dashboard/header', $data);
         $this->load->view('admin/dashboard/system', $data);

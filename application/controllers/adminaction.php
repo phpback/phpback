@@ -23,7 +23,7 @@ class Adminaction extends CI_Controller{
 
         $this->lang->load('log', $this->get->get_setting('language'));
 
-        $this->version = '1.1.0';
+        $this->version = '1.2.0';
 	}
 
 	public function login(){
@@ -174,27 +174,14 @@ class Adminaction extends CI_Controller{
         $update->setCurrentVersion($this->version); // Current version of your application. This value should be from a database or another file which will be updated with the installation of a new version
         $update->setUpdateUrl('http://www.phpback.org/upgrade/'); //Replace the url with your server update url
 
-          $update->addLogHandler(new Monolog\Handler\StreamHandler(__DIR__ . '/update.log'));
-          $update->setCache(new Desarrolla2\Cache\Adapter\File(__DIR__ . '/cache'), 3600);
-
-
         $update->checkUpdate();
 
         // Check if new update is available
         if ($update->newVersionAvailable()) {
 
             //Install new update
-            echo 'New Version: ' . $update->getLatestVersion() . '<br>';
-            echo 'Installing Updates: <br>';
-            echo '<pre>';
-            var_dump(array_map(function($version) {
-                return (string) $version;
-            }, $update->getVersionsToUpdate()));
-            echo '</pre>';
             $result = $update->update();
-            if ($result === true) {
-                echo 'Update successful<br>';
-            } else {
+            if ($result !== true) {
                 echo 'Update failed: ' . $result . '!<br>';
                 if ($result = AutoUpdate::ERROR_SIMULATE) {
                     echo '<pre>';
@@ -203,13 +190,11 @@ class Adminaction extends CI_Controller{
                 }
             }
 
-            echo 'Loading update file...<br/>';
             @include __DIR__. '../config/update.php';
-            echo 'Deleting update file...<br/>';
             @unlink(__DIR__.'../config/update.php');
         }
 
-//        header('Location: ' . base_url() . 'admin/system');
+        header('Location: ' . base_url() . 'admin/system');
   }
 
 	private function start($level = 1){

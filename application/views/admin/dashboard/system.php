@@ -87,8 +87,17 @@
           </form>
       </div>
       <div id="upgradetable" style="display:none">
-         <div class="alert alert-warning" role="alert">You are running PHPBack v1.1<br>
-        Please, upgrade to PHPBack v1.2 <a href="<?php echo base_url(); ?>adminaction/upgrade" target="_blank">UPGRADE</a></div>
+         <div class="alert alert-<?php echo ($isLastVersion) ? 'success' : 'warning'; ?>" role="alert">You are running PHPBack v<?php echo $version; ?><br />
+         <?php if($isLastVersion): ?>
+             You're running the latest version of PHPBack.
+         <?php else: ?>
+            Please, upgrade to PHPBack v<?php echo $lastVersion; ?><br /><br />
+            <a href="<?php echo base_url(); ?>adminaction/upgrade" class="btn btn-primary">Upgrade</a><br />
+             <span style="font-size:13px;">(it may take a moment)</span>
+         <?php endif;?>
+             <br /><br />
+             Please, visit <a href="http://www.phpback.org/" target="_blank">PHPBack.org</a> for more details.
+         </div>
       </div>
       <div id="categorytable" style="display:none">
         <h4>Add a new Category</h4>
