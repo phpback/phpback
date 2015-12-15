@@ -572,8 +572,6 @@ EOF
      *
      * @see http://yaml.org/spec/1.2/spec.html#id2759572
      * @see http://yaml.org/spec/1.1/#id932806
-     *
-     * @covers \Symfony\Component\Yaml\Parser::parse
      */
     public function testMappingDuplicateKeyBlock()
     {
@@ -593,9 +591,6 @@ EOD;
         $this->assertSame($expected, Yaml::parse($input));
     }
 
-    /**
-     * @covers \Symfony\Component\Yaml\Inline::parseMapping
-     */
     public function testMappingDuplicateKeyFlow()
     {
         $input = <<<EOD
@@ -787,6 +782,19 @@ EOF;
         );
 
         $this->assertEquals($expected, $this->parser->parse($yaml));
+    }
+
+    /**
+     * @expectedException Symfony\Component\Yaml\Exception\ParseException
+     * @expectedExceptionMessage A colon cannot be used in an unquoted mapping value.
+     */
+    public function testColonInMappingValueException()
+    {
+        $yaml = <<<EOF
+foo: bar: baz
+EOF;
+
+        $this->parser->parse($yaml);
     }
 }
 

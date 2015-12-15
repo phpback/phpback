@@ -3,8 +3,7 @@ php:
  - 5.4
 services:
  - mysql
-before_script:
- - ./before_script.sh
- - php -S localhost:8080 -t public/ &
+sudo: true
+before_script: ./before_script.sh
 script:
  - phpunit tests/cases/InstallTest.php

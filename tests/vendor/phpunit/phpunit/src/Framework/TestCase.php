@@ -613,7 +613,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             $result = $this->createResult();
         }
 
-        if (!$this instanceof PHPUnit_Framework_Warning) {
+        if (!$this instanceof PHPUnit_Framework_WarningTestCase) {
             $this->setTestResultObject($result);
             $this->setUseErrorHandlerFromAnnotation();
         }
@@ -623,13 +623,12 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             $result->convertErrorsToExceptions($this->useErrorHandler);
         }
 
-        if (!$this instanceof PHPUnit_Framework_Warning && !$this->handleDependencies()) {
+        if (!$this instanceof PHPUnit_Framework_WarningTestCase && !$this->handleDependencies()) {
             return;
         }
 
         if ($this->runTestInSeparateProcess === true &&
             $this->inIsolation !== true &&
-            !$this instanceof PHPUnit_Extensions_SeleniumTestCase &&
             !$this instanceof PHPUnit_Extensions_PhptTestCase) {
             $class = new ReflectionClass($this);
 
@@ -778,6 +777,9 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             $this->statusMessage = $e->getMessage();
         } catch (PHPUnit_Framework_SkippedTest $e) {
             $this->status        = PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED;
+            $this->statusMessage = $e->getMessage();
+        } catch (PHPUnit_Framework_Warning $e) {
+            $this->status        = PHPUnit_Runner_BaseTestRunner::STATUS_WARNING;
             $this->statusMessage = $e->getMessage();
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             $this->status        = PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE;
@@ -1352,7 +1354,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
     }
 
     /**
-     * Returns a mock object for the specified class.
+     * Returns a mock with disabled constructor object for the specified class.
      *
      * @param string $originalClassName
      *
@@ -1781,13 +1783,14 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
     }
 
     /**
-     * @param Exception $exception
+     * @param Throwable|Exception $exception
      *
      * @return PHPUnit_Framework_MockObject_Stub_Exception
      *
      * @since  Method available since Release 3.1.0
+     * @todo   Add type declaration when support for PHP 5 is dropped
      */
-    public static function throwException(Exception $exception)
+    public static function throwException($exception)
     {
         return new PHPUnit_Framework_MockObject_Stub_Exception($exception);
     }
@@ -2108,9 +2111,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
                     $this->snapshot,
                     $this->createGlobalStateSnapshot($backupGlobals)
                 );
-            }
-
-            catch (PHPUnit_Framework_RiskyTestError $rte) {
+            } catch (PHPUnit_Framework_RiskyTestError $rte) {
                 // Intentionally left empty
             }
         }

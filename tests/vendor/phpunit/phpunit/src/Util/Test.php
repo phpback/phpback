@@ -698,9 +698,7 @@ class PHPUnit_Util_Test
 
         if (isset($groups['large']) ||
             (class_exists('PHPUnit_Extensions_Database_TestCase', false) &&
-             $class->isSubclassOf('PHPUnit_Extensions_Database_TestCase')) ||
-            (class_exists('PHPUnit_Extensions_SeleniumTestCase', false) &&
-             $class->isSubclassOf('PHPUnit_Extensions_SeleniumTestCase'))) {
+             $class->isSubclassOf('PHPUnit_Extensions_Database_TestCase'))) {
             $size = self::LARGE;
         } elseif (isset($groups['medium'])) {
             $size = self::MEDIUM;
@@ -903,7 +901,8 @@ class PHPUnit_Util_Test
 
                 foreach ($classes as $className) {
                     if (!class_exists($className) &&
-                        !interface_exists($className)) {
+                        !interface_exists($className) &&
+                        !trait_exists($className)) {
                         throw new PHPUnit_Framework_InvalidCoversTargetException(
                             sprintf(
                                 'Trying to @cover or @use not existing class or ' .

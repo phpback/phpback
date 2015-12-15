@@ -192,6 +192,7 @@ return array(
     'PHPUnit_Framework_TestSuite_DataProvider' => $vendorDir . '/phpunit/phpunit/src/Framework/TestSuite/DataProvider.php',
     'PHPUnit_Framework_UnintentionallyCoveredCodeError' => $vendorDir . '/phpunit/phpunit/src/Framework/UnintentionallyCoveredCodeError.php',
     'PHPUnit_Framework_Warning' => $vendorDir . '/phpunit/phpunit/src/Framework/Warning.php',
+    'PHPUnit_Framework_WarningTestCase' => $vendorDir . '/phpunit/phpunit/src/Framework/WarningTestCase.php',
     'PHPUnit_Runner_BaseTestRunner' => $vendorDir . '/phpunit/phpunit/src/Runner/BaseTestRunner.php',
     'PHPUnit_Runner_Exception' => $vendorDir . '/phpunit/phpunit/src/Runner/Exception.php',
     'PHPUnit_Runner_Filter_Factory' => $vendorDir . '/phpunit/phpunit/src/Runner/Filter/Factory.php',
