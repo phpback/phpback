@@ -9,6 +9,6 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar"
   - php -S localhost:8000 -t ./ &
+  - "xvfb-run java -jar bin/selenium-server-standalone-2.x.x.jar"
 script:
-  - "java -jar selenium-server-standalone-2.31.0.jar"
   - phpunit tests/cases/InstallTest.php
