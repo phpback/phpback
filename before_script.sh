@@ -24,11 +24,7 @@ firefoxUrl=http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/21.0/linux-x8
 firefoxFile=firefox.tar.bz2
 phpVersion=`php -v`
 
-pear channel-discover pear.phpunit.de
-pear install phpunit/PHP_Invoker
-pear install phpunit/DbUnit
-pear install phpunit/PHPUnit_Selenium
-pear install phpunit/PHPUnit_Story
+sudo apt-get install phpunit
 
 echo "Download Firefox"
 wget $firefoxUrl -O $firefoxFile
