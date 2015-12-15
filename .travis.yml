@@ -4,7 +4,7 @@ php:
 services:
  - mysql
 before_script:
- - php -S localhost:8080
  - ./before_script.sh
+ - php -S localhost:8080 -t public/ &
 script:
  - phpunit tests/cases/InstallTest.php
