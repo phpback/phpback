@@ -5,7 +5,6 @@ use RedBeanPHP\Facade as RedBean;
 
 class InstallTest extends TestCase {
     public function testDatabaseInstallation() {
-        $this->url('index.php');
 
         //All Fields initially with empty
         $this->fillFields(array(
