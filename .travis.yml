@@ -10,4 +10,5 @@ before_script:
  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar"
  - php -S localhost:8080 -t public/ &
 script:
+ - "java -jar selenium-server-standalone-2.31.0.jar"
  - phpunit tests/cases/InstallTest.php
