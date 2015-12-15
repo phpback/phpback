@@ -3,7 +3,6 @@
 mysql -e 'create database phpback_test;'
 git checkout -- install
 rm application/config/database.php
-php -S localhost:8080
 
 serverUrl='http://127.0.0.1:4444'
 serverFile=selenium-server-standalone-2.35.0.jar
