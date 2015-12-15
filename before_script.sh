@@ -11,10 +11,10 @@ PHP_VERSION=$(php -v)
 
 ESCAPED_BUILD_DIR=$(echo "$TRAVIS_BUILD_DIR" | sed 's/\//\\\//g')
 
-sudo apt-get update
+apt-get update
 
 echo "Installing Firefox"
-sudo apt-get install firefox -y --no-install-recommends
+apt-get install firefox -y --no-install-recommends
 
 if [ ! -f "$SELENIUM_JAR" ]; then
     echo "Downloading Selenium"
@@ -22,9 +22,9 @@ if [ ! -f "$SELENIUM_JAR" ]; then
     sudo wget -nv -O "$SELENIUM_JAR" "$SELENIUM_DOWNLOAD_URL"
 fi
 
-sudo killall -9 java
-sudo killall -9 Xvfb
-sudo rm -f /tmp/.X99-lock
+killall -9 java
+killall -9 Xvfb
+rm -f /tmp/.X99-lock
 
 wget --retry-connrefused --tries=120 --waitretry=3 --output-file=/dev/null "$SELENIUM_HUB_URL/wd/hub/status" -O /dev/null
 if [ ! $? -eq 0 ]; then
