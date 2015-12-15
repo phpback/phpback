@@ -4,10 +4,6 @@ php:
 services:
  - mysql
 sudo: true
-before_script:
-  - "export DISPLAY=:99.0"
-  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar"
-  - "sh -e /etc/init.d/xvfb start"
-  - php -S localhost:8000 -t ./ &
+before_script: ./before_script.sh
 script:
   - phpunit tests/cases/InstallTest.php
