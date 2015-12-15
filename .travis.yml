@@ -6,6 +6,6 @@ services:
 sudo: true
 before_script:
  - ./before_script.sh
- - java -jar selenium-server-standalone-2.31.0.jar
+ - java -jar selenium-server-standalone-2.35.0.jar
 script:
  - phpunit tests/cases/InstallTest.php
