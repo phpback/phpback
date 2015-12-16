@@ -5,11 +5,11 @@ require_once '_Scripts.php';
 use RedBeanPHP\Facade as RedBean;
 RedBean::setup('mysql:host=localhost;dbname=phpback_test', 'root', '');
 
-class TestCase extends PHPUnit_Extensions_Selenium2TestCase {
+class TestCase extends PHPUnit_Framework_TestCase {
     protected $mysqli;
 
     public function setUp() {
-        print 'SETING UP............';
+/*        print 'SETING UP............';
         $this->setHost('localhost');
         $this->setPort(4444);
         $this->setBrowser('firefox');
@@ -18,7 +18,7 @@ class TestCase extends PHPUnit_Extensions_Selenium2TestCase {
 
         print 'SET UP DONE............';
 
-        Scripts::setInstance($this);
+        Scripts::setInstance($this);*/
     }
 
     public function getFields($array) {
