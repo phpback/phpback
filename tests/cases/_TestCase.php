@@ -5,7 +5,7 @@ require_once '_Scripts.php';
 use RedBeanPHP\Facade as RedBean;
 RedBean::setup('mysql:host=localhost;dbname=phpback_test', 'root', '');
 
-class TestCase extends PHPUnit_Framework_TestCase {
+class TestCase extends PHPUnit_Extensions_Selenium2TestCase {
     protected $mysqli;
 
     public function setUp() {
