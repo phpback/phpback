@@ -7,6 +7,8 @@ class InstallTest extends TestCase {
     public function testDatabaseInstallation() {
         $this->url('index.php');
 
+        print 'First test! initalized';
+
         //All Fields initially with empty
         $this->fillFields(array(
             'hostname' => 'localhost',
