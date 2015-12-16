@@ -5,6 +5,7 @@ git checkout -- install
 rm application/config/database.php
 
 
+sudo apt-get install firefox
 firefox --version
 sh -e /etc/init.d/xvfb start
 export DISPLAY=:99.0
