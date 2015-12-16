@@ -10,7 +10,7 @@ class TestCase extends PHPUnit_Extensions_Selenium2TestCase {
 
     public function setUp() {
         $this->setBrowser('*firefox');
-        $this->setBrowserUrl('http://localhost/');
+        $this->setBrowserUrl('http://localhost:8080/');
         $this->setPort(4444);
         $this->mysqli = new mysqli('localhost', 'root', '', 'phpback_test');
 
