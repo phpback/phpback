@@ -5,6 +5,7 @@ git checkout -- install
 rm application/config/database.php
 
 
+firefox --version
 sh -e /etc/init.d/xvfb start
 export DISPLAY=:99.0
 wget http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar
