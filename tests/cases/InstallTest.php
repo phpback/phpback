@@ -5,6 +5,8 @@ use RedBeanPHP\Facade as RedBean;
 
 class InstallTest extends TestCase {
     public function testDatabaseInstallation() {
+        print 'STARTING FIRST TEST............';
+
         $this->url('index.php');
 
         print 'First test! initalized';
