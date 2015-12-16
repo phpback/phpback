@@ -9,9 +9,10 @@ class TestCase extends PHPUnit_Extensions_Selenium2TestCase {
     protected $mysqli;
 
     public function setUp() {
-        $this->setBrowser('*firefox');
-        $this->setBrowserUrl('http://localhost:8080/');
+        $this->setHost('localhost');
         $this->setPort(4444);
+        $this->setBrowser('firefox');
+        $this->setBrowserUrl('http://localhost:8080/');
         $this->mysqli = new mysqli('localhost', 'root', '', 'phpback_test');
 
         Scripts::setInstance($this);
