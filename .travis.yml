@@ -6,4 +6,4 @@ services:
 sudo: true
 before_script: ./before_script.sh
 script:
-  - phpunit tests/cases/InstallTest.php
+  - tests/vendor/bin/phpunit tests/cases/InstallTest.php
