@@ -1,9 +1,9 @@
 language: php
 php:
- - 5.4
+ - 5.6
 services:
  - mysql
 sudo: true
 before_script: ./before_script.sh
 script:
-  - phpunit tests/cases/InstallTest.php
+  - tests/vendor/bin/phpunit tests/cases/InstallTest.php
