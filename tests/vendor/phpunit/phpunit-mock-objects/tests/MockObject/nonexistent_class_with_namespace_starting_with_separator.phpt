@@ -1,5 +1,5 @@
 --TEST--
-PHPUnit_Framework_MockObject_Generator::generate('Foo', array(), 'MockFoo', true, true)
+PHPUnit_Framework_MockObject_Generator::generate('Foo', array(), 'MockFoo', TRUE, TRUE)
 --FILE--
 <?php
 require __DIR__ . '/../../vendor/autoload.php';
@@ -7,11 +7,11 @@ require __DIR__ . '/../../vendor/autoload.php';
 $generator = new PHPUnit_Framework_MockObject_Generator;
 
 $mock = $generator->generate(
-    '\NS\Foo',
-    array(),
-    'MockFoo',
-    true,
-    true
+  '\NS\Foo',
+  array(),
+  'MockFoo',
+  TRUE,
+  TRUE
 );
 
 print $mock['code'];
@@ -56,7 +56,7 @@ class MockFoo extends NS\Foo implements PHPUnit_Framework_MockObject_MockObject
 
     public function __phpunit_getInvocationMocker()
     {
-        if ($this->__phpunit_invocationMocker === null) {
+        if ($this->__phpunit_invocationMocker === NULL) {
             $this->__phpunit_invocationMocker = new PHPUnit_Framework_MockObject_InvocationMocker;
         }
 
@@ -68,13 +68,10 @@ class MockFoo extends NS\Foo implements PHPUnit_Framework_MockObject_MockObject
         return $this->__phpunit_getInvocationMocker()->hasMatchers();
     }
 
-    public function __phpunit_verify($unsetInvocationMocker = true)
+    public function __phpunit_verify()
     {
         $this->__phpunit_getInvocationMocker()->verify();
-
-        if ($unsetInvocationMocker) {
-            $this->__phpunit_invocationMocker = null;
-        }
+        $this->__phpunit_invocationMocker = NULL;
     }
 }
 

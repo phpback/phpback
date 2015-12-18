@@ -6,6 +6,7 @@
  */
 class CoverageTwoDefaultClassAnnotations
 {
+
     /**
      * @covers Foo\CoveredClass::<public>
      */

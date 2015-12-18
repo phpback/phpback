@@ -10,9 +10,9 @@
 
 if (!defined('TEST_FILES_PATH')) {
     define(
-        'TEST_FILES_PATH',
-        dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR .
-        '_files' . DIRECTORY_SEPARATOR
+      'TEST_FILES_PATH',
+      dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR .
+      '_files' . DIRECTORY_SEPARATOR
     );
 }
 
@@ -23,13 +23,17 @@ require_once TEST_FILES_PATH . 'BankAccountTest.php';
 /**
  * Tests for the PHP_CodeCoverage class.
  *
- * @since Class available since Release 1.0.0
+ * @category   PHP
+ * @package    CodeCoverage
+ * @subpackage Tests
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://github.com/sebastianbergmann/php-code-coverage
+ * @since      Class available since Release 1.0.0
  */
 class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
 {
-    /**
-     * @var PHP_CodeCoverage
-     */
     private $coverage;
 
     protected function setUp()
@@ -44,15 +48,11 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     public function testConstructor()
     {
         $this->assertAttributeInstanceOf(
-            'PHP_CodeCoverage_Driver_Xdebug',
-            'driver',
-            $this->coverage
+          'PHP_CodeCoverage_Driver_Xdebug', 'driver', $this->coverage
         );
 
         $this->assertAttributeInstanceOf(
-            'PHP_CodeCoverage_Filter',
-            'filter',
-            $this->coverage
+          'PHP_CodeCoverage_Filter', 'filter', $this->coverage
         );
     }
 
@@ -66,9 +66,7 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
         $coverage = new PHP_CodeCoverage(null, $filter);
 
         $this->assertAttributeInstanceOf(
-            'PHP_CodeCoverage_Driver_Xdebug',
-            'driver',
-            $coverage
+          'PHP_CodeCoverage_Driver_Xdebug', 'driver', $coverage
         );
 
         $this->assertSame($filter, $coverage->filter());
@@ -80,7 +78,7 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
      */
     public function testStartThrowsExceptionForInvalidArgument()
     {
-        $this->coverage->start(null, [], null);
+        $this->coverage->start(null, array(), null);
     }
 
     /**
@@ -107,7 +105,7 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
      */
     public function testAppendThrowsExceptionForInvalidArgument()
     {
-        $this->coverage->append([], null);
+        $this->coverage->append(array(), null);
     }
 
     /**
@@ -144,9 +142,7 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     {
         $this->coverage->setCheckForUnintentionallyCoveredCode(true);
         $this->assertAttributeEquals(
-            true,
-            'checkForUnintentionallyCoveredCode',
-            $this->coverage
+          true, 'checkForUnintentionallyCoveredCode', $this->coverage
         );
     }
 
@@ -166,9 +162,7 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     {
         $this->coverage->setForceCoversAnnotation(true);
         $this->assertAttributeEquals(
-            true,
-            'forceCoversAnnotation',
-            $this->coverage
+          true, 'forceCoversAnnotation', $this->coverage
         );
     }
 
@@ -188,9 +182,7 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     {
         $this->coverage->setAddUncoveredFilesFromWhitelist(true);
         $this->assertAttributeEquals(
-            true,
-            'addUncoveredFilesFromWhitelist',
-            $this->coverage
+          true, 'addUncoveredFilesFromWhitelist', $this->coverage
         );
     }
 
@@ -210,9 +202,7 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     {
         $this->coverage->setProcessUncoveredFilesFromWhitelist(true);
         $this->assertAttributeEquals(
-            true,
-            'processUncoveredFilesFromWhitelist',
-            $this->coverage
+          true, 'processUncoveredFilesFromWhitelist', $this->coverage
         );
     }
 
@@ -223,9 +213,7 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     {
         $this->coverage->setMapTestClassNameToCoveredClassName(true);
         $this->assertAttributeEquals(
-            true,
-            'mapTestClassNameToCoveredClassName',
-            $this->coverage
+          true, 'mapTestClassNameToCoveredClassName', $this->coverage
         );
     }
 
@@ -239,28 +227,6 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     }
 
     /**
-     * @covers PHP_CodeCoverage::setIgnoreDeprecatedCode
-     */
-    public function testSetIgnoreDeprecatedCode()
-    {
-        $this->coverage->setIgnoreDeprecatedCode(true);
-        $this->assertAttributeEquals(
-            true,
-            'ignoreDeprecatedCode',
-            $this->coverage
-        );
-    }
-
-    /**
-     * @covers             PHP_CodeCoverage::setIgnoreDeprecatedCode
-     * @expectedException PHP_CodeCoverage_Exception
-     */
-    public function testSetIgnoreDeprecatedCodeThrowsExceptionForInvalidArgument()
-    {
-        $this->coverage->setIgnoreDeprecatedCode(null);
-    }
-
-    /**
      * @covers PHP_CodeCoverage::clear
      */
     public function testClear()
@@ -268,8 +234,8 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
         $this->coverage->clear();
 
         $this->assertAttributeEquals(null, 'currentId', $this->coverage);
-        $this->assertAttributeEquals([], 'data', $this->coverage);
-        $this->assertAttributeEquals([], 'tests', $this->coverage);
+        $this->assertAttributeEquals(array(), 'data', $this->coverage);
+        $this->assertAttributeEquals(array(), 'tests', $this->coverage);
     }
 
     /**
@@ -286,24 +252,17 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
         $coverage = $this->getCoverageForBankAccount();
 
         $this->assertEquals(
-            $this->getExpectedDataArrayForBankAccount(),
-            $coverage->getData()
+          $this->getExpectedDataArrayForBankAccount(), $coverage->getData()
         );
 
-        if (version_compare(PHPUnit_Runner_Version::id(), '4.7', '>=')) {
-            $size = 'unknown';
-        } else {
-            $size = 'small';
-        }
-
         $this->assertEquals(
-            [
-                'BankAccountTest::testBalanceIsInitiallyZero'       => ['size' => $size, 'status' => null],
-                'BankAccountTest::testBalanceCannotBecomeNegative'  => ['size' => $size, 'status' => null],
-                'BankAccountTest::testBalanceCannotBecomeNegative2' => ['size' => $size, 'status' => null],
-                'BankAccountTest::testDepositWithdrawMoney'         => ['size' => $size, 'status' => null]
-            ],
-            $coverage->getTests()
+          array(
+            'BankAccountTest::testBalanceIsInitiallyZero' => null,
+            'BankAccountTest::testBalanceCannotBecomeNegative' => null,
+            'BankAccountTest::testBalanceCannotBecomeNegative2' => null,
+            'BankAccountTest::testDepositWithdrawMoney' => null
+          ),
+          $coverage->getTests()
         );
     }
 
@@ -317,8 +276,7 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
         $coverage->merge($this->getCoverageForBankAccountForLastTwoTests());
 
         $this->assertEquals(
-            $this->getExpectedDataArrayForBankAccount(),
-            $coverage->getData()
+          $this->getExpectedDataArrayForBankAccount(), $coverage->getData()
         );
     }
 
@@ -329,15 +287,14 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     public function testMerge2()
     {
         $coverage = new PHP_CodeCoverage(
-            $this->getMock('PHP_CodeCoverage_Driver_Xdebug'),
-            new PHP_CodeCoverage_Filter
+          $this->getMock('PHP_CodeCoverage_Driver_Xdebug'),
+          new PHP_CodeCoverage_Filter
         );
 
         $coverage->merge($this->getCoverageForBankAccount());
 
         $this->assertEquals(
-            $this->getExpectedDataArrayForBankAccount(),
-            $coverage->getData()
+          $this->getExpectedDataArrayForBankAccount(), $coverage->getData()
         );
     }
 
@@ -347,46 +304,46 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     public function testGetLinesToBeIgnored()
     {
         $this->assertEquals(
-            [
-                1,
-                3,
-                4,
-                5,
-                7,
-                8,
-                9,
-                10,
-                11,
-                12,
-                13,
-                14,
-                15,
-                16,
-                17,
-                18,
-                19,
-                20,
-                21,
-                22,
-                23,
-                24,
-                25,
-                26,
-                27,
-                28,
-                30,
-                32,
-                33,
-                34,
-                35,
-                36,
-                37,
-                38
-            ],
-            $this->getLinesToBeIgnored()->invoke(
-                $this->coverage,
-                TEST_FILES_PATH . 'source_with_ignore.php'
-            )
+          array(
+             1,
+             3,
+             4,
+             5,
+             7,
+             8,
+             9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            30,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38
+          ),
+          $this->getLinesToBeIgnored()->invoke(
+            $this->coverage,
+            TEST_FILES_PATH . 'source_with_ignore.php'
+          )
         );
     }
 
@@ -396,11 +353,11 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     public function testGetLinesToBeIgnored2()
     {
         $this->assertEquals(
-            [1, 5],
-            $this->getLinesToBeIgnored()->invoke(
-                $this->coverage,
-                TEST_FILES_PATH . 'source_without_ignore.php'
-            )
+          array(1, 5),
+          $this->getLinesToBeIgnored()->invoke(
+            $this->coverage,
+            TEST_FILES_PATH . 'source_without_ignore.php'
+          )
         );
     }
 
@@ -410,23 +367,23 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     public function testGetLinesToBeIgnored3()
     {
         $this->assertEquals(
-            [
-                1,
-                2,
-                3,
-                4,
-                5,
-                8,
-                11,
-                15,
-                16,
-                19,
-                20
-            ],
-            $this->getLinesToBeIgnored()->invoke(
-                $this->coverage,
-                TEST_FILES_PATH . 'source_with_class_and_anonymous_function.php'
-            )
+          array(
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            11,
+            15,
+            16,
+            19,
+            20
+          ),
+          $this->getLinesToBeIgnored()->invoke(
+            $this->coverage,
+            TEST_FILES_PATH . 'source_with_class_and_anonymous_function.php'
+          )
         );
     }
 
@@ -436,43 +393,43 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     public function testGetLinesToBeIgnoredOneLineAnnotations()
     {
         $this->assertEquals(
-            [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                12,
-                13,
-                14,
-                15,
-                16,
-                18,
-                20,
-                21,
-                23,
-                24,
-                25,
-                27,
-                28,
-                29,
-                30,
-                31,
-                32,
-                33,
-                34,
-                37
-            ],
-            $this->getLinesToBeIgnored()->invoke(
-                $this->coverage,
-                TEST_FILES_PATH . 'source_with_oneline_annotations.php'
-            )
+          array(
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            18,
+            20,
+            21,
+            23,
+            24,
+            25,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            37
+          ),
+          $this->getLinesToBeIgnored()->invoke(
+            $this->coverage,
+            TEST_FILES_PATH . 'source_with_oneline_annotations.php'
+          )
         );
     }
 
@@ -482,28 +439,11 @@ class PHP_CodeCoverageTest extends PHP_CodeCoverage_TestCase
     private function getLinesToBeIgnored()
     {
         $getLinesToBeIgnored = new ReflectionMethod(
-            'PHP_CodeCoverage',
-            'getLinesToBeIgnored'
+            'PHP_CodeCoverage', 'getLinesToBeIgnored'
         );
 
         $getLinesToBeIgnored->setAccessible(true);
 
         return $getLinesToBeIgnored;
-    }
-
-    /**
-     * @covers PHP_CodeCoverage::getLinesToBeIgnored
-     */
-    public function testGetLinesToBeIgnoredWhenIgnoreIsDisabled()
-    {
-        $this->coverage->setDisableIgnoredLines(true);
-
-        $this->assertEquals(
-            [],
-            $this->getLinesToBeIgnored()->invoke(
-                $this->coverage,
-                TEST_FILES_PATH . 'source_with_ignore.php'
-            )
-        );
     }
 }

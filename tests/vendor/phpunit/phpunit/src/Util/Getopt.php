@@ -1,28 +1,70 @@
 <?php
-/*
- * This file is part of PHPUnit.
+/**
+ * PHPUnit
  *
- * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ * Copyright (c) 2001-2014, Sebastian Bergmann <sebastian@phpunit.de>.
+ * All rights reserved.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in
+ *     the documentation and/or other materials provided with the
+ *     distribution.
+ *
+ *   * Neither the name of Sebastian Bergmann nor the names of his
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @package    PHPUnit
+ * @subpackage Util
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2014 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://www.phpunit.de/
+ * @since      File available since Release 3.0.0
  */
 
 /**
  * Command-line options parsing class.
  *
- * @since Class available since Release 3.0.0
+ * @package    PHPUnit
+ * @subpackage Util
+ * @author     Andrei Zmievski <andrei@php.net>
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2014 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://www.phpunit.de/
+ * @since      Class available since Release 3.0.0
  */
 class PHPUnit_Util_Getopt
 {
     public static function getopt(array $args, $short_options, $long_options = null)
     {
         if (empty($args)) {
-            return [[], []];
+            return array(array(), array());
         }
 
-        $opts     = [];
-        $non_opts = [];
+        $opts     = array();
+        $non_opts = array();
 
         if ($long_options) {
             sort($long_options);
@@ -47,26 +89,20 @@ class PHPUnit_Util_Getopt
 
             if ($arg[0] != '-' ||
                 (strlen($arg) > 1 && $arg[1] == '-' && !$long_options)) {
-                $non_opts[] = $args[$i];
-                continue;
+                $non_opts = array_merge($non_opts, array_slice($args, $i));
+                break;
             } elseif (strlen($arg) > 1 && $arg[1] == '-') {
                 self::parseLongOption(
-                    substr($arg, 2),
-                    $long_options,
-                    $opts,
-                    $args
+                  substr($arg, 2), $long_options, $opts, $args
                 );
             } else {
                 self::parseShortOption(
-                    substr($arg, 1),
-                    $short_options,
-                    $opts,
-                    $args
+                  substr($arg, 1), $short_options, $opts, $args
                 );
             }
         }
 
-        return [$opts, $non_opts];
+        return array($opts, $non_opts);
     }
 
     protected static function parseShortOption($arg, $short_options, &$opts, &$args)
@@ -80,30 +116,30 @@ class PHPUnit_Util_Getopt
             if (($spec = strstr($short_options, $opt)) === false ||
                 $arg[$i] == ':') {
                 throw new PHPUnit_Framework_Exception(
-                    "unrecognized option -- $opt"
+                  "unrecognized option -- $opt"
                 );
             }
 
             if (strlen($spec) > 1 && $spec[1] == ':') {
                 if (strlen($spec) > 2 && $spec[2] == ':') {
                     if ($i + 1 < $argLen) {
-                        $opts[] = [$opt, substr($arg, $i + 1)];
+                        $opts[] = array($opt, substr($arg, $i + 1));
                         break;
                     }
                 } else {
                     if ($i + 1 < $argLen) {
-                        $opts[] = [$opt, substr($arg, $i + 1)];
+                        $opts[] = array($opt, substr($arg, $i + 1));
                         break;
                     } elseif (list(, $opt_arg) = each($args)) {
                     } else {
                         throw new PHPUnit_Framework_Exception(
-                            "option requires an argument -- $opt"
+                          "option requires an argument -- $opt"
                         );
                     }
                 }
             }
 
-            $opts[] = [$opt, $opt_arg];
+            $opts[] = array($opt, $opt_arg);
         }
     }
 
@@ -133,7 +169,7 @@ class PHPUnit_Util_Getopt
             if ($opt_rest != '' && $opt[0] != '=' && $i + 1 < $count &&
                 $opt == substr($long_options[$i+1], 0, $opt_len)) {
                 throw new PHPUnit_Framework_Exception(
-                    "option --$opt is ambiguous"
+                  "option --$opt is ambiguous"
                 );
             }
 
@@ -142,18 +178,17 @@ class PHPUnit_Util_Getopt
                     if (!strlen($opt_arg) &&
                         !(list(, $opt_arg) = each($args))) {
                         throw new PHPUnit_Framework_Exception(
-                            "option --$opt requires an argument"
+                          "option --$opt requires an argument"
                         );
                     }
                 }
             } elseif ($opt_arg) {
                 throw new PHPUnit_Framework_Exception(
-                    "option --$opt doesn't allow an argument"
+                  "option --$opt doesn't allow an argument"
                 );
             }
 
-            $full_option = '--' . preg_replace('/={1,2}$/', '', $long_opt);
-            $opts[]      = [$full_option, $opt_arg];
+            $opts[] = array('--' . $opt, $opt_arg);
 
             return;
         }

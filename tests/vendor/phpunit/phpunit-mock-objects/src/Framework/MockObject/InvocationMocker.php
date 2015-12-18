@@ -1,11 +1,45 @@
 <?php
-/*
- * This file is part of the PHPUnit_MockObject package.
+/**
+ * PHPUnit
  *
- * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ * Copyright (c) 2010-2014, Sebastian Bergmann <sebastian@phpunit.de>.
+ * All rights reserved.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in
+ *     the documentation and/or other materials provided with the
+ *     distribution.
+ *
+ *   * Neither the name of Sebastian Bergmann nor the names of his
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @package    PHPUnit_MockObject
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2010-2014 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
+ * @since      File available since Release 1.0.0
  */
 
 /**
@@ -15,19 +49,25 @@
  * Keeps track of all expectations and stubs as well as registering
  * identifications for builders.
  *
- * @since Class available since Release 1.0.0
+ * @package    PHPUnit_MockObject
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2010-2014 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @version    Release: @package_version@
+ * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
+ * @since      Class available since Release 1.0.0
  */
 class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework_MockObject_Stub_MatcherCollection, PHPUnit_Framework_MockObject_Invokable, PHPUnit_Framework_MockObject_Builder_Namespace
 {
     /**
      * @var PHPUnit_Framework_MockObject_Matcher_Invocation[]
      */
-    protected $matchers = [];
+    protected $matchers = array();
 
     /**
      * @var PHPUnit_Framework_MockObject_Builder_Match[]
      */
-    protected $builderMap = [];
+    protected $builderMap = array();
 
     /**
      * @param PHPUnit_Framework_MockObject_Matcher_Invocation $matcher
@@ -44,16 +84,16 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
     {
         foreach ($this->matchers as $matcher) {
             if ($matcher->hasMatchers()) {
-                return true;
+                return TRUE;
             }
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
-     * @param  mixed     $id
-     * @return bool|null
+     * @param  mixed        $id
+     * @return boolean|null
      */
     public function lookupId($id)
     {
@@ -61,7 +101,7 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
             return $this->builderMap[$id];
         }
 
-        return;
+        return NULL;
     }
 
     /**
@@ -73,7 +113,7 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
     {
         if (isset($this->builderMap[$id])) {
             throw new PHPUnit_Framework_Exception(
-                'Match builder with id <' . $id . '> is already registered.'
+              'Match builder with id <' . $id . '> is already registered.'
             );
         }
 
@@ -87,8 +127,7 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
     public function expects(PHPUnit_Framework_MockObject_Matcher_Invocation $matcher)
     {
         return new PHPUnit_Framework_MockObject_Builder_InvocationMocker(
-            $this,
-            $matcher
+          $this, $matcher
         );
     }
 
@@ -98,9 +137,14 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
      */
     public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation)
     {
-        $exception      = null;
-        $hasReturnValue = false;
-        $returnValue    = null;
+        $exception      = NULL;
+        $hasReturnValue = FALSE;
+
+        if (strtolower($invocation->methodName) == '__tostring') {
+            $returnValue = '';
+        } else {
+            $returnValue = NULL;
+        }
 
         foreach ($this->matchers as $match) {
             try {
@@ -109,7 +153,7 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
 
                     if (!$hasReturnValue) {
                         $returnValue    = $value;
-                        $hasReturnValue = true;
+                        $hasReturnValue = TRUE;
                     }
                 }
             } catch (Exception $e) {
@@ -117,36 +161,30 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
             }
         }
 
-        if ($exception !== null) {
+        if ($exception !== NULL) {
             throw $exception;
         }
 
-        if ($hasReturnValue) {
-            return $returnValue;
-        } elseif (strtolower($invocation->methodName) == '__tostring') {
-            return '';
-        }
-
-        return $invocation->generateReturnValue();
+        return $returnValue;
     }
 
     /**
      * @param  PHPUnit_Framework_MockObject_Invocation $invocation
-     * @return bool
+     * @return boolean
      */
     public function matches(PHPUnit_Framework_MockObject_Invocation $invocation)
     {
         foreach ($this->matchers as $matcher) {
             if (!$matcher->matches($invocation)) {
-                return false;
+                return FALSE;
             }
         }
 
-        return true;
+        return TRUE;
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function verify()
     {

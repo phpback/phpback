@@ -24,13 +24,10 @@
     },
     "autoload": {
         "classmap": [
-            "src/"
+            "File/"
         ]
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.4.x-dev"
-        }
-    }
+    "include-path": [
+        ""
+    ]
 }
-

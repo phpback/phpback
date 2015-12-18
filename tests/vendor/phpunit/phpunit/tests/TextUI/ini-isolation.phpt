@@ -13,9 +13,9 @@ require __DIR__ . '/../bootstrap.php';
 PHPUnit_TextUI_Command::main();
 ?>
 --EXPECTF--
-PHPUnit %s by Sebastian Bergmann and contributors.
+PHPUnit %s by Sebastian Bergmann.
 
-.                                                                   1 / 1 (100%)
+.
 
 Time: %s, Memory: %sMb
 

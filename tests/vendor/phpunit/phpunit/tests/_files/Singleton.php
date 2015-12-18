@@ -7,14 +7,14 @@ class Singleton
     {
     }
 
-    final private function __clone()
+    private final function __clone()
     {
     }
 
     public static function getInstance()
     {
         if (self::$uniqueInstance === null) {
-            self::$uniqueInstance = new self;
+            self::$uniqueInstance = new Singleton;
         }
 
         return self::$uniqueInstance;

@@ -11,16 +11,46 @@
 /**
  * Driver for HHVM's code coverage functionality.
  *
- * @since Class available since Release 2.2.2
+ * @category   PHP
+ * @package    CodeCoverage
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://github.com/sebastianbergmann/php-code-coverage
+ * @since      Class available since Release 1.3.0
  * @codeCoverageIgnore
  */
-class PHP_CodeCoverage_Driver_HHVM extends PHP_CodeCoverage_Driver_Xdebug
+class PHP_CodeCoverage_Driver_HHVM implements PHP_CodeCoverage_Driver
 {
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        if (!defined('HHVM_VERSION')) {
+            throw new PHP_CodeCoverage_Exception('This driver requires HHVM');
+        }
+    }
+
     /**
      * Start collection of code coverage information.
      */
     public function start()
     {
-        xdebug_start_code_coverage();
+        fb_enable_code_coverage();
+    }
+
+    /**
+     * Stop collection of code coverage information.
+     *
+     * @return array
+     */
+    public function stop()
+    {
+        $codeCoverage = fb_get_code_coverage(true);
+
+        fb_disable_code_coverage();
+
+        return $codeCoverage;
     }
 }

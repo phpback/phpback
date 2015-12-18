@@ -1,11 +1,4 @@
 <?php
-if (!defined('STDOUT')) {
-    // php://stdout does not obey output buffering. Any output would break
-    // unserialization of child process results in the parent process.
-    define('STDOUT', fopen('php://temp', 'w+b'));
-    define('STDERR', fopen('php://stderr', 'wb'));
-}
-
 {iniSettings}
 ini_set('display_errors', 'stderr');
 set_include_path('{include_path}');
@@ -13,14 +6,14 @@ set_include_path('{include_path}');
 $composerAutoload = {composerAutoload};
 $phar             = {phar};
 
-ob_start();
-
 if ($composerAutoload) {
     require_once $composerAutoload;
     define('PHPUNIT_COMPOSER_INSTALL', $composerAutoload);
 } else if ($phar) {
     require $phar;
 }
+
+ob_start();
 
 function __phpunit_run_isolated_test()
 {
@@ -31,35 +24,21 @@ function __phpunit_run_isolated_test()
     $result = new PHPUnit_Framework_TestResult;
 
     if ({collectCodeCoverageInformation}) {
-        $result->setCodeCoverage(
-            new PHP_CodeCoverage(
-                null,
-                unserialize('{codeCoverageFilter}')
-            )
-        );
+        $result->setCodeCoverage(new PHP_CodeCoverage);
     }
 
     $result->beStrictAboutTestsThatDoNotTestAnything({isStrictAboutTestsThatDoNotTestAnything});
     $result->beStrictAboutOutputDuringTests({isStrictAboutOutputDuringTests});
-    $result->enforceTimeLimit({enforcesTimeLimit});
-    $result->beStrictAboutTodoAnnotatedTests({isStrictAboutTodoAnnotatedTests});
-    $result->beStrictAboutResourceUsageDuringSmallTests({isStrictAboutResourceUsageDuringSmallTests});
+    $result->beStrictAboutTestSize({isStrictAboutTestSize});
 
     $test = new {className}('{methodName}', unserialize('{data}'), '{dataName}');
     $test->setDependencyInput(unserialize('{dependencyInput}'));
     $test->setInIsolation(TRUE);
 
     ob_end_clean();
+    ob_start();
     $test->run($result);
-    $output = '';
-    if (!$test->hasExpectationOnOutput()) {
-        $output = $test->getActualOutput();
-    }
-
-    rewind(STDOUT);
-    if ($stdout = stream_get_contents(STDOUT)) {
-        $output = $stdout . $output;
-    }
+    $output = ob_get_clean();
 
     print serialize(
       array(
@@ -69,13 +48,8 @@ function __phpunit_run_isolated_test()
         'output'        => $output
       )
     );
-}
 
-$configurationFilePath = '{configurationFilePath}';
-
-if ('' !== $configurationFilePath) {
-    $configuration = PHPUnit_Util_Configuration::getInstance($configurationFilePath);
-    $configuration->handlePHPConfiguration();
+    ob_start();
 }
 
 {constants}
@@ -88,3 +62,4 @@ if (isset($GLOBALS['__PHPUNIT_BOOTSTRAP'])) {
 }
 
 __phpunit_run_isolated_test();
+ob_end_clean();

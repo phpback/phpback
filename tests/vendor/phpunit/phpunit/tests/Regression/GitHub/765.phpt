@@ -5,22 +5,22 @@ GH-765: Fatal error triggered in PHPUnit when exception is thrown in data provid
 
 $_SERVER['argv'][1] = '--no-configuration';
 $_SERVER['argv'][2] = 'Issue765Test';
-$_SERVER['argv'][3] = dirname(__FILE__) . '/765/Issue765Test.php';
+$_SERVER['argv'][3] = dirname(__FILE__).'/765/Issue765Test.php';
 
 require __DIR__ . '/../../bootstrap.php';
 PHPUnit_TextUI_Command::main();
 ?>
 --EXPECTF--
-PHPUnit %s by Sebastian Bergmann and contributors.
+PHPUnit %s by Sebastian Bergmann.
 
-.W                                                                  2 / 2 (100%)
+.F
 
 Time: %s, Memory: %sMb
 
-There was 1 warning:
+There was 1 failure:
 
 1) Warning
 The data provider specified for Issue765Test::testDependent is invalid.
 
-WARNINGS!
-Tests: 2, Assertions: 1, Warnings: 1.
+FAILURES!
+Tests: 2, Assertions: 1, Failures: 1.

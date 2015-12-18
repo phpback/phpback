@@ -14,7 +14,7 @@ class ExceptionNamespaceTest extends \PHPUnit_Framework_TestCase
     /**
      * Exception code
      *
-     * @var int
+     * @var integer
      */
     const ERROR_CODE = 200;
 

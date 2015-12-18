@@ -9,7 +9,13 @@
  */
 
 /**
- * @since Class available since Release 2.0.0
+ * @category   PHP
+ * @package    CodeCoverage
+ * @author     Arne Blankerts <arne@blankerts.de>
+ * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://github.com/sebastianbergmann/php-code-coverage
+ * @since      Class available since Release 2.0.0
  */
 class PHP_CodeCoverage_Report_XML_File_Coverage
 {
@@ -41,7 +47,7 @@ class PHP_CodeCoverage_Report_XML_File_Coverage
     public function addTest($test)
     {
         if ($this->finalized) {
-            throw new PHP_CodeCoverage_RuntimeException('Coverage Report already finalized');
+            throw new PHP_CodeCoverage_Exception('Coverage Report already finalized');
         }
 
         $this->writer->startElement('covered');

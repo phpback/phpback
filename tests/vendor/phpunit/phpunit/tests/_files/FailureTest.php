@@ -3,7 +3,7 @@ class FailureTest extends PHPUnit_Framework_TestCase
 {
     public function testAssertArrayEqualsArray()
     {
-        $this->assertEquals([1], [2], 'message');
+        $this->assertEquals(array(1), array(2), 'message');
     }
 
     public function testAssertIntegerEqualsInteger()
@@ -13,10 +13,10 @@ class FailureTest extends PHPUnit_Framework_TestCase
 
     public function testAssertObjectEqualsObject()
     {
-        $a      = new StdClass;
+        $a = new StdClass;
         $a->foo = 'bar';
 
-        $b      = new StdClass;
+        $b = new StdClass;
         $b->bar = 'foo';
 
         $this->assertEquals($a, $b, 'message');
@@ -72,4 +72,5 @@ class FailureTest extends PHPUnit_Framework_TestCase
     {
         $this->assertStringMatchesFormatFile(__DIR__ . '/expectedFileFormat.txt', '...BAR...');
     }
+
 }

@@ -9,3 +9,4 @@ class CoverageMethodOneLineAnnotationTest extends PHPUnit_Framework_TestCase
         $o->publicMethod();
     }
 }
+

@@ -4,9 +4,7 @@
          backupStaticAttributes="false"
          bootstrap="/path/to/bootstrap.php"
          cacheTokens="false"
-         columns="80"
          colors="false"
-         stderr="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
@@ -14,18 +12,14 @@
          mapTestClassNameToCoveredClassName="false"
          printerClass="PHPUnit_TextUI_ResultPrinter"
          stopOnFailure="false"
-         stopOnWarning="false"
          testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
-         beStrictAboutChangesToGlobalState="false"
-         beStrictAboutOutputDuringTests="false"
-         beStrictAboutResourceUsageDuringSmallTests="false"
-         beStrictAboutTestsThatDoNotTestAnything="false"
-         beStrictAboutTodoAnnotatedTests="false"
-         checkForUnintentionallyCoveredCode="false"
-         enforceTimeLimit="false"
          timeoutForSmallTests="1"
          timeoutForMediumTests="10"
          timeoutForLargeTests="60"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         beStrictAboutOutputDuringTests="false"
+         beStrictAboutTestSize="false"
+         checkForUnintentionallyCoveredCode="false"
          verbose="false">
   <testsuites>
     <testsuite name="My Test Suite">
@@ -44,6 +38,14 @@
   </groups>
 
   <filter>
+    <blacklist>
+      <directory suffix=".php">/path/to/files</directory>
+      <file>/path/to/file</file>
+      <exclude>
+        <directory suffix=".php">/path/to/files</directory>
+        <file>/path/to/file</file>
+      </exclude>
+    </blacklist>
     <whitelist addUncoveredFilesFromWhitelist="true"
                processUncoveredFilesFromWhitelist="false">
       <directory suffix=".php">/path/to/files</directory>
@@ -102,5 +104,13 @@
     <files name="foo" value="bar"/>
     <request name="foo" value="bar"/>
   </php>
+
+  <selenium>
+    <browser name="Firefox on Linux"
+             browser="*firefox /usr/lib/firefox/firefox-bin"
+             host="my.linux.box"
+             port="4444"
+             timeout="30000"/>
+  </selenium>
 </phpunit>
 

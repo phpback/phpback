@@ -1,11 +1,47 @@
 <?php
-/*
- * This file is part of PHPUnit.
+/**
+ * PHPUnit
  *
- * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ * Copyright (c) 2001-2014, Sebastian Bergmann <sebastian@phpunit.de>.
+ * All rights reserved.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in
+ *     the documentation and/or other materials provided with the
+ *     distribution.
+ *
+ *   * Neither the name of Sebastian Bergmann nor the names of his
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @package    PHPUnit
+ * @subpackage Framework_Constraint
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @author     Bernhard Schussek <bschussek@2bepublished.at>
+ * @copyright  2001-2014 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://www.phpunit.de/
+ * @since      File available since Release 3.0.0
  */
 
 /**
@@ -14,7 +50,14 @@
  *
  * The expected value is passed in the constructor.
  *
- * @since Class available since Release 3.0.0
+ * @package    PHPUnit
+ * @subpackage Framework_Constraint
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @author     Bernhard Schussek <bschussek@2bepublished.at>
+ * @copyright  2001-2014 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://www.phpunit.de/
+ * @since      Class available since Release 3.0.0
  */
 class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
 {
@@ -22,7 +65,7 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
     const TYPE_BOOL     = 'bool';
     const TYPE_FLOAT    = 'float';
     const TYPE_INT      = 'int';
-    const TYPE_NULL     = 'null';
+    const TYPE_null     = 'null';
     const TYPE_NUMERIC  = 'numeric';
     const TYPE_OBJECT   = 'object';
     const TYPE_RESOURCE = 'resource';
@@ -33,23 +76,21 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
     /**
      * @var array
      */
-    protected $types = [
-        'array'    => true,
-        'boolean'  => true,
-        'bool'     => true,
-        'double'   => true,
-        'float'    => true,
-        'integer'  => true,
-        'int'      => true,
-        'null'     => true,
-        'numeric'  => true,
-        'object'   => true,
-        'real'     => true,
-        'resource' => true,
-        'string'   => true,
-        'scalar'   => true,
-        'callable' => true
-    ];
+    protected $types = array(
+      'array' => true,
+      'boolean' => true,
+      'bool' => true,
+      'float' => true,
+      'integer' => true,
+      'int' => true,
+      'null' => true,
+      'numeric' => true,
+      'object' => true,
+      'resource' => true,
+      'string' => true,
+      'scalar' => true,
+      'callable' => true
+    );
 
     /**
      * @var string
@@ -57,8 +98,7 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
     protected $type;
 
     /**
-     * @param string $type
-     *
+     * @param  string                      $type
      * @throws PHPUnit_Framework_Exception
      */
     public function __construct($type)
@@ -67,11 +107,11 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
 
         if (!isset($this->types[$type])) {
             throw new PHPUnit_Framework_Exception(
-                sprintf(
-                    'Type specified for PHPUnit_Framework_Constraint_IsType <%s> ' .
-                    'is not a valid type.',
-                    $type
-                )
+              sprintf(
+                'Type specified for PHPUnit_Framework_Constraint_IsType <%s> ' .
+                'is not a valid type.',
+                $type
+              )
             );
         }
 
@@ -82,49 +122,57 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
      *
-     * @param mixed $other Value or object to evaluate.
-     *
+     * @param  mixed $other Value or object to evaluate.
      * @return bool
      */
     protected function matches($other)
     {
         switch ($this->type) {
-            case 'numeric':
+            case 'numeric': {
                 return is_numeric($other);
+            }
 
             case 'integer':
-            case 'int':
+            case 'int': {
                 return is_integer($other);
+            }
 
-            case 'double':
-            case 'float':
-            case 'real':
+            case 'float': {
                 return is_float($other);
+            }
 
-            case 'string':
+            case 'string': {
                 return is_string($other);
+            }
 
             case 'boolean':
-            case 'bool':
+            case 'bool': {
                 return is_bool($other);
+            }
 
-            case 'null':
+            case 'null': {
                 return is_null($other);
+            }
 
-            case 'array':
+            case 'array': {
                 return is_array($other);
+            }
 
-            case 'object':
+            case 'object': {
                 return is_object($other);
+            }
 
-            case 'resource':
-                return is_resource($other) || is_string(@get_resource_type($other));
+            case 'resource': {
+                return is_resource($other);
+            }
 
-            case 'scalar':
+            case 'scalar': {
                 return is_scalar($other);
+            }
 
-            case 'callable':
+            case 'callable': {
                 return is_callable($other);
+            }
         }
     }
 
@@ -136,8 +184,9 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
     public function toString()
     {
         return sprintf(
-            'is of type "%s"',
-            $this->type
+          'is of type "%s"',
+
+          $this->type
         );
     }
 }

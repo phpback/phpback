@@ -6,6 +6,7 @@
  */
 class CoverageTwoDefaultClassAnnotations
 {
+
     /**
      * @covers Foo\CoveredClass::<public>
      */
@@ -14,4 +15,5 @@ class CoverageTwoDefaultClassAnnotations
         $o = new Foo\CoveredClass;
         $o->publicMethod();
     }
+
 }

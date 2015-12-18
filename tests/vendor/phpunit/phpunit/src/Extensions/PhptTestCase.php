@@ -1,17 +1,58 @@
 <?php
-/*
- * This file is part of PHPUnit.
+/**
+ * PHPUnit
  *
- * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ * Copyright (c) 2001-2014, Sebastian Bergmann <sebastian@phpunit.de>.
+ * All rights reserved.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in
+ *     the documentation and/or other materials provided with the
+ *     distribution.
+ *
+ *   * Neither the name of Sebastian Bergmann nor the names of his
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @package    PHPUnit
+ * @subpackage Extensions_PhptTestCase
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2014 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://www.phpunit.de/
+ * @since      File available since Release 3.1.4
  */
 
 /**
  * Runner for PHPT test cases.
  *
- * @since Class available since Release 3.1.4
+ * @package    PHPUnit
+ * @subpackage Extensions_PhptTestCase
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2014 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://www.phpunit.de/
+ * @since      Class available since Release 3.1.4
  */
 class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit_Framework_SelfDescribing
 {
@@ -21,14 +62,9 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
     private $filename;
 
     /**
-     * @var PHPUnit_Util_PHP
-     */
-    private $phpUtil;
-
-    /**
      * @var array
      */
-    private $settings = [
+    private $settings = array(
         'allow_url_fopen=1',
         'auto_append_file=',
         'auto_prepend_file=',
@@ -50,17 +86,15 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
         'safe_mode=0',
         'track_errors=1',
         'xdebug.default_enable=0'
-    ];
+    );
 
     /**
      * Constructs a test case with the given filename.
      *
-     * @param string           $filename
-     * @param PHPUnit_Util_PHP $phpUtil
-     *
+     * @param  string                      $filename
      * @throws PHPUnit_Framework_Exception
      */
-    public function __construct($filename, $phpUtil = null)
+    public function __construct($filename)
     {
         if (!is_string($filename)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
@@ -68,21 +102,20 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
 
         if (!is_file($filename)) {
             throw new PHPUnit_Framework_Exception(
-                sprintf(
-                    'File "%s" does not exist.',
-                    $filename
-                )
+              sprintf(
+                'File "%s" does not exist.',
+                $filename
+              )
             );
         }
 
         $this->filename = $filename;
-        $this->phpUtil  = $phpUtil ?: PHPUnit_Util_PHP::factory();
     }
 
     /**
      * Counts the number of test cases executed by run(TestResult result).
      *
-     * @return int
+     * @return integer
      */
     public function count()
     {
@@ -90,36 +123,9 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
     }
 
     /**
-     * @param array  $sections
-     * @param string $output
-     */
-    private function assertPhptExpectation(array $sections, $output)
-    {
-        $assertions = [
-            'EXPECT'      => 'assertEquals',
-            'EXPECTF'     => 'assertStringMatchesFormat',
-            'EXPECTREGEX' => 'assertRegExp',
-        ];
-
-        $actual = preg_replace('/\r\n/', "\n", trim($output));
-        foreach ($assertions as $sectionName => $sectionAssertion) {
-            if (isset($sections[$sectionName])) {
-                $sectionContent = preg_replace('/\r\n/', "\n", trim($sections[$sectionName]));
-                $assertion      = $sectionAssertion;
-                $expected       = $sectionName == 'EXPECTREGEX' ? "/{$sectionContent}/" : $sectionContent;
-
-                break;
-            }
-        }
-
-        PHPUnit_Framework_Assert::$assertion($expected, $actual);
-    }
-
-    /**
      * Runs a test and collects its result in a TestResult instance.
      *
-     * @param PHPUnit_Framework_TestResult $result
-     *
+     * @param  PHPUnit_Framework_TestResult $result
      * @return PHPUnit_Framework_TestResult
      */
     public function run(PHPUnit_Framework_TestResult $result = null)
@@ -131,25 +137,18 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
             $result = new PHPUnit_Framework_TestResult;
         }
 
-        $skip     = false;
-        $time     = 0;
-        $settings = $this->settings;
+        $php  = PHPUnit_Util_PHP::factory();
+        $skip = false;
+        $time = 0;
 
         $result->startTest($this);
 
-        if (isset($sections['INI'])) {
-            $settings = array_merge($settings, $this->parseIniSection($sections['INI']));
-        }
-
-        // Redirects STDERR to STDOUT
-        $this->phpUtil->setUseStderrRedirection(true);
-
         if (isset($sections['SKIPIF'])) {
-            $jobResult = $this->phpUtil->runJob($sections['SKIPIF'], $settings);
+            $jobResult = $php->runJob($sections['SKIPIF'], $this->settings);
 
             if (!strncasecmp('skip', ltrim($jobResult['stdout']), 4)) {
                 if (preg_match('/^\s*skip\s*(.+)\s*/i', $jobResult['stdout'], $message)) {
-                    $message = substr($message[1], 2);
+                    $message = $message[1];
                 } else {
                     $message = '';
                 }
@@ -162,24 +161,23 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
 
         if (!$skip) {
             PHP_Timer::start();
+            $jobResult = $php->runJob($code, $this->settings);
+            $time = PHP_Timer::stop();
 
-            $jobResult = $this->phpUtil->runJob($code, $settings);
-            $time      = PHP_Timer::stop();
-
-            try {
-                $this->assertPhptExpectation($sections, $jobResult['stdout']);
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
-                $result->addFailure($this, $e, $time);
-            } catch (Throwable $t) {
-                $result->addError($this, $t, $time);
-            } catch (Exception $e) {
-                $result->addError($this, $e, $time);
+            if (isset($sections['EXPECT'])) {
+                $assertion = 'assertEquals';
+                $expected  = preg_replace('/\r\n/', "\n", trim($sections['EXPECT']));
+            } else {
+                $assertion = 'assertStringMatchesFormat';
+                $expected  = trim($sections['EXPECTF']);
             }
 
-            if (isset($sections['CLEAN'])) {
-                $cleanCode = $this->render($sections['CLEAN']);
-
-                $this->phpUtil->runJob($cleanCode, $this->settings);
+            try {
+                PHPUnit_Framework_Assert::$assertion($expected, trim($jobResult['stdout']));
+            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+                $result->addFailure($this, $e, $time);
+            } catch (Exception $e) {
+                $result->addError($this, $e, $time);
             }
         }
 
@@ -210,19 +208,17 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
 
     /**
      * @return array
-     *
      * @throws PHPUnit_Framework_Exception
      */
     private function parse()
     {
-        $sections = [];
+        $sections = array();
         $section  = '';
 
         foreach (file($this->filename) as $line) {
             if (preg_match('/^--([_A-Z]+)--/', $line, $result)) {
                 $section            = $result[1];
                 $sections[$section] = '';
-
                 continue;
             } elseif (empty($section)) {
                 throw new PHPUnit_Framework_Exception('Invalid PHPT file');
@@ -232,7 +228,7 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
         }
 
         if (!isset($sections['FILE']) ||
-            (!isset($sections['EXPECT']) && !isset($sections['EXPECTF']) && !isset($sections['EXPECTREGEX']))) {
+            (!isset($sections['EXPECT']) && !isset($sections['EXPECTF']))) {
             throw new PHPUnit_Framework_Exception('Invalid PHPT file');
         }
 
@@ -240,34 +236,21 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
     }
 
     /**
-     * @param string $code
-     *
+     * @param  string $code
      * @return string
      */
     private function render($code)
     {
         return str_replace(
-            [
-                '__DIR__',
-                '__FILE__'
-            ],
-            [
-                "'" . dirname($this->filename) . "'",
-                "'" . $this->filename . "'"
-            ],
-            $code
+          array(
+            '__DIR__',
+            '__FILE__'
+          ),
+          array(
+            "'" . dirname($this->filename) . "'",
+            "'" . $this->filename . "'"
+          ),
+          $code
         );
-    }
-
-    /**
-     * Parse --INI-- section key value pairs and return as array.
-     *
-     * @param string
-     *
-     * @return array
-     */
-    protected function parseIniSection($content)
-    {
-        return preg_split('/\n|\r/', $content, -1, PREG_SPLIT_NO_EMPTY);
     }
 }

@@ -9,29 +9,17 @@
  */
 
 /**
- * @since Class available since Release 2.0.0
+ * @category   PHP
+ * @package    CodeCoverage
+ * @author     Zsolt Takács <zsolt@takacs.cc>
+ * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://github.com/sebastianbergmann/php-code-coverage
+ * @since      Class available since Release 2.0.0
  */
 class PHP_CodeCoverage_Report_Crap4j
 {
-    /**
-     * @var int
-     */
-    private $threshold;
-
-    /**
-     * @param int $threshold
-     */
-    public function __construct($threshold = 30)
-    {
-        if (!is_int($threshold)) {
-            throw PHP_CodeCoverage_InvalidArgumentException::create(
-                1,
-                'integer'
-            );
-        }
-
-        $this->threshold = $threshold;
-    }
+    private $threshold = 30;
 
     /**
      * @param  PHP_CodeCoverage $coverage
@@ -41,7 +29,7 @@ class PHP_CodeCoverage_Report_Crap4j
      */
     public function process(PHP_CodeCoverage $coverage, $target = null, $name = null)
     {
-        $document               = new DOMDocument('1.0', 'UTF-8');
+        $document = new DOMDocument('1.0', 'UTF-8');
         $document->formatOutput = true;
 
         $root = $document->createElement('crap_result');
@@ -112,14 +100,7 @@ class PHP_CodeCoverage_Report_Crap4j
         $stats->appendChild($document->createElement('crapMethodCount', $fullCrapMethodCount));
         $stats->appendChild($document->createElement('crapLoad', round($fullCrapLoad)));
         $stats->appendChild($document->createElement('totalCrap', $fullCrap));
-
-        if ($fullMethodCount > 0) {
-            $crapMethodPercent = $this->roundValue((100 * $fullCrapMethodCount) / $fullMethodCount);
-        } else {
-            $crapMethodPercent = 0;
-        }
-
-        $stats->appendChild($document->createElement('crapMethodPercent', $crapMethodPercent));
+        $stats->appendChild($document->createElement('crapMethodPercent', $this->roundValue(100 * $fullCrapMethodCount / $fullMethodCount)));
 
         $root->appendChild($stats);
         $root->appendChild($methodsNode);
@@ -135,16 +116,9 @@ class PHP_CodeCoverage_Report_Crap4j
         }
     }
 
-    /**
-     * @param  float $crapValue
-     * @param  int   $cyclomaticComplexity
-     * @param  float $coveragePercent
-     * @return float
-     */
     private function getCrapLoad($crapValue, $cyclomaticComplexity, $coveragePercent)
     {
         $crapLoad = 0;
-
         if ($crapValue >= $this->threshold) {
             $crapLoad += $cyclomaticComplexity * (1.0 - $coveragePercent / 100);
             $crapLoad += $cyclomaticComplexity / $this->threshold;
@@ -153,10 +127,6 @@ class PHP_CodeCoverage_Report_Crap4j
         return $crapLoad;
     }
 
-    /**
-     * @param  float $value
-     * @return float
-     */
     private function roundValue($value)
     {
         return round($value, 2);

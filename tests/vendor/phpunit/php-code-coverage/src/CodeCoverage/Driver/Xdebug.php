@@ -11,7 +11,13 @@
 /**
  * Driver for Xdebug's code coverage functionality.
  *
- * @since Class available since Release 1.0.0
+ * @category   PHP
+ * @package    CodeCoverage
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://github.com/sebastianbergmann/php-code-coverage
+ * @since      Class available since Release 1.0.0
  * @codeCoverageIgnore
  */
 class PHP_CodeCoverage_Driver_Xdebug implements PHP_CodeCoverage_Driver
@@ -22,12 +28,12 @@ class PHP_CodeCoverage_Driver_Xdebug implements PHP_CodeCoverage_Driver
     public function __construct()
     {
         if (!extension_loaded('xdebug')) {
-            throw new PHP_CodeCoverage_RuntimeException('This driver requires Xdebug');
+            throw new PHP_CodeCoverage_Exception('This driver requires Xdebug');
         }
 
         if (version_compare(phpversion('xdebug'), '2.2.0-dev', '>=') &&
             !ini_get('xdebug.coverage_enable')) {
-            throw new PHP_CodeCoverage_RuntimeException(
+            throw new PHP_CodeCoverage_Exception(
                 'xdebug.coverage_enable=On has to be set in php.ini'
             );
         }
@@ -62,9 +68,11 @@ class PHP_CodeCoverage_Driver_Xdebug implements PHP_CodeCoverage_Driver
     private function cleanup(array $data)
     {
         foreach (array_keys($data) as $file) {
-            unset($data[$file][0]);
+            if (isset($data[$file][0])) {
+                unset($data[$file][0]);
+            }
 
-            if ($file != 'xdebug://debug-eval' && file_exists($file)) {
+            if (file_exists($file)) {
                 $numLines = $this->getNumberOfLinesInFile($file);
 
                 foreach (array_keys($data[$file]) as $line) {
@@ -80,7 +88,7 @@ class PHP_CodeCoverage_Driver_Xdebug implements PHP_CodeCoverage_Driver
 
     /**
      * @param  string $file
-     * @return int
+     * @return integer
      * @since Method available since Release 2.0.0
      */
     private function getNumberOfLinesInFile($file)

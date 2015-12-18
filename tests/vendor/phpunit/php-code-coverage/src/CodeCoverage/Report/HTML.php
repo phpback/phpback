@@ -11,7 +11,13 @@
 /**
  * Generates an HTML report from an PHP_CodeCoverage object.
  *
- * @since Class available since Release 1.0.0
+ * @category   PHP
+ * @package    CodeCoverage
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link       http://github.com/sebastianbergmann/php-code-coverage
+ * @since      Class available since Release 1.0.0
  */
 class PHP_CodeCoverage_Report_HTML
 {
@@ -26,21 +32,21 @@ class PHP_CodeCoverage_Report_HTML
     private $generator;
 
     /**
-     * @var int
+     * @var integer
      */
     private $lowUpperBound;
 
     /**
-     * @var int
+     * @var integer
      */
     private $highLowerBound;
 
     /**
      * Constructor.
      *
-     * @param int    $lowUpperBound
-     * @param int    $highLowerBound
-     * @param string $generator
+     * @param integer $lowUpperBound
+     * @param integer $highLowerBound
+     * @param string  $generator
      */
     public function __construct($lowUpperBound = 50, $highLowerBound = 90, $generator = '')
     {
@@ -132,7 +138,7 @@ class PHP_CodeCoverage_Report_HTML
     {
         $dir = $this->getDirectory($target . 'css');
         copy($this->templatePath . 'css/bootstrap.min.css', $dir . 'bootstrap.min.css');
-        copy($this->templatePath . 'css/nv.d3.min.css', $dir . 'nv.d3.min.css');
+        copy($this->templatePath . 'css/nv.d3.css', $dir . 'nv.d3.css');
         copy($this->templatePath . 'css/style.css', $dir . 'style.css');
 
         $dir = $this->getDirectory($target . 'fonts');
@@ -145,7 +151,7 @@ class PHP_CodeCoverage_Report_HTML
         $dir = $this->getDirectory($target . 'js');
         copy($this->templatePath . 'js/bootstrap.min.js', $dir . 'bootstrap.min.js');
         copy($this->templatePath . 'js/d3.min.js', $dir . 'd3.min.js');
-        copy($this->templatePath . 'js/holder.min.js', $dir . 'holder.min.js');
+        copy($this->templatePath . 'js/holder.js', $dir . 'holder.js');
         copy($this->templatePath . 'js/html5shiv.min.js', $dir . 'html5shiv.min.js');
         copy($this->templatePath . 'js/jquery.min.js', $dir . 'jquery.min.js');
         copy($this->templatePath . 'js/nv.d3.min.js', $dir . 'nv.d3.min.js');
@@ -153,9 +159,9 @@ class PHP_CodeCoverage_Report_HTML
     }
 
     /**
-     * @param  string                            $directory
+     * @param  string                     $directory
      * @return string
-     * @throws PHP_CodeCoverage_RuntimeException
+     * @throws PHP_CodeCoverage_Exception
      * @since  Method available since Release 1.2.0
      */
     private function getDirectory($directory)
@@ -172,7 +178,7 @@ class PHP_CodeCoverage_Report_HTML
             return $directory;
         }
 
-        throw new PHP_CodeCoverage_RuntimeException(
+        throw new PHP_CodeCoverage_Exception(
             sprintf(
                 'Directory "%s" does not exist.',
                 $directory
