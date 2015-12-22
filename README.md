@@ -11,7 +11,7 @@ Please, vist our website for more information: [http://www.phpback.org/](http://
 
 ##Installation
 Upload this folder in your web server, go to `yourwebsite.com/feedback/` (or folder name) and fill the form.
-If you have any questions, plase visit our [Wiki](http://www.phpback.org/wiki/).
+If you have any questions, plase visit our [Wiki](https://github.com/ivandiazwm/phpback/wiki/).
 
 ##License
 PHPBack is licensed under GPLv3 (see `LICENSE.TXT` file) and it was made using Codeigniter Framework (see `system/license.txt` file).
