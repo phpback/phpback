@@ -23,7 +23,7 @@ class Adminaction extends CI_Controller{
 
         $this->lang->load('log', $this->get->get_setting('language'));
 
-        $this->version = '1.1.0';
+        $this->version = '1.2.0';
 	}
 
 	public function login(){
@@ -174,13 +174,24 @@ class Adminaction extends CI_Controller{
         $update->setCurrentVersion($this->version); // Current version of your application. This value should be from a database or another file which will be updated with the installation of a new version
         $update->setUpdateUrl('http://www.phpback.org/upgrade/'); //Replace the url with your server update url
 
+        $update->checkUpdate();
+
         // Check if new update is available
         if ($update->newVersionAvailable()) {
-            //Install new update
-            $update->update(false);
 
-            @include '../config/update.php';
-            unlink('../config/update.php');
+            //Install new update
+            $result = $update->update();
+            if ($result !== true) {
+                echo 'Update failed: ' . $result . '!<br>';
+                if ($result = AutoUpdate::ERROR_SIMULATE) {
+                    echo '<pre>';
+                    var_dump($update->getSimulationResults());
+                    echo '</pre>';
+                }
+            }
+
+            @include __DIR__. '../config/update.php';
+            @unlink(__DIR__.'../config/update.php');
         }
 
         header('Location: ' . base_url() . 'admin/system');
