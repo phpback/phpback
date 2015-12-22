@@ -20,7 +20,7 @@
 			break;
 	}?></p>
 	<?php endif; ?>
-	<form role="form" method="post" action="<?php echo base_url() . 'action/newidea'?>">
+	<form name="post-idea-form" method="post" action="<?php echo base_url() . 'action/newidea'?>">
 	  <div class="form-group">
 	    <label for="exampleInputEmail1"><?php echo $lang['label_idea_title']; ?></label>
 	    <input type="text" class="form-control" name="title" value="<?php if(@isset($POST['title'])) echo $POST['title'];?>">

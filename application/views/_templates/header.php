@@ -57,7 +57,7 @@ See LICENSE.TXT for details.  -->
 <body style="width:99%;">
   <div class="row" style="background-color:#333;margin-bottom:25px">
     <div class="pull-left" style="padding-left:30px;color:#ECF0F1;">
-      <h4><?php echo $title; ?></h4>
+      <h4 id="header--title"><?php echo $title; ?></h4>
     </div>
     <?php if(@isset($_SESSION['phpback_userid'])): ?>
     <div class="pull-right" style="padding-top:15px;padding-right:40px;">
@@ -70,6 +70,6 @@ See LICENSE.TXT for details.  -->
       <a href="<?php echo base_url() . 'home/login'; ?>"><button type="button" class="btn btn-success btn-sm btn-block" style="width:250px"><?php echo $lang['label_log_in']; ?></button></a>
     </div>
     <?php endif; ?>
-    
+
   </div>
   <div class="row" style="width:102%;">

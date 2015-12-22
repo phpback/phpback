@@ -3,8 +3,8 @@
 <head>
   <title>PHPBack Installation</title>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="../public/bootstrap/js/bootstrap.min.js"></script> 
-  <script src="../public/bootstrap/js/bootstrap.js"></script> 
+  <script src="../public/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../public/bootstrap/js/bootstrap.js"></script>
 
     <!-- Loading Bootstrap -->
     <link href="../public/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -31,7 +31,7 @@
 <body>
 	<div class="login-screen">
 		<div class="login-form">
-		<form action="install2.php" method="POST">
+		<form action="install2.php" method="POST" name="install2-form">
 			<div class="phpback_logo">
 				<img src="../public/img/logo_free.png" />
 			</div>
@@ -66,7 +66,7 @@
               <input type="text" class="form-control login-field" value="25" placeholder="SMTP Port" id="smtp-port" name="smtp-port" />
               <label class="login-field-icon" for="smtp-port">SMTP Port</label>
             </div>
-            
+
             <input type="submit" class="btn btn-primary btn-lg btn-block" value="Proceed">
         </form>
     </div>

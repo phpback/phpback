@@ -5,8 +5,8 @@
 			</ol>
 			</small>
 			<div class="row" style="margin-top:10px;">
-			<h4>Welcome to our FeedBack</h4>
-				<div>Here you can suggest ideas to improve our services or vote ideas from other people.</div>
+			<h4 id="welcome-mesagge--title">Welcome to our FeedBack</h4>
+				<div id="welcome-mesagge--text">Here you can suggest ideas to improve our services or vote ideas from other people.</div>
 			</div>
 			<div class="row" style="margin-bottom:20px; margin-top:20px;">
 				<div class="col-md-5" style="border-style:solid;border-width:1px;border-radius:5px;border-color:#3498DB;">
@@ -17,7 +17,7 @@
 						<?php $freename = str_replace(" ", "-", $idea->title); ?>
 							<tr>
 								<td>
-									<span class="label label-info" style="margin-right:5px"><?php echo $lang['idea_completed']; ?></span><a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
+									<span class="label label-info completed-idea--tag" style="margin-right:5px"><?php echo $lang['idea_completed']; ?></span><a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -32,7 +32,7 @@
 							<?php $freename = str_replace(" ", "-", $idea->title); ?>
 								<tr>
 									<td>
-										<span class="label label-success" style="margin-right:5px"><?php echo $lang['idea_started']; ?></span><a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
+										<span class="label label-success started-idea--tag" style="margin-right:5px"><?php echo $lang['idea_started']; ?></span><a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
 									</td>
 								</tr>
 							<?php endforeach; ?>
@@ -49,7 +49,7 @@
 						<?php $freename = str_replace(" ", "-", $idea->title); ?>
 							<tr>
 								<td>
-									<span class="label label-warning" style="margin-right:5px"><?php echo $lang['idea_planned']; ?></span><a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
+									<span class="label label-warning planned-idea--tag" style="margin-right:5px"><?php echo $lang['idea_planned']; ?></span><a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -64,7 +64,7 @@
 						<?php $freename = str_replace(" ", "-", $idea->title); ?>
 							<tr>
 								<td>
-									<span class="label label-default" style="margin-right:5px"><?php echo $lang['idea_considered']; ?></span><a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
+									<span class="label label-default considered-idea--tag" style="margin-right:5px"><?php echo $lang['idea_considered']; ?></span><a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -73,4 +73,3 @@
 				</div>
 			</div>
 		</div>
-
