@@ -17,7 +17,7 @@ class Get extends CI_Model
 		$this->load->database();
 	}
 
-	public function get_categories(){
+	public function getCategories(){
     	$sql = $this->db->get("categories");
         $result = $sql->result();
         $a = array();
@@ -48,7 +48,7 @@ class Get extends CI_Model
         return $query->num_rows();
     }
 
-    public function get_ideas_custom($orderby, $isdesc, $from, $limit, $status = array(), $categories = array()){
+    public function getIdeas($orderby, $isdesc, $from, $limit, $status = array(), $categories = array()){
         $query = "SELECT * FROM ideas ";
         if(count($categories)){
             $query .= "WHERE ( ";
@@ -87,7 +87,7 @@ class Get extends CI_Model
     public function get_ideas_by_category($category, $order, $type, $page){
         $page = (int) $page;
     	$category = (int) $category;
-        $max = $this->get_setting('max_results');
+        $max = $this->getSetting('max_results');
         $from = ($page - 1) * $max;
     	$query = "SELECT * FROM ideas WHERE categoryid='$category' AND status !='new' ORDER BY ";
         switch ($order) {
@@ -157,7 +157,7 @@ class Get extends CI_Model
         else return 0;
     }
 
-    public function get_setting($name){
+    public function getSetting($name){
         $sql = $this->db->query("SELECT * FROM settings WHERE name=" . $this->db->escape($name));
         $data = $sql->row();
         if(@isset($data->value)) return $data->value;
@@ -176,7 +176,7 @@ class Get extends CI_Model
         return $sql->row();
     }
 
-    public function verify_token($token){
+    public function verifyToken($token){
         $token = explode('-', $token);
         $token[0] = (int) $token[0];
         $token[1] = (int) $token[1];
@@ -210,17 +210,13 @@ class Get extends CI_Model
         return $token;
     }
 
-    public function isbanned($id){
+    public function getBanValue($id) {
         $id = (int) $id;
         $user = $this->get_user_info($id);
         return $user->banned;
     }
-    public function unban($id){
-        $id = (int) $id;
-        $sql = $this->db->query("UPDATE users SET banned='0' WHERE id='$id'");
-    }
 
-    public function get_user_comments($id, $limit){
+    public function get_user_comments($id, $limit) {
         $id = (int) $id;
         $limit = (int) $limit;
         $sql = $this->db->query("SELECT * FROM comments WHERE userid='$id' ORDER BY id DESC LIMIT $limit");
@@ -233,23 +229,23 @@ class Get extends CI_Model
         return $r;
     }
 
-    public function get_new_ideas($limit){
+    public function get_new_ideas($limit) {
         $limit = (int) $limit;
         $sql = $this->db->query("SELECT * FROM ideas WHERE status='new' ORDER BY id DESC LIMIT $limit");
         return $sql->result();
     }
 
-    public function get_new_ideas_num(){
+    public function get_new_ideas_num() {
         $sql = $this->db->query("SELECT * FROM ideas WHERE status='new'");
         return $sql->num_rows();
     }
 
-    public function get_comment($id){
+    public function get_comment($id) {
         $id = (int) $id;
         return $this->get_row_by_id('comments', $id);
     }
 
-    public function get_flags(){
+    public function get_flags() {
         $sql = $this->db->query("SELECT * FROM flags ORDER BY toflagid DESC");
         $list = $sql->result();
         $end = array();
@@ -274,7 +270,7 @@ class Get extends CI_Model
         return $end;
     }
 
-    public function get_logs($to, $toid, $limit = 0){   
+    public function get_logs($to, $toid, $limit = 0) {
         $toid = (int) $toid;
         $limit = (int) $limit;     
         if($limit != 0) $sql = $this->db->query("SELECT * FROM logs WHERE type=". $this->db->escape($to) ." AND toid='$toid' ORDER BY id DESC LIMIT $limit");
@@ -282,13 +278,13 @@ class Get extends CI_Model
         return $sql->result();
     }
 
-    public function get_last_logs($limit = 30){
+    public function get_last_logs($limit = 30) {
         $limit = (int) $limit;
         $sql = $this->db->query("SELECT content,date FROM logs ORDER BY id DESC LIMIT $limit");
         return $sql->result();
     }
 
-    public function get_users($order = "id", $limit = 30){
+    public function get_users($order = "id", $limit = 30) {
         $limit = (int) $limit;
         if($order == "banned"){
             $sql = $this->db->query("SELECT * FROM users WHERE banned <> 0 ORDER BY id DESC LIMIT $limit");
@@ -301,7 +297,7 @@ class Get extends CI_Model
         return $sql->result();
     }
 
-    public function get_user_votes($userid){
+    public function get_user_votes($userid) {
         $userid = (int) $userid;
         $sql = $this->db->query("SELECT * FROM votes WHERE userid='$userid'");
         $res = $sql->result();
@@ -318,12 +314,12 @@ class Get extends CI_Model
         return $list;
     }
 
-    public function get_admin_users(){
+    public function get_admin_users() {
         $sql = $this->db->query("SELECT * FROM users WHERE isadmin <> 0 ORDER BY id");
         return $sql->result();
     }
 
-    public function category_id($name){
+    public function category_id($name) {
         $sql = $this->db->query("SELECT id FROM categories where name='$name'");
         if($sql->num_rows() == 0) return 0;
         else{
@@ -332,17 +328,17 @@ class Get extends CI_Model
         }
     }
 
-    public function email_config(){
-            $config['protocol']    = 'smtp';
-            $config['smtp_host']    = $this->get_setting('smtp-host');
-            $config['smtp_port']    = $this->get_setting('smtp-port');
+    public function email_config() {
+            $config['protocol']     = 'smtp';
+            $config['smtp_host']    = $this->getSetting('smtp-host');
+            $config['smtp_port']    = $this->getSetting('smtp-port');
             $config['smtp_timeout'] = '7';
-            $config['smtp_user']    = $this->get_setting('smtp-user');
-            $config['smtp_pass']    = $this->get_setting('smtp-pass');
-            $config['charset']    = 'utf-8';
-            $config['newline']    = "\r\n";
-            $config['mailtype'] = 'text'; // or html
-            $config['validation'] = FALSE;  
+            $config['smtp_user']    = $this->getSetting('smtp-user');
+            $config['smtp_pass']    = $this->getSetting('smtp-pass');
+            $config['charset']      = 'utf-8';
+            $config['newline']      = "\r\n";
+            $config['mailtype']     = 'text'; // or html
+            $config['validation']   = FALSE;
             return $config;
     }
 }

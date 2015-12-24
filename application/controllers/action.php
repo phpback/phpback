@@ -21,17 +21,17 @@ class Action extends CI_Controller{
 	public function register(){
 		require_once('public/recaptcha/recaptchalib.php');
 		
-		$votes = $this->get->get_setting('maxvotes');
-		$title = $this->get->get_setting('title');
-		$mainmail = $this->get->get_setting('mainmail');
+		$votes = $this->get->getSetting('maxvotes');
+		$title = $this->get->getSetting('title');
+		$mainmail = $this->get->getSetting('mainmail');
 
 		$email = $this->input->post('email', true);
 		$pass = $this->input->post('password', true);
 		$pass2 = $this->input->post('password2', true);
 		$name = $this->input->post('name', true);
 
-		if($this->get->get_setting('recaptchapublic') != ""){
-			$resp = recaptcha_check_answer ($this->get->get_setting('recaptchaprivate'),
+		if($this->get->getSetting('recaptchapublic') != ""){
+			$resp = recaptcha_check_answer ($this->get->getSetting('recaptchaprivate'),
 	                                $_SERVER["REMOTE_ADDR"],
 	                                $_POST["recaptcha_challenge_field"],
 	                                $_POST["recaptcha_response_field"]);
@@ -105,7 +105,7 @@ class Action extends CI_Controller{
 		session_start();
 		session_destroy();
 		if(@isset($_COOKIE['phpback_sessionid'])){
-			$this->get->verify_token($_COOKIE['phpback_sessionid']);
+			$this->get->verifyToken($_COOKIE['phpback_sessionid']);
 			setcookie('phpback_sessionid', '', time()-3600, '/');
 		}
 		header('Location: ' . base_url() . 'home/');
@@ -156,8 +156,8 @@ class Action extends CI_Controller{
 					$this->load->library('email');
 					$this->email->initialize($this->get->email_config());
 					
-					$mainmail = $this->get->get_setting('mainmail');
-					$title = $this->get->get_setting('title');
+					$mainmail = $this->get->getSetting('mainmail');
+					$title = $this->get->getSetting('title');
 
 					$this->email->from($mainmail, 'PHPBack');
 					$this->email->to($user->email); 

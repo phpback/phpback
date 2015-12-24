@@ -19,7 +19,7 @@ class Post extends CI_Model
 		parent::__construct();
 		$this->load->database();
 
-        $this->lang->load('log', $this->get_setting('language'));
+        $this->lang->load('log', $this->getSetting('language'));
 	}
 
 	public function add_user($name, $email, $pass, $votes, $isadmin){
@@ -289,7 +289,7 @@ class Post extends CI_Model
         return $sql->row();
     }
 
-    private function get_setting($name){
+    private function getSetting($name){
         $sql = $this->db->query("SELECT * FROM settings WHERE name=" . $this->db->escape($name));
         $data = $sql->row();
         if(@isset($data->value)) return $data->value;

@@ -21,7 +21,7 @@ class Adminaction extends CI_Controller{
 		$this->load->model('get');
 		$this->load->model('post');
 
-        $this->lang->load('log', $this->get->get_setting('language'));
+        $this->lang->load('log', $this->get->getSetting('language'));
 
         $this->version = '1.2.0';
 	}
@@ -142,7 +142,7 @@ class Adminaction extends CI_Controller{
 
 	public function updatecategories(){
 		$this->start(3);
-		$categories = $this->get->get_categories();
+		$categories = $this->get->getCategories();
 		foreach ($categories as $cat) {
 			$temp = $this->input->post("$cat->id", true);
 			if($temp != $cat->name){
