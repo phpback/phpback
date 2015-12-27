@@ -336,17 +336,18 @@ class Get extends CI_Model
     }
 
     public function email_config() {
-            $config['protocol']     = 'smtp';
-            $config['smtp_host']    = $this->getSetting('smtp-host');
-            $config['smtp_port']    = $this->getSetting('smtp-port');
-            $config['smtp_timeout'] = '7';
-            $config['smtp_user']    = $this->getSetting('smtp-user');
-            $config['smtp_pass']    = $this->getSetting('smtp-pass');
-            $config['charset']      = 'utf-8';
-            $config['newline']      = "\r\n";
-            $config['mailtype']     = 'text'; // or html
-            $config['validation']   = FALSE;
-            return $config;
+        $config['protocol']     = 'smtp';
+        $config['smtp_host']    = $this->getSetting('smtp-host');
+        $config['smtp_port']    = $this->getSetting('smtp-port');
+        $config['smtp_timeout'] = '7';
+        $config['smtp_user']    = $this->getSetting('smtp-user');
+        $config['smtp_pass']    = $this->getSetting('smtp-pass');
+        $config['charset']      = 'utf-8';
+        $config['newline']      = "\r\n";
+        $config['mailtype']     = 'text'; // or html
+        $config['validation']   = FALSE;
+
+        return $config;
     }
 
     private function decorateIdeas(&$ideas) {
@@ -359,6 +360,7 @@ class Get extends CI_Model
 
     private function decorateIdea(&$idea) {
         $idea->parsedTitle = $this->display->getParsedString($idea->title);
+        $idea->url = base_url() . 'home/idea/' . $idea->id . "/" . $idea->parsedTitle;
 
         return $idea;
     }
