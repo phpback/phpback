@@ -29,13 +29,19 @@ class Home extends CI_Controller {
         //Use this function to parse $freename variables getDisplayHelpers();
         $data['categories'] = $this->get->getCategories();
         $data['title'] = $this->get->getSetting('title');
+        $data['lang'] = $this->lang->language;
         $data['ideas'] = array(
             'completed' => $this->get->getIdeas('id', 1, 0, 10, array('completed')),
             'started' => $this->get->getIdeas('id', 1, 0, 10, array('started')),
             'planned' => $this->get->getIdeas('id', 1, 0, 10, array('planned')),
             'considered' => $this->get->getIdeas('id', 1, 0, 10, array('considered')),
         );
-        $data['lang'] = $this->lang->language;
+
+        foreach ($data['ideas'] as &$group) {
+            foreach ($group as &$idea) {
+                $idea->parsedTitle = $this->display->getParsedString($idea->title);
+            }
+        }
 
 		$this->load->view('_templates/header', $data);
 		$this->load->view('home/index', $data);

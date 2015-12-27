@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('hashing');
+$autoload['libraries'] = array('hashing', 'display');
 
 
 /*
@@ -64,7 +64,7 @@ $autoload['libraries'] = array('hashing');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('display');
+$autoload['helper'] = array();
 
 
 /*
