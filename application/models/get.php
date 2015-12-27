@@ -30,15 +30,17 @@ class Get extends CI_Model
     
     public function get_idea_by_id($idea_id){
     	$idea_id = (int) $idea_id;
-        return $this->get_row_by_id('ideas', $idea_id);
+
+        $idea = $this->get_row_by_id('ideas', $idea_id);
+
+        return $this->decorateIdea($idea);
     }
 
 
     public function get_comments_by_id($idea_id){
     	$idea_id = (int) $idea_id;
     	$query = "SELECT * FROM comments WHERE ideaid='$idea_id'";
-    	$sql = $this->db->query($query);
-    	return $sql->result();
+    	return $this->db->query($query)->result();
     }
 
     
@@ -50,7 +52,8 @@ class Get extends CI_Model
 
     public function getIdeas($orderby, $isdesc, $from, $limit, $status = array(), $categories = array()){
         $query = "SELECT * FROM ideas ";
-        if(count($categories)){
+
+        if (count($categories)) {
             $query .= "WHERE ( ";
             foreach ($categories as $catid) {
                 $query .= "categoryid='$catid' OR ";
@@ -58,8 +61,8 @@ class Get extends CI_Model
             $query = substr($query, 0, -3);
             $query .= ") ";
         }
-        if(count($status)){
-            if(count($categories)) $query .= "AND (";
+        if (count($status)) {
+            if (count($categories)) $query .= "AND (";
             else $query .= "WHERE ( ";
             foreach ($status as $s) {
                 $query .= "status='$s' OR ";
@@ -69,12 +72,14 @@ class Get extends CI_Model
         }
         $query .= "ORDER BY $orderby ";
 
-        if($isdesc) $query .= "DESC";
+        if ($isdesc) $query .= "DESC";
         else $query .= "ASC";
 
         $query .= " LIMIT $from, $limit";
-        $sql = $this->db->query($query);
-        return $sql->result();
+
+        $ideas = $this->db->query($query)->result();
+
+        return $this->decorateIdeas($ideas);
     }
 
     public function category_exists($id){
@@ -108,8 +113,9 @@ class Get extends CI_Model
             $query .= " LIMIT $from, $max";
         }
 
-    	$sql = $this->db->query($query);
-        return $sql->result();
+    	$ideas = $this->db->query($query)->result();
+
+        return $this->decorateIdeas($ideas);
     }
 
     
@@ -130,9 +136,9 @@ class Get extends CI_Model
         }
         $query .= "END";
 
-        $sql = $this->db->query($query);
-        return $sql->result();
-        //Search by query, returns an array with list of ideas.
+        $ideas = $this->db->query($query)->result();
+
+        return $this->decorateIdeas($ideas);
     }
 
     
@@ -143,8 +149,9 @@ class Get extends CI_Model
 
     public function get_user_ideas($user_id){
         $user_id = (int) $user_id;
-        $sql = $this->db->query("SELECT * FROM ideas WHERE authorid='$user_id'");
-        return $sql->result();
+        $ideas = $this->db->query("SELECT * FROM ideas WHERE authorid='$user_id'")->result();
+
+        return $this->decorateIdeas($ideas);
     }
 
     public function login($email, $password){
@@ -231,8 +238,8 @@ class Get extends CI_Model
 
     public function get_new_ideas($limit) {
         $limit = (int) $limit;
-        $sql = $this->db->query("SELECT * FROM ideas WHERE status='new' ORDER BY id DESC LIMIT $limit");
-        return $sql->result();
+        $ideas = $this->db->query("SELECT * FROM ideas WHERE status='new' ORDER BY id DESC LIMIT $limit")->result();
+        return $this->decorateIdeas($ideas);
     }
 
     public function get_new_ideas_num() {
@@ -341,5 +348,18 @@ class Get extends CI_Model
             $config['validation']   = FALSE;
             return $config;
     }
+
+    private function decorateIdeas(&$ideas) {
+        foreach ($ideas as &$idea) {
+            $this->decorateIdea($idea);
+        }
+
+        return $ideas;
+    }
+
+    private function decorateIdea(&$idea) {
+        $idea->parsedTitle = $this->display->getParsedString($idea->title);
+
+        return $idea;
+    }
 }
-?>

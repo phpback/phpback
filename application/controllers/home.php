@@ -37,12 +37,6 @@ class Home extends CI_Controller {
             'considered' => $this->get->getIdeas('id', 1, 0, 10, array('considered')),
         );
 
-        foreach ($data['ideas'] as &$group) {
-            foreach ($group as &$idea) {
-                $idea->parsedTitle = $this->display->getParsedString($idea->title);
-            }
-        }
-
 		$this->load->view('_templates/header', $data);
 		$this->load->view('home/index', $data);
 		$this->load->view('_templates/menu', $data);
