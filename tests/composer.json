@@ -1,0 +1,7 @@
+{
+    "require": {
+        "phpunit/phpunit": "~5.0",
+        "phpunit/phpunit-selenium": "~1.4",
+        "gabordemooij/redbean": "~4.2"
+    }
+}

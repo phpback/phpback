@@ -11,13 +11,13 @@ if(!count($ideas)) echo "<h3><small>" . $lang['text_nothing_found'] . "</small><
 			<div class="row" style="margin-bottom:10px">
 				<div class="pull-left" style="margin-right:25px">
 					<div style="width:60px;height:50px;text-align:center;border-style:solid;border-width:1px;border-color:#3498DB;border-radius:5px;padding-top:4px;margin-bottom:2px">
-						<span style="color:#3498DB;"><b>
+						<span style="color:#3498DB;"><b  class="result-idea--votes">
 						<?php if($idea->votes <= 99999) {
 								if($idea->votes < 1000) echo $idea->votes;
 								else echo number_format($idea->votes);
-							} elseif($idea->votes < 1000000){ 
+							} elseif($idea->votes < 1000000){
 								echo (int) ($idea->votes / 1000); echo "K";
-							} else { 
+							} else {
 							$t = (int) ($idea->votes / 1000000);
 							echo $t;
 							if((int) ($idea->votes / 100000) - $t*10 > 0)
@@ -42,7 +42,7 @@ if(!count($ideas)) echo "<h3><small>" . $lang['text_nothing_found'] . "</small><
 						echo 'info';
 						break;
 				}
-				?>" style="font-size:12px"><?php
+				?> result-idea--status" style="font-size:12px"><?php
 				switch ($idea->status) {
 					case 'considered':
 						echo $lang['idea_considered'];
@@ -64,9 +64,9 @@ if(!count($ideas)) echo "<h3><small>" . $lang['text_nothing_found'] . "</small><
 					</div>
 				</div>
 				<div style="margin-top:-10px;margin-left:70px">
-					<a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
+					<a class="result-idea--title" href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
 					<div style="margin-top:-10px">
-					<small>
+					<small class="result-idea--description">
 						<?php
 						if(strlen($idea->content) > 200){
 							echo substr($idea->content, 0, 200);
@@ -78,7 +78,7 @@ if(!count($ideas)) echo "<h3><small>" . $lang['text_nothing_found'] . "</small><
 						?>
 					</small></span>
 					</div>
-					<div style="margin-top:-10px"> 
+					<div style="margin-top:-10px">
 					<ul class="nav-pills" style="list-style:none;margin-left:-40px">
 					<li style="padding-right:5px"><small><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
 					</ul><br><br>
