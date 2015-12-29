@@ -17,14 +17,15 @@ class Get extends CI_Model
 		$this->load->database();
 	}
 
-	public function getCategories(){
-    	$sql = $this->db->get("categories");
-        $result = $sql->result();
-        $a = array();
-        foreach ($result as $cat) {
-            $a[$cat->id] = $cat;
+	public function getCategories() {
+    	$result = $this->db->get('categories')->result();
+        $categoryList = array();
+        foreach ($result as $category) {
+            $categoryList[$category->id] = $category;
         }
-    	return $a;
+
+        $this->decorateCategories($categoryList);
+    	return $categoryList;
     }
 
     
@@ -363,5 +364,12 @@ class Get extends CI_Model
         $idea->url = base_url() . 'home/idea/' . $idea->id . "/" . $idea->parsedTitle;
 
         return $idea;
+    }
+
+    private function decorateCategories(&$categories) {
+        foreach ($categories as &$category) {
+            $category->url = base_url() . 'home/category/' . $category->id . '/';
+            $category->url .= $this->display->getParsedString($category->name);
+        }
     }
 }

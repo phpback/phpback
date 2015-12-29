@@ -52,14 +52,13 @@ class Home extends CI_Controller {
         }
         $data['ideas'] = $this->get->get_ideas_by_category($id, $order, $type, $page);
         $data['categories'] = $this->get->getCategories();
+        $data['category'] = $data['categories'][$id];
         $data['title'] = $this->get->getSetting('title');
         $total = $this->get->get_ideas_aprroved($id);
         $data['max_results'] = (int) $this->get->getSetting('max_results');
         $data['page'] = (int) $page;
-        $data['pages'] = $total / $data['max_results'];
-        $data['pages'] = (int) $data['pages'];
-        $data['id'] = $id;
-        if(($total % $data['max_results']) > 0) $data['pages'] ++;
+        $data['pages'] = (int) ($total / $data['max_results']);
+        if(($total % $data['max_results']) > 0) $data['pages']++;
         $data['type'] = $type;
         $data['order'] = $order;
 
