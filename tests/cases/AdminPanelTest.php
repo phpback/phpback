@@ -26,10 +26,33 @@ class AdminPanelTest extends TestCase {
         $this->byLinkText('Categories')->click();
 
         $this->fillFields(array(
-            'name' => 'Redcat',
-            'description' => 'Redcat is a category'
+            'name' => 'Value Name',
+            'description' => 'Value Category Description'
         ));
-        //TODO: NEED to refactor id's
-        //$this->byLinkText('Add Category')->click();
+        $this->byName('add-category')->click();
+        $category=RedBean::load('categories',1);
+        $this->assertEquals($category->name, 'Value Name');
+        $this->assertEquals($category->description, 'Value Category Description');
+    }
+    public function testCategoryChangeName() {
+        Scripts::LoginAdmin();
+        $this->byLinkText('System Settings')->click();
+        $this->byLinkText('Categories')->click();
+        $this->fillFields(array(
+              'category-1' => 'New Name'
+        ));
+        $this->byName('update-names')->click();
+        $category=RedBean::load('categories',1);
+        $this->assertEquals($category->name,'Value NameNew Name');
+
+    }
+    public function testCategoryDeletion() {
+        Scripts::LoginAdmin();
+        $this->byLinkText('System Settings')->click();
+        $this->byLinkText('Categories')->click();
+        $this->byName('delete-ideas')->click();
+        $this->byName('delete-category')->click();
+        $numberOfCategories=RedBean::count('categories');
+        $this->assertEquals($numberOfCategories,0);
     }
 }
