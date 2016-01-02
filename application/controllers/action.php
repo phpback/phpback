@@ -120,7 +120,7 @@ class Action extends CI_Controller{
 			header("Location: " . base_url() . 'home/login/');
 			exit;
 		}
-		$idea = $this->get->get_idea_by_id($ideaid);
+		$idea = $this->get->getIdea($ideaid);
 		header("Location: " . base_url() . 'home/idea/' . $ideaid . '/' . str_replace(' ', '-', $idea->title));
 	}
 
@@ -128,7 +128,7 @@ class Action extends CI_Controller{
 		session_start();
 		$vote = $this->get->get_row_by_id('votes', $id);
 		if(isset($_SESSION['phpback_userid']) && $_SESSION['phpback_userid'] == $vote->userid){
-			$idea = $this->get->get_idea_by_id($vote->ideaid);
+			$idea = $this->get->getIdea($vote->ideaid);
 			$this->post->update_by_id('ideas', 'votes', $idea->votes - $vote->number, $idea->id);
 			$this->post->delete_row_by_id('votes', $id);
 		}

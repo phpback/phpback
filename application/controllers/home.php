@@ -85,7 +85,7 @@ class Home extends CI_Controller {
     }
 
     public function idea($id) {
-        $idea = $this->get->get_idea_by_id($id);
+        $idea = $this->get->getIdea($id);
         if($idea === false){
             header('Location: ' . base_url() . 'home');
             return;
@@ -118,7 +118,7 @@ class Home extends CI_Controller {
             return;
         }
         $data['logs'] = $this->get->get_logs('user', $id);
-        $data['comments'] = $this->get->get_user_comments($id, 20);
+        $data['comments'] = $this->get->getUserComments($id, 20);
         $data['categories'] = $this->get->getCategories();
         $data['ideas'] = $this->get->get_user_ideas($id);
         $data['title'] = $this->get->getSetting('title');

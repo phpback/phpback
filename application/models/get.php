@@ -29,7 +29,7 @@ class Get extends CI_Model
     }
 
     
-    public function get_idea_by_id($idea_id){
+    public function getIdea($idea_id){
     	$idea_id = (int) $idea_id;
 
         $idea = $this->get_row_by_id('ideas', $idea_id);
@@ -224,17 +224,18 @@ class Get extends CI_Model
         return $user->banned;
     }
 
-    public function get_user_comments($id, $limit) {
+    public function getUserComments($id, $limit) {
         $id = (int) $id;
         $limit = (int) $limit;
-        $sql = $this->db->query("SELECT * FROM comments WHERE userid='$id' ORDER BY id DESC LIMIT $limit");
-        $ar = $sql->result();
-        $r = array();
-        foreach ($ar as $a) {
-            $k = $this->get_idea_by_id($a->ideaid);
-            $r[] = array('idea' => $k, 'id' => $a->id, 'date' => $a->date);
+        $result = $this->db->query("SELECT * FROM comments WHERE userid='$id' ORDER BY id DESC LIMIT $limit")->result();
+
+        $comments = array();
+        foreach ($result as $comment) {
+            $idea = $this->getIdea($comment->ideaid);
+            $comments[] = array('idea' => $idea, 'id' => $comment->id, 'date' => $comment->date);
         }
-        return $r;
+
+        return $comments;
     }
 
     public function get_new_ideas($limit) {
@@ -312,7 +313,7 @@ class Get extends CI_Model
         $list = array();
         foreach($res as $vote){
             $t = array();
-            $idea = $this->get_idea_by_id($vote->ideaid);
+            $idea = $this->getIdea($vote->ideaid);
             $t['idea'] = $idea;
             $t['number'] = $vote->number;
             $t['id'] = $vote->id;
