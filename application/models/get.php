@@ -232,7 +232,7 @@ class Get extends CI_Model
         $r = array();
         foreach ($ar as $a) {
             $k = $this->get_idea_by_id($a->ideaid);
-            $r[] = array('idea' => $k->title, 'ideaid' => $a->ideaid, 'id' => $a->id, 'date' => $a->date);
+            $r[] = array('idea' => $k, 'id' => $a->id, 'date' => $a->date);
         }
         return $r;
     }
@@ -305,7 +305,7 @@ class Get extends CI_Model
         return $sql->result();
     }
 
-    public function get_user_votes($userid) {
+    public function getUserVotes($userid) {
         $userid = (int) $userid;
         $sql = $this->db->query("SELECT * FROM votes WHERE userid='$userid'");
         $res = $sql->result();
@@ -313,8 +313,7 @@ class Get extends CI_Model
         foreach($res as $vote){
             $t = array();
             $idea = $this->get_idea_by_id($vote->ideaid);
-            $t['idea'] = $idea->title;
-            $t['ideaid'] = $idea->id;
+            $t['idea'] = $idea;
             $t['number'] = $vote->number;
             $t['id'] = $vote->id;
             $list[] = $t;

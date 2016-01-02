@@ -122,9 +122,10 @@ class Home extends CI_Controller {
         $data['categories'] = $this->get->getCategories();
         $data['ideas'] = $this->get->get_user_ideas($id);
         $data['title'] = $this->get->getSetting('title');
+
         $data['error'] = $this->input->post('error', true);
         if(@isset($_SESSION['phpback_userid']) && $data['user']->id == $_SESSION['phpback_userid']){
-            $data['votes'] = $this->get->get_user_votes($_SESSION['phpback_userid']);
+            $data['votes'] = $this->get->getUserVotes($_SESSION['phpback_userid']);
         }
 
         $data['lang'] = $this->lang->language;
