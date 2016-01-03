@@ -38,14 +38,14 @@ class Get extends CI_Model
     }
 
 
-    public function get_comments_by_id($idea_id){
+    public function getCommentsByIdea($idea_id){
     	$idea_id = (int) $idea_id;
     	$query = "SELECT * FROM comments WHERE ideaid='$idea_id'";
     	return $this->db->query($query)->result();
     }
 
     
-    public function get_ideas_aprroved($categoryid){
+    public function getQuantityOfApprovedIdeas($categoryid){
         $categoryid = (int) $categoryid;
         $query = $this->db->query("SELECT * FROM ideas WHERE categoryid='$categoryid' AND status !='new'");
         return $query->num_rows();
@@ -83,14 +83,14 @@ class Get extends CI_Model
         return $this->decorateIdeas($ideas);
     }
 
-    public function category_exists($id){
+    public function categoryExists($id) {
         $id = (int) $id;
         $result = $this->db->query("SELECT id FROM categories WHERE id='$id'");
         if($result->num_rows() == 0) return false;
         return true;
     }
     
-    public function get_ideas_by_category($category, $order, $type, $page){
+    public function getIdeasByCategory($category, $order, $type, $page){
         $page = (int) $page;
     	$category = (int) $category;
         $max = $this->getSetting('max_results');
@@ -120,7 +120,7 @@ class Get extends CI_Model
     }
 
     
-    public function search_ideas($query){
+    public function getIdeasBySearchQuery($query){
         $keywords = explode(" ", $query);
         $temp = array_shift($keywords);
         $query = "SELECT * FROM ideas WHERE ( title LIKE '%$temp%'";
@@ -143,12 +143,12 @@ class Get extends CI_Model
     }
 
     
-    public function get_user_info($user_id){
+    public function getUser($user_id){
         $user_id = (int) $user_id;
         return $this->get_row_by_id('users', $user_id);
     }
 
-    public function get_user_ideas($user_id){
+    public function getUserIdeas($user_id){
         $user_id = (int) $user_id;
         $ideas = $this->db->query("SELECT * FROM ideas WHERE authorid='$user_id'")->result();
 
@@ -220,7 +220,7 @@ class Get extends CI_Model
 
     public function getBanValue($id) {
         $id = (int) $id;
-        $user = $this->get_user_info($id);
+        $user = $this->getUser($id);
         return $user->banned;
     }
 

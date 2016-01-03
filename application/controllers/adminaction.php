@@ -33,7 +33,7 @@ class Adminaction extends CI_Controller{
 		$result = $this->get->login($email, $pass);
 
 		if($result != 0){
-			$user = $this->get->get_user_info($result);
+			$user = $this->get->getUser($result);
 			if(!$user->isadmin){
 				header('Location: ' . base_url() . 'admin/index/error');
 				exit;
@@ -157,7 +157,7 @@ class Adminaction extends CI_Controller{
 		$this->start(3);
 		$id = $this->input->post('catid', true);
 		if($this->input->post('ideas', true)){
-			$ideas = $this->get->get_ideas_by_category($id , 'id', 'desc', 0);
+			$ideas = $this->get->getIdeasByCategory($id , 'id', 'desc', 0);
 			foreach ($ideas as $idea){
 				$this->post->deleteidea($idea->id);
 			}

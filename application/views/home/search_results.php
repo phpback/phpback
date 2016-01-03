@@ -7,7 +7,6 @@
 if(!count($ideas)) echo "<h3><small>" . $lang['text_nothing_found'] . "</small></h3>";
 ?>
 <?php foreach ($ideas as $idea): ?>
-			<?php $freename = str_replace(" ", "-", $idea->title); ?>
 			<div class="row" style="margin-bottom:10px">
 				<div class="pull-left" style="margin-right:25px">
 					<div style="width:60px;height:50px;text-align:center;border-style:solid;border-width:1px;border-color:#3498DB;border-radius:5px;padding-top:4px;margin-bottom:2px">

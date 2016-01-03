@@ -91,7 +91,7 @@
 					</div>
 					<div style="margin-top:-10px">
 					<ul class="nav-pills" style="list-style:none;margin-left:-30px">
-					<li><small className="result-idea--comments"><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
+					<li><small class="result-idea--comments"><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
 					</ul><br><br>
 					</div>
 				</div>
@@ -107,6 +107,6 @@
 			  	 <?php endif;?>
 
 			  <?php } ?>
-			  <li><a class="pagination--next" href="<?php  if($page < $pages) echo $category->url . "/$id/$freename/$order/$type/" . ($page+1); else echo '#'; ?>">&raquo;</a></li>
+			  <li><a class="pagination--next" href="<?php  if($page < $pages) echo $category->url . "/$order/$type/" . ($page+1); else echo '#'; ?>">&raquo;</a></li>
 			</ul>
 </div>

@@ -86,7 +86,7 @@ class Action extends CI_Controller{
 		$result = $this->get->login($email, $pass);
 
 		if($result != 0){
-			$user = $this->get->get_user_info($result);
+			$user = $this->get->getUser($result);
 			$_SESSION['phpback_userid'] = $user->id;
 			$_SESSION['phpback_username'] = $user->name;
 			$_SESSION['phpback_useremail'] = $user->email;
@@ -148,7 +148,7 @@ class Action extends CI_Controller{
 		$toredirect = base_url() . 'home/profile/' . $_SESSION['phpback_userid'];
 		if(strlen($new) > 5){
 			if($new == $rnew){
-				$user = $this->get->get_user_info($_SESSION['phpback_userid']);
+				$user = $this->get->getUser($_SESSION['phpback_userid']);
 				
 				if($this->hashing->matches($old, $user->pass)){
 					$this->post->update_by_id('users', 'pass', $this->hashing->hash($new), $user->id);
