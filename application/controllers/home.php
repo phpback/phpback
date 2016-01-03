@@ -144,10 +144,8 @@ class Home extends CI_Controller {
             $result = $this->get->verifyToken($_COOKIE['phpback_sessionid']);
             if($result != 0){
                 $user = $this->get->getUser($result);
-                $_SESSION['phpback_userid'] = $user->id;
-                $_SESSION['phpback_username'] = $user->name;
-                $_SESSION['phpback_useremail'] = $user->email;
-                setcookie('phpback_sessionid',  $this->get->new_token($_SESSION['phpback_userid']), time()+3600*24*30, '/');
+                $this->get->setSessionUserValues($user);
+                $this->get->setSessionCookie();
                 header('Location: '. base_url() .'home');
                 return;
             }

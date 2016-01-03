@@ -351,6 +351,17 @@ class Get extends CI_Model
         return $config;
     }
 
+    public function setSessionUserValues($user) {
+        $_SESSION['phpback_userid'] = $user->id;
+        $_SESSION['phpback_username'] = $user->name;
+        $_SESSION['phpback_useremail'] = $user->email;
+        $_SESSION['phpback_isadmin'] = $user->isadmin;
+    }
+
+    public function setSessionCookie() {
+        setcookie('phpback_sessionid',  $this->new_token($_SESSION['phpback_userid']), time()+3600*24*30, '/');
+    }
+
     private function decorateIdeas(&$ideas) {
         foreach ($ideas as &$idea) {
             $this->decorateIdea($idea);
