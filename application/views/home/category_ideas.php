@@ -93,7 +93,7 @@
 					</div>
 					<div style="margin-top:-10px">
 					<ul class="nav-pills" style="list-style:none;margin-left:-30px">
-					<li><small className="result-idea--comments"><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
+					<li><small class="result-idea--comments"><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
 					</ul><br><br>
 					</div>
 				</div>
