@@ -56,7 +56,7 @@ function create_file($hostname, $username, $password, $database){
 	$content .= '$db[\'default\'][\'username\'] = \'' . $username .'\';';
 	$content .= '$db[\'default\'][\'password\'] = \'' . $password .'\';';
 	$content .= '$db[\'default\'][\'database\'] = \'' . $database .'\';';
-	$content .= '$db[\'default\'][\'dbdriver\'] = \'mysql\';';
+	$content .= '$db[\'default\'][\'dbdriver\'] = \'mysqli\';';
 	$content .= '$db[\'default\'][\'dbprefix\'] = \'\';';
 	$content .= '$db[\'default\'][\'pconnect\'] = TRUE;';
 	$content .= '$db[\'default\'][\'db_debug\'] = TRUE;';
