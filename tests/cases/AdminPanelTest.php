@@ -43,7 +43,7 @@ class AdminPanelTest extends TestCase {
         ));
         $this->byName('update-names')->click();
         $category=RedBean::load('categories',1);
-        $this->assertEquals($category->name,'Value NameNew Name');
+        $this->assertEquals($category->name,'New Name');
 
     }
     public function testCategoryDeletion() {
@@ -55,4 +55,48 @@ class AdminPanelTest extends TestCase {
         $numberOfCategories=RedBean::count('categories');
         $this->assertEquals($numberOfCategories,0);
     }
+
+    public function testGeneralSettings() {
+        Scripts::LoginAdmin();
+        $this->byLinkText('System Settings')->click();
+        $this->fillFields(array(
+              'setting-1' => 'newrecaptchapublic',
+              'setting-2' => 'newrecaptchaprivate',
+              'setting-3' => '50',
+              'setting-4' => 'newmail@phpback.org',
+              'setting-5' => 'new tittle',
+              'setting-6' => '50',
+              'setting-7' => 'spanish',
+              'setting-8' => '50',
+              'setting-9' => '50',
+              'setting-10' => 'newsmtp-user',
+              'setting-11' => 'newsmtp-pass'
+        ));
+        $this->byName('submit-changes')->click();
+        
+        $recaptchapublic = RedBean::load('settings',1);
+        $recaptchaprivate = RedBean::load('settings',2);
+        $maxvotes = RedBean::load('settings',3);
+        $mainmail = RedBean::load('settings',4);
+        $title = RedBean::load('settings',5);
+        $max_results = RedBean::load('settings',6);
+        $language = RedBean::load('settings',7);
+        $smtphost = RedBean::load('settings',8);
+        $smtpport = RedBean::load('settings',9);
+        $smtpuser = RedBean::load('settings',10);
+        $smtppass = RedBean::load('settings',11);
+
+        $this->assertEquals($recaptchapublic->value,'newrecaptchapublic');
+        $this->assertEquals($recaptchaprivate->value,'newrecaptchaprivate');
+        $this->assertEquals($maxvotes->value,'50');
+        $this->assertEquals($mainmail->value,'newmail@phpback.org');
+        $this->assertEquals($title->value,'new tittle');
+        $this->assertEquals($max_results->value,'50');
+        $this->assertEquals($language->value,'spanish');
+        $this->assertEquals($smtphost->value,'50');
+        $this->assertEquals($smtpport->value,'50');
+        $this->assertEquals($smtpuser->value,'newsmtp-user');
+        $this->assertEquals($smtppass->value,'newsmtp-pass');
+    }
+
 }

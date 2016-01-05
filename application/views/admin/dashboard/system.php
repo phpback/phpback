@@ -33,7 +33,7 @@
             </div>
           <?php endforeach; ?>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Submit changes</button>
+              <button name="submit-changes" type="submit" class="btn btn-primary">Submit changes</button>
             </div>
           </form>
       </div>
