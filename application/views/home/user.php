@@ -34,31 +34,30 @@
 			</thead>
 			<tbody>
 			<?php foreach($votes as $vote): ?>
-				<?php $freename = str_replace(" ", "-", $vote['idea']); ?>
 				<tr>
-					<td><a href="<?php echo base_url() . 'home/idea/' . $vote['ideaid'] . "/$freename"; ?>"><?php echo $vote['idea']; ?></a></td>
-					<td><?php echo $vote['number']; ?></td>
-					<td><a href="<?php echo base_url() . 'action/unvote/' . $vote['id'];?>"><button type="submit" class="btn btn-warning btn-sm" style="width:130px"><?php echo $lang['label_delete_votes']; ?></button></a></td>
+					<td><a href="<?= $vote['idea']->url; ?>"><?= $vote['idea']->title; ?></a></td>
+					<td><?= $vote['number']; ?></td>
+					<td><a href="<?= base_url() . 'action/unvote/' . $vote['id'];?>"><button type="submit" class="btn btn-warning btn-sm" style="width:130px"><?php echo $lang['label_delete_votes']; ?></button></a></td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
 		</table>
 		<div id="changepasswordtable" style="display:none">
-			<form role="form" method="post" action="<?php echo base_url() . 'action/changepassword'?>">
+			<form role="form" method="post" action="<?= base_url() . 'action/changepassword'?>">
 	            <div class="form-group">
-	              <label><?php echo $lang['form_password_old']; ?></label>
+	              <label><?= $lang['form_password_old']; ?></label>
 	              <input type="password" class="form-control" name="old" style="width:150px">
 	            </div>
 	            <div class="form-group">
-	              <label><?php echo $lang['form_password_new']; ?></label>
+	              <label><?= $lang['form_password_new']; ?></label>
 	              <input type="password" class="form-control" name="new" style="width:150px;">
 	            </div>
 	            <div class="form-group">
-	              <label><?php echo $lang['from_password_new_repeat']; ?></label>
+	              <label><?= $lang['from_password_new_repeat']; ?></label>
 	              <input type="password" class="form-control" name="rnew" style="width:150px">
 	            </div>
 	            <div class="form-group">
-	              <button type="submit" class="btn btn-primary"><?php echo $lang['label_change_password']; ?></button>
+	              <button type="submit" class="btn btn-primary"><?= $lang['label_change_password']; ?></button>
 	            </div>
         	</form>
 		</div>
@@ -104,7 +103,6 @@
 		    </thead>
       		<tbody>
       			<?php foreach ($ideas as $idea): ?>
-      			<?php $freename = str_replace(" ", "-", $idea->title); ?>
 				<tr class="<?php
 				switch ($idea->status) {
 					case 'considered':
@@ -125,19 +123,19 @@
 				}
 				?>">
 					<td>
-						<a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
+						<a href="<?= $idea->url;?>"><?= $idea->title; ?></a>
 					</td>
 					<td>
-						<?php echo $categories[$idea->categoryid]->name; ?>
+						<?= $categories[$idea->categoryid]->name; ?>
 					</td>
 					<td>
-						<?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?>
+						<?= $idea->comments; ?> <?= $lang['label_comments']; ?>
 					</td>
 					<td>
-						<?php echo $idea->votes; ?> <?php echo $lang['label_votes']; ?>
+						<?= $idea->votes; ?> <?= $lang['label_votes']; ?>
 					</td>
 					<td>
-						<?php echo $idea->date; ?>
+						<?= $idea->date; ?>
 					</td>
 				</tr>
 			    <?php endforeach; ?>
@@ -152,10 +150,9 @@
 		    </thead>
       		<tbody>
       			<?php foreach ($comments as $comment): ?>
-      			<?php $freename = str_replace(" ", "-", $comment['idea']); ?>
 				<tr>
 					<td>
-						<a href="<?php echo base_url() . 'home/idea/' . $comment['ideaid'] . "/" . $freename;?>"><?php echo $comment['idea']; ?></a>
+						<a href="<?= $comment['idea']->url;?>"><?php echo $comment['idea']->title; ?></a>
 					</td>
 					<td>
 						<?php echo $comment['date']; ?>

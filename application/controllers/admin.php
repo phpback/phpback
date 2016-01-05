@@ -61,7 +61,7 @@ class Admin extends CI_Controller {
         $data['newideas'] = $this->get->get_new_ideas(150);
         $data['newideas_num'] = $this->get->get_new_ideas_num();
         $data['flags'] = $this->get->get_flags();
-        $data['categories'] = $this->get->get_categories();
+        $data['categories'] = $this->get->getCategories();
         if(!@isset($_POST['search'])){
             $data['form'] = array(
                 "status-completed" => 0,
@@ -111,7 +111,7 @@ class Admin extends CI_Controller {
             }
             $data['toall'] = 1;
         }
-        $data['ideas'] = $this->get->get_ideas_custom($data['form']['orderby'], $data['form']['isdesc'], 0, 150, $st, $cat);
+        $data['ideas'] = $this->get->getIdeas($data['form']['orderby'], $data['form']['isdesc'], 0, 150, $st, $cat);
         $this->load->view('admin/dashboard/header', $data);
         $this->load->view('admin/dashboard/ideas', $data);
     }
@@ -129,7 +129,7 @@ class Admin extends CI_Controller {
         $data = array();
         $data['settings'] = $this->get->get_all_settings();
         $data['adminusers'] = $this->get->get_admin_users();
-        $data['categories'] = $this->get->get_categories();
+        $data['categories'] = $this->get->getCategories();
         $data['version'] = $this->version;
 
         $update = new AutoUpdate(__DIR__ . '/temp', __DIR__ . '/../../', 60);

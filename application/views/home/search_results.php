@@ -7,7 +7,6 @@
 if(!count($ideas)) echo "<h3><small>" . $lang['text_nothing_found'] . "</small></h3>";
 ?>
 <?php foreach ($ideas as $idea): ?>
-			<?php $freename = str_replace(" ", "-", $idea->title); ?>
 			<div class="row" style="margin-bottom:10px">
 				<div class="pull-left" style="margin-right:25px">
 					<div style="width:60px;height:50px;text-align:center;border-style:solid;border-width:1px;border-color:#3498DB;border-radius:5px;padding-top:4px;margin-bottom:2px">
@@ -64,15 +63,15 @@ if(!count($ideas)) echo "<h3><small>" . $lang['text_nothing_found'] . "</small><
 					</div>
 				</div>
 				<div style="margin-top:-10px;margin-left:70px">
-					<a class="result-idea--title" href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
+					<a class="result-idea--title" href="<?= $idea->url;?>"><?= $idea->title; ?></a>
 					<div style="margin-top:-10px">
 					<small class="result-idea--description">
 						<?php
-						if(strlen($idea->content) > 200){
+						if (strlen($idea->content) > 200) {
 							echo substr($idea->content, 0, 200);
 							echo "...";
 						}
-						else{
+						else {
 							echo $idea->content;
 						}
 						?>

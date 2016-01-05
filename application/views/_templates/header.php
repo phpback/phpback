@@ -7,27 +7,20 @@ See LICENSE.TXT for details.  -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $title; ?></title>
+    <title><?= $title; ?></title>
     <meta charset="UTF-8">
 
     <!-- Loading Bootstrap -->
-    <link href="<?php echo base_url(); ?>public/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>public/bootstrap/css/prettify.css" rel="stylesheet">
+    <link href="<?= base_url(); ?>public/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="<?= base_url(); ?>public/bootstrap/css/prettify.css" rel="stylesheet">
 
     <!-- Loading Flat UI -->
-    <link href="<?php echo base_url(); ?>public/css/flat-ui.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>public/css/demo.css" rel="stylesheet">
+    <link href="<?= base_url(); ?>public/css/flat-ui.css" rel="stylesheet">
+    <link href="<?= base_url(); ?>public/css/demo.css" rel="stylesheet">
 
+    <!-- Loading custom styles-->
+    <link href="<?php echo base_url(); ?>public/css/all.css" rel="stylesheet">
 
-  <style type="text/css">
-  a:hover{
-    text-decoration: none;
-  }
-  .breadcrumb{
-    margin-bottom: 0px;
-    margin-left: -10px;
-  }
-  </style>
   <script type="text/javascript">
   function showtable(tableid, tablelink){
       document.getElementById('activitytable').style.display = 'none';
@@ -54,15 +47,17 @@ See LICENSE.TXT for details.  -->
   }
   </script>
 </head>
-<body style="width:99%;">
-  <div class="row" style="background-color:#333;margin-bottom:25px">
-    <div class="pull-left" style="padding-left:30px;color:#ECF0F1;">
-      <h4 id="header--title"><?php echo $title; ?></h4>
+<body>
+  <div class="row header">
+    <div class="pull-left header--title-container">
+      <h4 id="header--title"><?= $title; ?></h4>
     </div>
     <?php if(@isset($_SESSION['phpback_userid'])): ?>
     <div class="pull-right" style="padding-top:15px;padding-right:40px;">
-      <small><span style='color:#ECF0F1'><?php echo $lang['label_logged_as']; ?></span><span style='color:#999;margin-left:5px;'>
-      <a href="<?php echo base_url() . 'home/profile/' . $_SESSION['phpback_userid'] . '/' . str_replace(" ", "-", $_SESSION['phpback_username']); ?>"><?php echo $_SESSION['phpback_username']; ?></a></span>
+      <small><span class="logged-as-label"><?= $lang['label_logged_as']; ?></span>
+          <span style='color:#999;margin-left:5px;'>
+            <a href="<?php echo base_url() . 'home/profile/' . $_SESSION['phpback_userid'] . '/' . str_replace(" ", "-", $_SESSION['phpback_username']); ?>"><?php echo $_SESSION['phpback_username']; ?></a>
+          </span>
       <a href="<?php echo base_url() . 'action/logout'; ?>"><button type="button" class="btn btn-danger btn-xs" style="margin-left:10px;"><?php echo $lang['label_log_out']; ?></button></a></small>
     </div>
     <?php else : ?>

@@ -17,40 +17,44 @@ class Get extends CI_Model
 		$this->load->database();
 	}
 
-	public function get_categories(){
-    	$sql = $this->db->get("categories");
-        $result = $sql->result();
-        $a = array();
-        foreach ($result as $cat) {
-            $a[$cat->id] = $cat;
+	public function getCategories() {
+    	$result = $this->db->get('categories')->result();
+        $categoryList = array();
+        foreach ($result as $category) {
+            $categoryList[$category->id] = $category;
         }
-    	return $a;
+
+        $this->decorateCategories($categoryList);
+    	return $categoryList;
     }
 
     
-    public function get_idea_by_id($idea_id){
+    public function getIdea($idea_id){
     	$idea_id = (int) $idea_id;
-        return $this->get_row_by_id('ideas', $idea_id);
+
+        $idea = $this->get_row_by_id('ideas', $idea_id);
+
+        return $this->decorateIdea($idea);
     }
 
 
-    public function get_comments_by_id($idea_id){
+    public function getCommentsByIdea($idea_id){
     	$idea_id = (int) $idea_id;
     	$query = "SELECT * FROM comments WHERE ideaid='$idea_id'";
-    	$sql = $this->db->query($query);
-    	return $sql->result();
+    	return $this->db->query($query)->result();
     }
 
     
-    public function get_ideas_aprroved($categoryid){
+    public function getQuantityOfApprovedIdeas($categoryid){
         $categoryid = (int) $categoryid;
         $query = $this->db->query("SELECT * FROM ideas WHERE categoryid='$categoryid' AND status !='new'");
         return $query->num_rows();
     }
 
-    public function get_ideas_custom($orderby, $isdesc, $from, $limit, $status = array(), $categories = array()){
+    public function getIdeas($orderby, $isdesc, $from, $limit, $status = array(), $categories = array()){
         $query = "SELECT * FROM ideas ";
-        if(count($categories)){
+
+        if (count($categories)) {
             $query .= "WHERE ( ";
             foreach ($categories as $catid) {
                 $query .= "categoryid='$catid' OR ";
@@ -58,8 +62,8 @@ class Get extends CI_Model
             $query = substr($query, 0, -3);
             $query .= ") ";
         }
-        if(count($status)){
-            if(count($categories)) $query .= "AND (";
+        if (count($status)) {
+            if (count($categories)) $query .= "AND (";
             else $query .= "WHERE ( ";
             foreach ($status as $s) {
                 $query .= "status='$s' OR ";
@@ -69,25 +73,27 @@ class Get extends CI_Model
         }
         $query .= "ORDER BY $orderby ";
 
-        if($isdesc) $query .= "DESC";
+        if ($isdesc) $query .= "DESC";
         else $query .= "ASC";
 
         $query .= " LIMIT $from, $limit";
-        $sql = $this->db->query($query);
-        return $sql->result();
+
+        $ideas = $this->db->query($query)->result();
+
+        return $this->decorateIdeas($ideas);
     }
 
-    public function category_exists($id){
+    public function categoryExists($id) {
         $id = (int) $id;
         $result = $this->db->query("SELECT id FROM categories WHERE id='$id'");
         if($result->num_rows() == 0) return false;
         return true;
     }
     
-    public function get_ideas_by_category($category, $order, $type, $page){
+    public function getIdeasByCategory($category, $order, $type, $page){
         $page = (int) $page;
     	$category = (int) $category;
-        $max = $this->get_setting('max_results');
+        $max = $this->getSetting('max_results');
         $from = ($page - 1) * $max;
     	$query = "SELECT * FROM ideas WHERE categoryid='$category' AND status !='new' ORDER BY ";
         switch ($order) {
@@ -108,12 +114,13 @@ class Get extends CI_Model
             $query .= " LIMIT $from, $max";
         }
 
-    	$sql = $this->db->query($query);
-        return $sql->result();
+    	$ideas = $this->db->query($query)->result();
+
+        return $this->decorateIdeas($ideas);
     }
 
     
-    public function search_ideas($query){
+    public function getIdeasBySearchQuery($query){
         $keywords = explode(" ", $query);
         $temp = array_shift($keywords);
         $query = "SELECT * FROM ideas WHERE ( title LIKE '%$temp%'";
@@ -130,21 +137,22 @@ class Get extends CI_Model
         }
         $query .= "END";
 
-        $sql = $this->db->query($query);
-        return $sql->result();
-        //Search by query, returns an array with list of ideas.
+        $ideas = $this->db->query($query)->result();
+
+        return $this->decorateIdeas($ideas);
     }
 
     
-    public function get_user_info($user_id){
+    public function getUser($user_id){
         $user_id = (int) $user_id;
         return $this->get_row_by_id('users', $user_id);
     }
 
-    public function get_user_ideas($user_id){
+    public function getUserIdeas($user_id){
         $user_id = (int) $user_id;
-        $sql = $this->db->query("SELECT * FROM ideas WHERE authorid='$user_id'");
-        return $sql->result();
+        $ideas = $this->db->query("SELECT * FROM ideas WHERE authorid='$user_id'")->result();
+
+        return $this->decorateIdeas($ideas);
     }
 
     public function login($email, $password){
@@ -157,7 +165,7 @@ class Get extends CI_Model
         else return 0;
     }
 
-    public function get_setting($name){
+    public function getSetting($name){
         $sql = $this->db->query("SELECT * FROM settings WHERE name=" . $this->db->escape($name));
         $data = $sql->row();
         if(@isset($data->value)) return $data->value;
@@ -176,7 +184,7 @@ class Get extends CI_Model
         return $sql->row();
     }
 
-    public function verify_token($token){
+    public function verifyToken($token){
         $token = explode('-', $token);
         $token[0] = (int) $token[0];
         $token[1] = (int) $token[1];
@@ -210,46 +218,43 @@ class Get extends CI_Model
         return $token;
     }
 
-    public function isbanned($id){
+    public function getBanValue($id) {
         $id = (int) $id;
-        $user = $this->get_user_info($id);
+        $user = $this->getUser($id);
         return $user->banned;
     }
-    public function unban($id){
-        $id = (int) $id;
-        $sql = $this->db->query("UPDATE users SET banned='0' WHERE id='$id'");
-    }
 
-    public function get_user_comments($id, $limit){
+    public function getUserComments($id, $limit) {
         $id = (int) $id;
         $limit = (int) $limit;
-        $sql = $this->db->query("SELECT * FROM comments WHERE userid='$id' ORDER BY id DESC LIMIT $limit");
-        $ar = $sql->result();
-        $r = array();
-        foreach ($ar as $a) {
-            $k = $this->get_idea_by_id($a->ideaid);
-            $r[] = array('idea' => $k->title, 'ideaid' => $a->ideaid, 'id' => $a->id, 'date' => $a->date);
+        $result = $this->db->query("SELECT * FROM comments WHERE userid='$id' ORDER BY id DESC LIMIT $limit")->result();
+
+        $comments = array();
+        foreach ($result as $comment) {
+            $idea = $this->getIdea($comment->ideaid);
+            $comments[] = array('idea' => $idea, 'id' => $comment->id, 'date' => $comment->date);
         }
-        return $r;
+
+        return $comments;
     }
 
-    public function get_new_ideas($limit){
+    public function get_new_ideas($limit) {
         $limit = (int) $limit;
-        $sql = $this->db->query("SELECT * FROM ideas WHERE status='new' ORDER BY id DESC LIMIT $limit");
-        return $sql->result();
+        $ideas = $this->db->query("SELECT * FROM ideas WHERE status='new' ORDER BY id DESC LIMIT $limit")->result();
+        return $this->decorateIdeas($ideas);
     }
 
-    public function get_new_ideas_num(){
+    public function get_new_ideas_num() {
         $sql = $this->db->query("SELECT * FROM ideas WHERE status='new'");
         return $sql->num_rows();
     }
 
-    public function get_comment($id){
+    public function get_comment($id) {
         $id = (int) $id;
         return $this->get_row_by_id('comments', $id);
     }
 
-    public function get_flags(){
+    public function get_flags() {
         $sql = $this->db->query("SELECT * FROM flags ORDER BY toflagid DESC");
         $list = $sql->result();
         $end = array();
@@ -274,7 +279,7 @@ class Get extends CI_Model
         return $end;
     }
 
-    public function get_logs($to, $toid, $limit = 0){   
+    public function get_logs($to, $toid, $limit = 0) {
         $toid = (int) $toid;
         $limit = (int) $limit;     
         if($limit != 0) $sql = $this->db->query("SELECT * FROM logs WHERE type=". $this->db->escape($to) ." AND toid='$toid' ORDER BY id DESC LIMIT $limit");
@@ -282,13 +287,13 @@ class Get extends CI_Model
         return $sql->result();
     }
 
-    public function get_last_logs($limit = 30){
+    public function get_last_logs($limit = 30) {
         $limit = (int) $limit;
         $sql = $this->db->query("SELECT content,date FROM logs ORDER BY id DESC LIMIT $limit");
         return $sql->result();
     }
 
-    public function get_users($order = "id", $limit = 30){
+    public function get_users($order = "id", $limit = 30) {
         $limit = (int) $limit;
         if($order == "banned"){
             $sql = $this->db->query("SELECT * FROM users WHERE banned <> 0 ORDER BY id DESC LIMIT $limit");
@@ -301,16 +306,15 @@ class Get extends CI_Model
         return $sql->result();
     }
 
-    public function get_user_votes($userid){
+    public function getUserVotes($userid) {
         $userid = (int) $userid;
         $sql = $this->db->query("SELECT * FROM votes WHERE userid='$userid'");
         $res = $sql->result();
         $list = array();
         foreach($res as $vote){
             $t = array();
-            $idea = $this->get_idea_by_id($vote->ideaid);
-            $t['idea'] = $idea->title;
-            $t['ideaid'] = $idea->id;
+            $idea = $this->getIdea($vote->ideaid);
+            $t['idea'] = $idea;
             $t['number'] = $vote->number;
             $t['id'] = $vote->id;
             $list[] = $t;
@@ -318,12 +322,12 @@ class Get extends CI_Model
         return $list;
     }
 
-    public function get_admin_users(){
+    public function get_admin_users() {
         $sql = $this->db->query("SELECT * FROM users WHERE isadmin <> 0 ORDER BY id");
         return $sql->result();
     }
 
-    public function category_id($name){
+    public function category_id($name) {
         $sql = $this->db->query("SELECT id FROM categories where name='$name'");
         if($sql->num_rows() == 0) return 0;
         else{
@@ -332,18 +336,51 @@ class Get extends CI_Model
         }
     }
 
-    public function email_config(){
-            $config['protocol']    = 'smtp';
-            $config['smtp_host']    = $this->get_setting('smtp-host');
-            $config['smtp_port']    = $this->get_setting('smtp-port');
-            $config['smtp_timeout'] = '7';
-            $config['smtp_user']    = $this->get_setting('smtp-user');
-            $config['smtp_pass']    = $this->get_setting('smtp-pass');
-            $config['charset']    = 'utf-8';
-            $config['newline']    = "\r\n";
-            $config['mailtype'] = 'text'; // or html
-            $config['validation'] = FALSE;  
-            return $config;
+    public function email_config() {
+        $config['protocol']     = 'smtp';
+        $config['smtp_host']    = $this->getSetting('smtp-host');
+        $config['smtp_port']    = $this->getSetting('smtp-port');
+        $config['smtp_timeout'] = '7';
+        $config['smtp_user']    = $this->getSetting('smtp-user');
+        $config['smtp_pass']    = $this->getSetting('smtp-pass');
+        $config['charset']      = 'utf-8';
+        $config['newline']      = "\r\n";
+        $config['mailtype']     = 'text'; // or html
+        $config['validation']   = FALSE;
+
+        return $config;
+    }
+
+    public function setSessionUserValues($user) {
+        $_SESSION['phpback_userid'] = $user->id;
+        $_SESSION['phpback_username'] = $user->name;
+        $_SESSION['phpback_useremail'] = $user->email;
+        $_SESSION['phpback_isadmin'] = $user->isadmin;
+    }
+
+    public function setSessionCookie() {
+        setcookie('phpback_sessionid',  $this->new_token($_SESSION['phpback_userid']), time()+3600*24*30, '/');
+    }
+
+    private function decorateIdeas(&$ideas) {
+        foreach ($ideas as &$idea) {
+            $this->decorateIdea($idea);
+        }
+
+        return $ideas;
+    }
+
+    private function decorateIdea(&$idea) {
+        $idea->parsedTitle = $this->display->getParsedString($idea->title);
+        $idea->url = base_url() . 'home/idea/' . $idea->id . "/" . $idea->parsedTitle;
+
+        return $idea;
+    }
+
+    private function decorateCategories(&$categories) {
+        foreach ($categories as &$category) {
+            $category->url = base_url() . 'home/category/' . $category->id . '/';
+            $category->url .= $this->display->getParsedString($category->name);
+        }
     }
 }
-?>
