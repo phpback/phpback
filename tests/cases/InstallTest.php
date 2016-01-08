@@ -34,7 +34,7 @@ class InstallTest extends TestCase {
         $this->assertEquals($db['default']['password'], '');
         $this->assertEquals($db['default']['database'], 'phpback_test');
         $this->assertEquals($db['default']['username'], 'root');
-        $this->assertEquals($db['default']['dbdriver'], 'mysql');
+        $this->assertEquals($db['default']['dbdriver'], 'mysqli');
 
         //Should have updated database with new tables
         $this->assertEquals(RedBean::inspect(), array(
