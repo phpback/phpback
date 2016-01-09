@@ -3,6 +3,9 @@
 class Display {
 
     public function getParsedString($string) {
-        return str_replace(' ', '-', $string);
+        $parsedString = str_replace([' ', ','], '-', $string);
+        $parsedString = preg_replace('/[^a-zA-Z0-9-]/', '', $parsedString);
+
+        return $parsedString;
     }
 }
