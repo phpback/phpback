@@ -1,6 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta charset="utf-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="16x16">
+        
   <title>PHPBack Installation</title>
   <!-- Latest compiled and minified JavaScript -->
   <script src="../public/bootstrap/js/bootstrap.min.js"></script>
@@ -20,11 +25,11 @@
     text-decoration: none;
   }
   body{
-		background-color: #1ABC9C;
+        background-color: #1ABC9C;
   }
   .phpback_logo{
-		text-align: center;
-		margin-bottom: 15px;
+	text-align: center;
+	margin-bottom: 15px;
 	}
   .configfile{
   	text-align: center;

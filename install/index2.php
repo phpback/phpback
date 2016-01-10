@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>PHPBack Installation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta charset="utf-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="16x16">
+        
   <!-- Latest compiled and minified JavaScript -->
   <script src="../public/bootstrap/js/bootstrap.min.js"></script>
   <script src="../public/bootstrap/js/bootstrap.js"></script>
