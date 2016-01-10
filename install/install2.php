@@ -2,19 +2,20 @@
 /**
  * First step of setup: database creation (action of index.php)
  * @copyright  Copyright (c) 2014 PHPBack
- * @author Ivan Diaz <ivan@phpback.org>
+ * @author       Ivan Diaz <ivan@phpback.org>
  * @license      http://opensource.org/licenses/GPL-3.0 GPL-3.0
  * @link            https://github.com/ivandiazwm/phpback
  * @since         1.0
  */
 
-define('BASEPATH', '.');    //Make this script works with nginx
+define('BASEPATH', '.');    //Make this script work with nginx
 
 /* if started from commandline, wrap parameters to $_POST */
 if (!isset($_SERVER["HTTP_HOST"])) 
     parse_str($argv[1], $_POST);
 
 include "../application/config/database.php";
+include "pretty_message.php";
 
 $mysql = new mysqli($db['default']['hostname'], $db['default']['username'], $db['default']['password'], $db['default']['database']);
 
@@ -39,5 +40,6 @@ $mysql->multi_query("INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 if(unlink('index2.php') && unlink('install2.php')) {
     header('Location: ../admin');
 } else {
-    echo "PLEASE DELETE install/ FOLDER MANUALLY. THEN GO TO yourwebsite.com/feedback/admin/ TO LOG IN";
+    $url = getBaseUrl();
+    displayMessage("PLEASE DELETE install/ FOLDER MANUALLY. THEN GO TO <a href='" . $url . "/admin/'>yourwebsite.com/feedback/admin/</a> TO LOG IN");
 }
