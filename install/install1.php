@@ -15,10 +15,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include "pretty_message.php";
 
-$url = getBaseUrl();
-displayMessage("<a href='" . $url . "/install/index2.php'>got fucked</a> ");
-exit(1);
-
 /**
  * Redirect to the initial form and pass to the page an array containing :
  * 1. Previous entered values
