@@ -13,7 +13,10 @@ define('BASEPATH', '.');    //Make this script work with nginx
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include "pretty_message.php";
+include 'pretty_message.php';
+include '../application/libraries/Hashing.php';
+
+$hashing = new Hashing();
 
 /**
  * Redirect to the initial form and pass to the page an array containing :
@@ -91,48 +94,6 @@ function createDbConfigFile($hostname, $username, $password, $database) {
     fclose($file);
 }
 
-/**
- * Generate some random bytes by using openssl, dev/urandom or random
- * @param int $count length of the random string
- * @return string a string of pseudo-random bytes (must be encoded)
- * @author Benjamin BALET <benjamin.balet@gmail.com>
- */
-function getRandomBytes($length) {
-    if(function_exists('openssl_random_pseudo_bytes')) {
-      $rnd = openssl_random_pseudo_bytes($length, $strong);
-      if ($strong === TRUE)
-        return $rnd;
-    }
-    $sha =''; $rnd ='';
-    if (file_exists('/dev/urandom')) {
-      $fp = fopen('/dev/urandom', 'rb');
-      if ($fp) {
-          if (function_exists('stream_set_read_buffer')) {
-              stream_set_read_buffer($fp, 0);
-          }
-          $sha = fread($fp, $length);
-          fclose($fp);
-      }
-    }
-    for ($i=0; $i<$length; $i++) {
-      $sha  = hash('sha256',$sha.mt_rand());
-      $char = mt_rand(0,62);
-      $rnd .= chr(hexdec($sha[$char].$sha[$char+1]));
-    }
-    return $rnd;
-}
-
-/**
- * Hash a password using BCRYPT algo and 8 iterations
- * @param string $password Clear password to be hashed
- * @return string Hashed password
- */
-function hashPassword($password) {
-    //Hash the clear password using bcrypt (8 iterations)
-    $salt = '$2a$08$' . substr(strtr(base64_encode(getRandomBytes(16)), '+', '.'), 0, 22) . '$';
-    $hash = crypt($password, $salt);
-    return $hash;
-}
 
 /* if started from commandline, wrap parameters to $_POST */
 if (!isset($_SERVER["HTTP_HOST"]))
@@ -196,7 +157,7 @@ if ($result->num_rows == 1) {
     header('Location: ../admin');
     exit;
 } else {
-    $server->query("INSERT INTO users(id,name,email,pass,votes,isadmin,banned) VALUES('','" . $_POST['adminname'] . "','" . $_POST['adminemail'] . "','" . hashPassword($_POST['adminpass']) . "', 20, 3,0)");
+    $server->query("INSERT INTO users(id,name,email,pass,votes,isadmin,banned) VALUES('','" . $_POST['adminname'] . "','" . $_POST['adminemail'] . "','" . $hashing->hash($_POST['adminpass']) . "', 20, 3,0)");
 
     if (!@chmod('../install', 0777)) {
         $url = getBaseUrl();
