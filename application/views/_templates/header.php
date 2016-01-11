@@ -8,7 +8,10 @@ See LICENSE.TXT for details.  -->
 <html>
 <head>
     <title><?= $title; ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="<?php echo base_url();?>favicon.ico" sizes="16x16">
 
     <!-- Loading Bootstrap -->
     <link href="<?= base_url(); ?>public/bootstrap/css/bootstrap.css" rel="stylesheet">
