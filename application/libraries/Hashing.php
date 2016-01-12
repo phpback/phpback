@@ -17,4 +17,5 @@ class Hashing {
     public function matches($input, $hash) {
         return (crypt($input, $hash) === $hash);
     }
+
 }
