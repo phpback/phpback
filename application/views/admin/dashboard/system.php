@@ -82,7 +82,7 @@
               </select>
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Submit changes</button>
+              <button name="submit-create-admin" type="submit" class="btn btn-primary">Submit changes</button>
             </div>
           </form>
       </div>

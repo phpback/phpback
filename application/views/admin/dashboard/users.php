@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="collapse navbar-collapse" id="navbar-collapse-01">
-        <ul class="nav navbar-nav">           
+        <ul class="nav navbar-nav">
           <li><a href="<?php echo base_url() . 'admin'; ?>">Dashboard</a></li>
           <li><a href="<?php echo base_url() . 'admin/ideas'; ?>">Ideas and Comments</a></li>
           <li class="active"><a href="<?php echo base_url() . 'admin/users'; ?>">Users Management</a></li>
@@ -16,7 +16,7 @@
           <?php } ?>
         </ul>
           <p class="navbar-text navbar-right">Signed in as <span style="color:#27AE60"><?php echo $_SESSION['phpback_username']; ?></span><a href="<?php echo base_url() . 'action/logout'; ?>"><button type="button" class="btn btn-danger btn-xs" style="margin-left:10px;">Log out</button></a></p>
-           
+
       </div><!-- /.navbar-collapse -->
     </nav><!-- /navbar -->
     <div>
@@ -115,7 +115,7 @@
               <input type="text" class="form-control" name="days" style="width:100px" maxlength="4"> (0 for indefinitely ban)
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Ban User</button>
+              <button name="banuser"type="submit" class="btn btn-primary">Ban User</button>
             </div>
           </form>
       </div>

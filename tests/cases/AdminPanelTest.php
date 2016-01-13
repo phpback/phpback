@@ -60,20 +60,20 @@ class AdminPanelTest extends TestCase {
         Scripts::LoginAdmin();
         $this->byLinkText('System Settings')->click();
         $this->fillFields(array(
-              'setting-1' => 'newrecaptchapublic',
-              'setting-2' => 'newrecaptchaprivate',
+                //  //'setting-1' => 'newrecaptchapublic',
+                //'setting-2' => 'newrecaptchaprivate',
               'setting-3' => '50',
               'setting-4' => 'newmail@phpback.org',
               'setting-5' => 'new tittle',
               'setting-6' => '50',
-              'setting-7' => 'spanish',
+              //  'setting-7' => 'spanish',
               'setting-8' => '50',
               'setting-9' => '50',
               'setting-10' => 'newsmtp-user',
               'setting-11' => 'newsmtp-pass'
         ));
         $this->byName('submit-changes')->click();
-        
+
         $recaptchapublic = RedBean::load('settings',1);
         $recaptchaprivate = RedBean::load('settings',2);
         $maxvotes = RedBean::load('settings',3);
@@ -86,17 +86,44 @@ class AdminPanelTest extends TestCase {
         $smtpuser = RedBean::load('settings',10);
         $smtppass = RedBean::load('settings',11);
 
-        $this->assertEquals($recaptchapublic->value,'newrecaptchapublic');
-        $this->assertEquals($recaptchaprivate->value,'newrecaptchaprivate');
+        //$this->assertEquals($recaptchapublic->value,'newrecaptchapublic');
+        //$this->assertEquals($recaptchaprivate->value,'newrecaptchaprivate');
         $this->assertEquals($maxvotes->value,'50');
         $this->assertEquals($mainmail->value,'newmail@phpback.org');
         $this->assertEquals($title->value,'new tittle');
         $this->assertEquals($max_results->value,'50');
-        $this->assertEquals($language->value,'spanish');
+        //$this->assertEquals($language->value,'spanish');
         $this->assertEquals($smtphost->value,'50');
         $this->assertEquals($smtpport->value,'50');
         $this->assertEquals($smtpuser->value,'newsmtp-user');
         $this->assertEquals($smtppass->value,'newsmtp-pass');
     }
+    public function testCreateAdmin(){
+      Scripts::CreateUser();
+      Scripts::LoginAdmin();
+      $this->byLinkText('System Settings')->click();
+      $this->byLinkText('Create Admin')->click();
+      $this->fillFields(array(
+        'id' => '2',
+      ));
+      $this->select($this->byName('level'))->selectOptionByValue('2');
+      $this->byName('submit-create-admin')->click();
+      $userCreated = RedBean::load('users',2);
+      $this->assertEquals($userCreated->isadmin,'2');
+    }
+      //TODO:don't ban an admin ,used a regular users
+      public function testBanUser() {
+      Scripts::LoginAdmin();
+      $this->byLinkText('Users Management')->click();
+      $this->byLinkText('Ban User')->click();
+      $this->byName('id')->click();
+      $this->fillFields(array(
+          'id' => '2',
+          'days' => '10'
+      ));
+      $this->byName('banuser')->click();
+      $userbanned = RedBean::load('users',2);
+      $this->assertEquals($userbanned->isban,'10');
 
+    }
 }
