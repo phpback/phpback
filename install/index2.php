@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>PHPBack Installation</title>
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="../public/bootstrap/js/bootstrap.min.js"></script>
-  <script src="../public/bootstrap/js/bootstrap.js"></script>
-
-    <!-- Loading Bootstrap -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta charset="utf-8">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" sizes="16x16">
+        
     <link href="../public/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="../public/bootstrap/css/prettify.css" rel="stylesheet">
-
-    <!-- Loading Flat UI -->
     <link href="../public/css/flat-ui.css" rel="stylesheet">
     <link href="../public/css/demo.css" rel="stylesheet">
-
+    <script src="../public/js/jquery-2.0.3.min.js"></script>
+    <script src="../public/js/bootstrap.min.js"></script>
 
   <style type="text/css">
   a:hover{

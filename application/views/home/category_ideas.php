@@ -1,25 +1,23 @@
 <div class="contentdiv pull-left" style="padding-left:40px;padding-right:50px;width:70%">
 			<small><ol class="breadcrumb">
 			  <li><a href="<?php echo base_url();?>">Feedback</a></li>
-			  <li class="active"><?php echo $categories[$id]->name; ?></li>
+			  <li class="active"><?php echo $category->name; ?></li>
 			</ol></small>
-			<div class="row" style="margibottomn-:20px;">
-				<h5 style="color:#2C3E50;"><?php echo $categories[$id]->name; ?></h5>
-				<span style="color:#34495E"><small><?php echo $categories[$id]->description; ?></small></span>
-				<?php $freename = str_replace(" ", "-", $categories[$id]->name); ?>
+			<div class="row">
+				<h5 style="color:#2C3E50;"><?php echo $category->name; ?></h5>
+				<span style="color:#34495E"><small><?php echo $category->description; ?></small></span>
 			</div>
 			<table id="ideastable" class="table table-condensed">
 			<thead>
 		        <tr>
-		          <th><small><?php echo $lang['label_idea']; ?> <a id="order-by--idea" href="<?php echo base_url() . 'home/category/'. ($id) .'/'. $freename .'/title/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
-		          <th><small><?php echo $lang['label_votes']; ?> <a id="order-by--votes" href="<?php echo base_url() . 'home/category/'. ($id) .'/'. $freename .'/votes/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
+		          <th><small><?php echo $lang['label_idea']; ?> <a id="order-by--idea" href="<?= $category->url .'/title/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
+		          <th><small><?php echo $lang['label_votes']; ?> <a id="order-by--votes" href="<?= $category->url .'/votes/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
 		          <th><small><?php echo $lang['label_comments']; ?></small></th>
-		          <th><small><?php echo $lang['label_date']; ?> <a  id="order-by--date" href="<?php echo base_url() . 'home/category/'. ($id) .'/'. $freename .'/id/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
+		          <th><small><?php echo $lang['label_date']; ?> <a id="order-by--date" href="<?= $category->url .'/id/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
 		        </tr>
 		    </thead>
 		    </table>
 		<?php foreach ($ideas as $idea): ?>
-			<?php $freename = str_replace(" ", "-", $idea->title); ?>
 			<div class="row" style="margin-bottom:10px">
 				<div class="pull-left" style="margin-right:25px;">
 					<div style="width:60px;height:50px;text-align:center;border-style:solid;border-width:1px;border-color:#3498DB;border-radius:5px;padding-top:4px;margin-bottom:2px">
@@ -77,7 +75,7 @@
 					</div>
 				</div>
 				<div style="margin-top:-10px;margin-left:70px">
-					<a class="result-idea--title" href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>"><?php echo $idea->title; ?></a>
+					<a class="result-idea--title" href="<?= $idea->url;?>"><?= $idea->title; ?></a>
 					<div style="margin-top:-10px">
 					<small class="result-idea--description">
 						<?php
@@ -93,23 +91,22 @@
 					</div>
 					<div style="margin-top:-10px">
 					<ul class="nav-pills" style="list-style:none;margin-left:-30px">
-					<li><small className="result-idea--comments"><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
+					<li><small class="result-idea--comments"><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
 					</ul><br><br>
 					</div>
 				</div>
 			</div>
 		<?php endforeach; ?>
-		<?php $freename = str_replace(" ", "-", $categories[$id]->name); ?>
 			<ul class="pagination">
-			  <li><a class="pagination--previous" href="<?php  if($page > 1) echo base_url() . "home/category/$id/$freename/$order/$type/" . ($page-1); else echo '#'; ?>">&laquo;</a></li>
+			  <li><a class="pagination--previous" href="<?php if($page > 1) echo $category->url . "/$order/$type/" . ($page-1); else echo '#'; ?>">&laquo;</a></li>
 			  <?php for($i=1;$i<=$pages;$i++){ ?>
 			  	 <?php if($i == $page): ?>
 			  	 	<li class="active"><a class="pagination--current" href=""><?php echo $i;?></a></li>
 			  	 <?php else:?>
-			  	 	<li><a class="pagination--page" href='<?php echo base_url() . "home/category/$id/$freename/$order/$type/$i"; ?>'><?php echo $i;?></a></li>
+			  	 	<li><a class="pagination--page" href='<?php echo $category->url . "/$order/$type/$i"; ?>'><?php echo $i;?></a></li>
 			  	 <?php endif;?>
 
 			  <?php } ?>
-			  <li><a class="pagination--next" href="<?php  if($page < $pages) echo base_url() . "home/category/$id/$freename/$order/$type/" . ($page+1); else echo '#'; ?>">&raquo;</a></li>
+			  <li><a class="pagination--next" href="<?php  if($page < $pages) echo $category->url . "/$order/$type/" . ($page+1); else echo '#'; ?>">&raquo;</a></li>
 			</ul>
 </div>
