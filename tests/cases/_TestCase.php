@@ -30,6 +30,7 @@ class TestCase extends PHPUnit_Extensions_Selenium2TestCase {
 
     public function fillFields($array) {
         foreach ($array as $key => $value) {
+            $this->byName($key)->clear();
             $this->byName($key)->value($value);
         }
     }

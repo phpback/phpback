@@ -141,7 +141,7 @@ class Adminaction extends CI_Controller{
         $this->start(3);
         $categories = $this->get->getCategories();
         foreach ($categories as $cat) {
-            $temp = $this->input->post("$cat->id", true);
+            $temp = $this->input->post("category-$cat->id", true);
             if($temp != $cat->name){
                 $this->post->update_by_id('categories', 'name', $temp , $cat->id);
                 $this->post->log(str_replace(array('%s1', '%s2'), array($cat->name, $temp), $this->lang->language['log_category_changed']), 'user', $_SESSION['phpback_userid']);
