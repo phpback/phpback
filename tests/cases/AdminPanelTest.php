@@ -111,19 +111,20 @@ class AdminPanelTest extends TestCase {
             $userCreated = RedBean::load('users',2);
             $this->assertEquals($userCreated->isadmin,'2');
     }
-      //TODO:don't ban an admin ,used a regular users
-      public function testBanUser() {
-      Scripts::LoginAdmin();
-      $this->byLinkText('Users Management')->click();
-      $this->byLinkText('Ban User')->click();
-      $this->byName('id')->click();
-      $this->fillFields(array(
-          'id' => '2',
-          'days' => '10'
-      ));
-      $this->byName('banuser')->click();
-      $userbanned = RedBean::load('users',2);
-      $this->assertEquals($userbanned->isban,'10');
 
+    public function testBanUser() {
+        Scripts::CreateUser('turing@phpback.org','Alan turing','turing123');
+        Scripts::LoginAdmin();
+        $this->byLinkText('Users Management')->click();
+        $this->byLinkText('Ban User')->click();
+        $this->byName('id')->click();
+        $this->fillFields(array(
+            'id' => '3',
+            'days' => '10'
+        ));
+        $this->byName('banuser')->click();
+        $userbanned = RedBean::load('users',3);
+        date_default_timezone_set('America/Los_Angeles');
+        $this->assertEquals($userbanned->banned,date('Ymd', strtotime('+10 days')));
     }
 }
