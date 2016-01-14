@@ -62,15 +62,15 @@ class AdminPanelTest extends TestCase {
         $this->fillFields(array(
                 //  //'setting-1' => 'newrecaptchapublic',
                 //'setting-2' => 'newrecaptchaprivate',
-              'setting-3' => '50',
-              'setting-4' => 'newmail@phpback.org',
-              'setting-5' => 'new tittle',
-              'setting-6' => '50',
-              //  'setting-7' => 'spanish',
-              'setting-8' => '50',
-              'setting-9' => '50',
-              'setting-10' => 'newsmtp-user',
-              'setting-11' => 'newsmtp-pass'
+                'setting-3' => '50',
+                'setting-4' => 'newmail@phpback.org',
+                'setting-5' => 'new tittle',
+                'setting-6' => '50',
+                //  'setting-7' => 'spanish',
+                'setting-8' => '50',
+                'setting-9' => '50',
+                'setting-10' => 'newsmtp-user',
+                'setting-11' => 'newsmtp-pass'
         ));
         $this->byName('submit-changes')->click();
 
@@ -99,17 +99,17 @@ class AdminPanelTest extends TestCase {
         $this->assertEquals($smtppass->value,'newsmtp-pass');
     }
     public function testCreateAdmin(){
-      Scripts::CreateUser();
-      Scripts::LoginAdmin();
-      $this->byLinkText('System Settings')->click();
-      $this->byLinkText('Create Admin')->click();
-      $this->fillFields(array(
-        'id' => '2',
-      ));
-      $this->select($this->byName('level'))->selectOptionByValue('2');
-      $this->byName('submit-create-admin')->click();
-      $userCreated = RedBean::load('users',2);
-      $this->assertEquals($userCreated->isadmin,'2');
+            Scripts::CreateUser();
+            Scripts::LoginAdmin();
+            $this->byLinkText('System Settings')->click();
+            $this->byLinkText('Create Admin')->click();
+            $this->fillFields(array(
+              'id' => '2',
+            ));
+            $this->select($this->byName('level'))->selectOptionByValue('2');
+            $this->byName('submit-create-admin')->click();
+            $userCreated = RedBean::load('users',2);
+            $this->assertEquals($userCreated->isadmin,'2');
     }
       //TODO:don't ban an admin ,used a regular users
       public function testBanUser() {

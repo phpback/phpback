@@ -101,7 +101,7 @@
       </div>
       <div id="categorytable" style="display:none">
         <h4>Add a new Category</h4>
-        <form  role="form" method="post" action="<?php echo base_url() . 'adminaction/addcategory'?>">
+        <form role="form" method="post" action="<?php echo base_url() . 'adminaction/addcategory'?>">
             <div class="form-group">
               <label>Category name</label>
               <input type="text" class="form-control" name="name" style="width:300px">
