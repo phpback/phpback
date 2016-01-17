@@ -28,3 +28,7 @@ body {
 .logged-as-label {
     color:#ECF0F1;
 }
+
+.nav.nav-tabs {
+    cursor: pointer;
+}
