@@ -33,7 +33,7 @@
             </div>
           <?php endforeach; ?>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Submit changes</button>
+              <button name="submit-changes" type="submit" class="btn btn-primary">Submit changes</button>
             </div>
           </form>
       </div>
@@ -82,7 +82,7 @@
               </select>
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Submit changes</button>
+              <button name="submit-create-admin" type="submit" class="btn btn-primary">Submit changes</button>
             </div>
           </form>
       </div>
@@ -112,7 +112,7 @@
               <textarea class="form-control" name="description" style="width:300px"></textarea>
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Add Category</button>
+              <button name="add-category" type="submit" class="btn btn-primary">Add Category</button>
             </div>
         </form>
         <h4>Delete a category</h4>
@@ -124,24 +124,24 @@
                   <option value="<?php echo $cat->id; ?>"><?php echo $cat->name; ?></option>
                 <?php endforeach; ?>
               </select>
-              <label class="checkbox" for="checkbox1">
+              <label name="delete-ideas" class="checkbox" for="checkbox1">
                 <input type="checkbox" value="" id="checkbox1" name="ideas" data-toggle="checkbox">
                 Delete category's ideas
               </label>
           </div>
           <div class="form-group">
-              <button type="submit" class="btn btn-primary">Delete category</button>
+              <button name="delete-category" type="submit" class="btn btn-primary">Delete category</button>
           </div>
         </form>
         <h4>Change names</h4>
-        <form role="form" method="post" action="<?php echo base_url() . 'adminaction/updatecategories'?>">
+        <form role="form" name="update-form" method="post" action="<?php echo base_url() . 'adminaction/updatecategories'?>">
             <?php foreach ($categories as $cat): ?>
               <div class="form-group">
-                <input type="text" class="form-control" name="<?php echo $cat->id;?>" style="width:300px" value="<?php echo $cat->name;?>">
+                <input type="text" class="form-control" name="category-<?php echo $cat->id;?>" style="width:300px" value="<?php echo $cat->name;?>">
               </div>
             <?php endforeach; ?>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Update names</button>
+              <button name="update-names" type="submit" class="btn btn-primary">Update names</button>
             </div>
         </form>
       </div>
