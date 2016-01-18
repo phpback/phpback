@@ -31,4 +31,28 @@ class Scripts {
       ));
       $test->byName('registration-form')->submit();
     }
+
+    public static function LoginUser($email = 'newemail@phpback.org', $password = 'Jobs123') {
+        $test = self::$instance;
+
+        $test->url('/home/login');
+
+        $test->fillFields(array(
+            'email' => $email,
+            'password' => $password
+        ));
+        $test->byName('login-form')->submit();
+    }
+    public static function CreateCategory($name = 'Amsterdam') {
+        $test = self::$instance;
+        self::LoginAdmin();
+        $test->byLinkText('System Settings')->click();
+        $test->byLinkText('Categories')->click();
+
+        $test->fillFields(array(
+            'name' => $name,
+            'description' => 'Value Category Description'
+        ));
+        $test->byName('add-category')->click();
+    }
 }
