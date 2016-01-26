@@ -124,6 +124,6 @@ class AdminPanelTest extends TestCase {
         $this->byLinkText('Banned List ')->click();
         $this->byLinkText('Disable ban')->click();
         $passdisbann= RedBean::load('users',3);
-        $this->assertEquals('0',$passdisbann->banned);
+        $this->assertEquals($passdisbann->banned,'0');
     }
 }
