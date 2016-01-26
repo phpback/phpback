@@ -19,5 +19,4 @@ gnome-terminal -e 'java -jar /usr/local/bin/selenium-server-standalone-2.48.2.ja
 # RUN TESTS
 phpunit --colors tests/cases/InstallTest.php
 phpunit --colors tests/cases/AdminPanelTest.php
-#phpunit --colors tests/cases/UserTest.php
-#phpunit --colors tests/cases/PostingTest.php
+phpunit --colors tests/cases/UserTest.php

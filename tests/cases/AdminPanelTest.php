@@ -21,17 +21,9 @@ class AdminPanelTest extends TestCase {
     }
 
     public function testCategoryCreation() {
-        Scripts::LoginAdmin();
-        $this->byLinkText('System Settings')->click();
-        $this->byLinkText('Categories')->click();
-
-        $this->fillFields(array(
-            'name' => 'Value Name',
-            'description' => 'Value Category Description'
-        ));
-        $this->byName('add-category')->click();
+        Scripts::CreateCategory();
         $category=RedBean::load('categories',1);
-        $this->assertEquals($category->name, 'Value Name');
+        $this->assertEquals($category->name, 'Amsterdam');
         $this->assertEquals($category->description, 'Value Category Description');
     }
     public function testCategoryChangeName() {
@@ -47,13 +39,13 @@ class AdminPanelTest extends TestCase {
 
     }
     public function testCategoryDeletion() {
-        Scripts::LoginAdmin();
+        Scripts::CreateCategory('Berlin');
         $this->byLinkText('System Settings')->click();
         $this->byLinkText('Categories')->click();
         $this->byName('delete-ideas')->click();
         $this->byName('delete-category')->click();
         $numberOfCategories=RedBean::count('categories');
-        $this->assertEquals($numberOfCategories,0);
+        $this->assertEquals($numberOfCategories,1);
     }
 
     public function testGeneralSettings() {
@@ -111,7 +103,6 @@ class AdminPanelTest extends TestCase {
             $userCreated = RedBean::load('users',2);
             $this->assertEquals($userCreated->isadmin,'2');
     }
-
     public function testBanUser() {
         Scripts::CreateUser('turing@phpback.org','Alan turing','turing123');
         Scripts::LoginAdmin();
@@ -126,5 +117,13 @@ class AdminPanelTest extends TestCase {
         $userbanned = RedBean::load('users',3);
         date_default_timezone_set('America/Los_Angeles');
         $this->assertEquals($userbanned->banned,date('Ymd', strtotime('+10 days')));
+    }
+    public function testDisableBanUser() {
+        Scripts::LoginAdmin();
+        $this->byLinkText('Users Management')->click();
+        $this->byLinkText('Banned List ')->click();
+        $this->byLinkText('Disable ban')->click();
+        $passdisbann= RedBean::load('users',3);
+        $this->assertEquals($passdisbann->banned,'0');
     }
 }

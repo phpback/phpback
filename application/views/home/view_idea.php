@@ -11,10 +11,10 @@
 						<b><?php if($idea->votes <= 99999) {
 								if($idea->votes < 1000) echo $idea->votes;
 								else echo number_format($idea->votes);
-							} elseif($idea->votes < 1000000){ 
+							} elseif($idea->votes < 1000000){
 								echo (int) ($idea->votes / 1000); echo "k";
-							} else { 
-							echo (int) ($idea->votes / 1000000); 
+							} else {
+							echo (int) ($idea->votes / 1000000);
 							$t = (int) ($idea->votes / 1000000);
 							if((int) ($idea->votes / 100000) - $t*10 > 0)
 								echo "," . (((int) ($idea->votes / 100000)) - $t*10);
@@ -24,7 +24,7 @@
 						<div style="margin-top:-10px"><small><?php echo $lang['label_votes']; ?></small></div>
 					</div>
 					<div class="dropdown">
-					  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="width:100%"><?php echo $lang['label_vote']; ?></button>
+					  <button name="Vote" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="width:100%"><?php echo $lang['label_vote']; ?></button>
 					  <span class="dropdown-arrow dropdown-arrow-inverse"></span>
 					  <ul class="dropdown-menu dropdown-inverse">
 					    <li><a href="<?php echo base_url() . "action/vote/1/" . $idea->id;?>">1 <?php echo $lang['label_votes']; ?></a></li>
@@ -36,7 +36,7 @@
 				<div style="margin-top:-10px;margin-left:90px">
 					<h6><?php echo $idea->title; ?></h6>
 					<span style="color:#34495E"><small><?php echo $idea->content; ?></small></span>
-					<div> 
+					<div>
 					<ul class="nav-pills" style="list-style:none;margin-left:-40px">
 					<li style="padding-right:10px"><span class="label label-<?php
 				switch ($idea->status) {
@@ -115,7 +115,7 @@
 				<li>
 					<a href="<?php echo base_url() . 'admin/users/' . $idea->authorid; ?>" target="_blank"><button type="submit" class="btn btn-danger btn-sm" style="width:130px"><?php echo $lang['label_ban_user']; ?></button></a>
 				</li>
-				
+
 				</ul>
 				</div>
 			</div>
@@ -129,7 +129,7 @@
 						    <textarea class="form-control" rows="4" name="content"></textarea>
 						  </div>
 						  <input type="hidden" name="ideaname" value="<?php echo str_replace(" ", "-", $idea->title); ?>">
-						  <button type="submit" class="btn btn-default"><?php echo $lang['label_submit']; ?></button>
+						  <button type="submit" name="commentbutton" class="btn btn-default"><?php echo $lang['label_submit']; ?></button>
 					</form>
 				</div>
 			</div>
