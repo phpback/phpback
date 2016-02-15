@@ -70,4 +70,4 @@ See LICENSE.TXT for details.  -->
     <?php endif; ?>
 
   </div>
-  <div class="row" style="width:102%;">
+  <div class="row">

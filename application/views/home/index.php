@@ -1,14 +1,15 @@
-		<div class="contentdiv pull-left" style="padding-left:40px;padding-right:50px;width:70%">
+	<div class="pull-left col-md-7 col-md-offset-1">
+		<div class="col-md-11">
 			<small>
 			<ol class="breadcrumb">
 			  <li class="active">Feedback</li>
 			</ol>
 			</small>
-			<div class="row" style="margin-top:10px;">
-			<h4 id="welcome-mesagge--title">Welcome to our FeedBack</h4>
+			<div>
+				<h4 id="welcome-mesagge--title">Welcome to our FeedBack</h4>
 				<div id="welcome-mesagge--text">Here you can suggest ideas to improve our services or vote ideas from other people.</div>
 			</div>
-			<div class="row" style="margin-bottom:20px; margin-top:20px;">
+			<div>
 				<div class="col-md-5" style="border-style:solid;border-width:1px;border-radius:5px;border-color:#3498DB;">
 					<h6><?= $lang['last_completed_ideas']; ?></h6>
 					<small>
@@ -48,7 +49,7 @@
 					</small>
 				</div>
 			</div>
-			<div class="row">
+			<div>
 				<div class="col-md-5" style="border-style:solid;border-width:1px;border-radius:5px;border-color:#F1C40F;">
 					<h6><?= $lang['last_planned_ideas']; ?></h6>
 					<small>
@@ -89,3 +90,4 @@
 				</div>
 			</div>
 		</div>
+	</div>

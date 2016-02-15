@@ -1,4 +1,4 @@
-<div class="pull-right" style="border-style:solid;border-width:1px;border-color:#C0C0C0;padding-left:10px;padding-top:8px;width:350px;margin-right:20px;" >
+<div class="pull-right col-md-3 col-md-pull-1" style="border-style:solid;border-width:1px;border-color:#C0C0C0;padding-left:10px;padding-top:8px;" >
 			<div class="pull-left">
 			<div id="search">
 	   			<form class="navbar-form navbar-right" action="<?php echo base_url() . 'home/search'; ?>" method="POST">
