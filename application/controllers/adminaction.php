@@ -168,8 +168,8 @@ class Adminaction extends CI_Controller{
         $this->start(3);
 
         $update = new AutoUpdate(__DIR__ . '/temp', __DIR__ . '/../../', 60);
-        $update->setCurrentVersion($this->version); // Current version of your application. This value should be from a database or another file which will be updated with the installation of a new version
-        $update->setUpdateUrl('http://www.phpback.org/upgrade/'); //Replace the url with your server update url
+        $update->setCurrentVersion($this->version);
+        $update->setUpdateUrl('http://www.phpback.org/upgrade/');
 
         $update->checkUpdate();
 
