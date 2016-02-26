@@ -120,7 +120,26 @@ class Action extends CI_Controller{
             exit;
         }
         $idea = $this->get->getIdea($ideaid);
-        header("Location: " . base_url() . 'home/idea/' . $ideaid . '/' . str_replace(' ', '-', $idea->title));
+        header("Location: " . base_url() . 'home/idea/' . $ideaid . '/' . $this->slugify($idea->title));
+    }
+
+    public function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+        // trim
+        $text = trim($text, '-');
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        // lowercase
+        $text = strtolower($text);
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+        return $text;
     }
 
     public function unvote($id){
