@@ -2,11 +2,16 @@
 
 class Display {
 
+    /**
+     * @param $string
+     * @return mixed|string
+     * @deprecated use slugify static instead keep for retrocompatibility
+     */
     public function getParsedString($string) {
         return $this->slugify($string);
     }
 
-    public function slugify($text)
+    public static function slugify($text)
     {
         // replace non letter or digits by -
         $text = preg_replace('~[^\\pL\d]+~u', '-', $text);

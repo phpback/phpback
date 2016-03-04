@@ -40,6 +40,7 @@
             </thead>
               <tbody>
                 <?php foreach ($newideas as $idea): ?>
+                <?php $freename = Display::slugify($idea->title); ?>
             <tr class="<?php
             switch ($idea->status) {
               case 'considered':
@@ -60,7 +61,7 @@
             }
             ?>">
               <td>
-                <a href="<?php echo base_url() . 'home/idea/' . $idea->id;?>" target="_blank"><?php echo $idea->title; ?></a>
+                <a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>" target="_blank"><?php echo $idea->title; ?></a>
               </td>
               <td>
                 <?php echo $categories[$idea->categoryid]->name; ?>
@@ -166,6 +167,7 @@
          </thead>
           <tbody>
             <?php foreach ($ideas as $idea): ?>
+            <?php $freename = Display::slugify($idea->title); ?>
         <tr class="<?php
         switch ($idea->status) {
           case 'considered':
@@ -186,7 +188,7 @@
         }
         ?>">
           <td>
-            <a href="<?php echo base_url() . 'home/idea/' . $idea->id;?>" target="_blank"><?php echo $idea->title; ?></a>
+            <a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>" target="_blank"><?php echo $idea->title; ?></a>
           </td>
           <td>
             <?php echo $categories[$idea->categoryid]->name; ?>

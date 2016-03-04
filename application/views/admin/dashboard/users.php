@@ -38,10 +38,10 @@
             </thead>
               <tbody>
             <?php foreach ($users as $user): ?>
-              <?php $freename = str_replace(" ", "-", $user->name); ?>
+              <?php $freename = Display::slugify($user->name); ?>
             <tr>
               <td>
-                <a href="<?php echo base_url() . 'home/profile/' . $user->id; ?>" target="_blank">#<?php echo $user->id;?></a>
+                <a href="<?php echo base_url() . 'home/profile/' . $user->id. '/' . $freename; ?>" target="_blank">#<?php echo $user->id;?></a>
               </td>
               <td>
                 <?php echo $user->name; ?>
@@ -76,7 +76,7 @@
               <?php $freename = str_replace(" ", "-", $user->name); ?>
             <tr>
               <td>
-                <a href="<?php echo base_url() . 'home/profile/' . $user->id; ?>" target="_blank">#<?php echo $user->id;?></a>
+                <a href="<?php echo base_url() . 'home/profile/' . $user->id . '/' . $freename; ?>" target="_blank">#<?php echo $user->id;?></a>
               </td>
               <td>
                 <?php echo $user->name; ?>
