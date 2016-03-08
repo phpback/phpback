@@ -1,4 +1,5 @@
 	</div>
+	</div>
 	<hr>
 	<div style="text-align:center">  &copy; <?php echo date("Y") ?> - Powered by <a href="http://www.phpback.org/" target="_blank">PHPBack</a></div>
     <script src="<?php echo base_url(); ?>public/js/jquery-1.8.3.min.js"></script>

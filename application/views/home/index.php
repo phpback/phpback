@@ -1,4 +1,4 @@
-	<div class="col-md-8">
+	<div class="col-md-9">
 	
 		<small>
 		<ol class="breadcrumb">
@@ -10,8 +10,10 @@
 			<div id="welcome-mesagge--text">Here you can suggest ideas to improve our services or vote on ideas from other people.</div>
 		</div>
 		
-		<div>
-			<div class="col-md-5 ideas-completed">
+		<br/>
+		
+		<div class="col-md-6">
+			<div class="ideas-completed">
 				<h6><?= $lang['last_completed_ideas']; ?></h6>
 				<small>
 				<table class="table table-hover">
@@ -30,29 +32,7 @@
 				</table>
 				</small>
 			</div>
-			<div class="col-md-5 col-md-offset-1 ideas-started">
-				<h6><?= $lang['last_started_ideas']; ?></h6>
-				<small>
-					<table class="table table-hover">
-						<?php foreach ($ideas['started'] as $idea): ?>
-							<tr>
-								<td>
-									<span class="label label-success started-idea--tag" style="margin-right:5px">
-										<?= $lang['idea_started']; ?>
-									</span>
-									<a href="<?= $idea->url; ?>">
-										<?= $idea->title; ?>
-									</a>
-								</td>
-							</tr>
-						<?php endforeach; ?>
-					</table>
-				</small>
-			</div>
-		</div>
-		
-		<div>
-			<div class="col-md-5 ideas-planned">
+			<div class="ideas-planned">
 				<h6><?= $lang['last_planned_ideas']; ?></h6>
 				<small>
 				<table class="table table-hover">
@@ -71,7 +51,29 @@
 				</table>
 				</small>
 			</div>
-			<div class="col-md-5 col-md-offset-1 ideas-considered">
+		</div>
+		
+		<div class="col-md-6">
+			<div class="ideas-started">
+				<h6><?= $lang['last_started_ideas']; ?></h6>
+				<small>
+					<table class="table table-hover">
+						<?php foreach ($ideas['started'] as $idea): ?>
+							<tr>
+								<td>
+									<span class="label label-success started-idea--tag" style="margin-right:5px">
+										<?= $lang['idea_started']; ?>
+									</span>
+									<a href="<?= $idea->url; ?>">
+										<?= $idea->title; ?>
+									</a>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</table>
+				</small>
+			</div>
+			<div class="ideas-considered">
 				<h6><?= $lang['last_considered_ideas']; ?></h6>
 				<small>
 				<table class="table table-hover">

@@ -19,7 +19,7 @@ See LICENSE.TXT for details.  -->
 
     <!-- Loading Flat UI -->
     <link href="<?= base_url(); ?>public/css/flat-ui.css" rel="stylesheet">
-    <link href="<?= base_url(); ?>public/css/demo.css" rel="stylesheet">
+    <!-- <link href="<?= base_url(); ?>public/css/demo.css" rel="stylesheet"> -->
 
     <!-- Loading custom styles-->
     <link href="<?php echo base_url(); ?>public/css/all.css" rel="stylesheet">
@@ -70,4 +70,6 @@ See LICENSE.TXT for details.  -->
     <?php endif; ?>
 
   </div>
-  <div class="row container-padding">
+  
+  <div class="container">
+  <div class="row">
