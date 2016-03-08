@@ -8,7 +8,6 @@ body {
 
 .breadcrumb {
     margin-bottom: 0;
-    margin-left: -10px;
 }
 
 .header {
@@ -32,3 +31,55 @@ body {
 .nav.nav-tabs {
     cursor: pointer;
 }
+
+
+
+.ideas-completed, .ideas-started, .ideas-planned, .ideas-considered
+{
+	border-style:solid;
+	border-width:1px;
+	border-radius:5px;
+	border-color:#3498DB;
+	
+	margin-bottom:10px;
+}
+
+.ideas-started
+{
+	border-color:#2ECC71;
+}
+
+.ideas-planned
+{
+	border-color:#F1C40F;
+}
+
+.ideas-considered
+{
+	border-color:#95A5A6;
+}
+
+
+.sidemenu
+{
+	border-style:solid;
+	border-width:1px;
+	border-color:#C0C0C0;
+	padding-left:10px;
+	padding-top:8px;
+	
+	margin-bottom:10px;
+}
+
+.container-padding  
+{
+ padding-left: 50px;
+ padding-right: 50px;
+}
+
+
+/* Line up labels and badges with text better */
+.label, .badge { 
+	vertical-align:2px;
+}
+

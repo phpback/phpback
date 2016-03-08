@@ -70,4 +70,4 @@ See LICENSE.TXT for details.  -->
     <?php endif; ?>
 
   </div>
-  <div class="row">
+  <div class="row container-padding">
