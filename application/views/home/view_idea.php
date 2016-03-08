@@ -1,10 +1,10 @@
-<div class="contentdiv pull-left" style="padding-left:40px;padding-right:50px;width:70%">
+<div class="col-md-9">
 			<small><ol class="breadcrumb">
 			  <li><a href="<?php echo base_url();?>">Feedback</a></li>
 			  <li><a href="<?php echo base_url() . 'home/category/' . $idea->categoryid . "/" . str_replace(" ", "-", $categories[$idea->categoryid]->name); ?>"><?php echo $categories[$idea->categoryid]->name;?></a></li>
 			  <li class="active"><?php echo $idea->title; ?></li>
 			</ol></small>
-			<div class="row" style="margin-top:15px;">
+			<div>
 				<div class="pull-left" style="margin-right:-5%">
 					<div style="width:80px;height:60px;text-align:center;border-style:solid;border-width:1px;border-color:#3498DB;border-radius:5px;padding-top:7px;margin-bottom:2px">
 						<span style="color:#3498DB;margin-top:-10px">
@@ -88,6 +88,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<?php if(isset($_SESSION['phpback_isadmin']) && $_SESSION['phpback_isadmin']): ?>
 			<div class="row">
 				<div class="col-md-10 col-md-offset-1" style="margin-top:10px">
@@ -120,6 +121,7 @@
 				</div>
 			</div>
 			<?php endif; ?>
+			
 			<?php if(isset($_SESSION['phpback_userid'])): ?>
 			<div class="row">
 				<div class="col-md-10 col-md-offset-1" style="margin-top:10px">
@@ -134,6 +136,7 @@
 				</div>
 			</div>
 			<?php endif; ?>
+			
 			<?php foreach ($comments as $comment) : ?>
 			<div class="row">
 				<div class="col-md-10 col-md-offset-1" style="margin-top:10px;border-style:solid;border-color:#C0C0C0;border-width:1px;border-radius:2px;padding-left:5px;padding-top:3px;">

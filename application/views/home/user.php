@@ -1,4 +1,4 @@
-<div class="contentdiv pull-left" style="padding-left:40px;padding-right:50px;width:70%">	
+<div class="col-md-9">	
 	<small><ol class="breadcrumb">
 			  <li><a href="<?php echo base_url();?>">Feedback</a></li>
 			  <li><?php echo $lang['label_profiles']; ?></li>
