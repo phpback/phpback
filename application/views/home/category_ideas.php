@@ -21,7 +21,7 @@
 		
 		<?php foreach ($ideas as $idea): ?>
 			<div class="row">
-				<div class="col-xs-4 col-md-2">
+				<div class="col-xs-4 col-sm-2">
 					<div class="vote-count-box">
 						<span style="color:#3498DB;"><b class="result-idea--votes">
 						<?php if($idea->votes <= 99999) {
@@ -79,7 +79,7 @@
 						?></span>
 					</div>
 				</div>
-				<div class="col-xs-8 col-md-10">
+				<div class="col-xs-8 col-sm-10">
 					<a class="result-idea--title" href="<?= $idea->url;?>"><?= $idea->title; ?></a>
 					<div style="margin-top:-10px">
 					<small class="result-idea--description">
