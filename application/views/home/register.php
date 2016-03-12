@@ -1,9 +1,10 @@
-<div class="contentdiv pull-left" style="padding-left:40px;padding-right:50px;width:70%">
-<small><ol class="breadcrumb">
-        <li><a href="<?php echo base_url(); ?>">Feedback</a></li>
-        <li class="active"><?php echo $lang['label_registration']; ?></li>
-  </ol></small>
-<h2><?php echo $lang['label_registration_form']; ?></h2>
+<div class="col-md-9">
+	<small><ol class="breadcrumb">
+			<li><a href="<?php echo base_url(); ?>">Feedback</a></li>
+			<li class="active"><?php echo $lang['label_registration']; ?></li>
+	  </ol></small>
+	<h2><?php echo $lang['label_registration_form']; ?></h2>
+	
   <?php if ($error == "recaptcha") {?>
     <p class="bg-danger" style="width:100%;height:30px;padding-left:10px;padding-top:5px;"><?php echo $lang['error_recaptcha']; ?></p>
   <?php } elseif ($error == "name") {?>

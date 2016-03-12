@@ -1,4 +1,4 @@
-<div class="contentdiv pull-left" style="padding-left:40px;padding-right:50px;width:70%">
+<div class="col-md-7">
   <small><ol class="breadcrumb">
         <li><a href="<?php echo base_url();?>">Feedback</a></li>
         <li class="active"><?php echo $lang['label_log_in']; ?></li>
@@ -26,3 +26,4 @@
     <button type="submit" class="btn btn-primary"><?php echo $lang['label_log_in']; ?></button> <a href="<?php echo base_url() . 'home/register';?>"><span style="padding-left:10px"><?php echo $lang['text_create_an_account']; ?></span></a>
   </form>
 </div>
+<div class="col-md-2"></div>
