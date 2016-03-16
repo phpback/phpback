@@ -120,7 +120,7 @@ class Action extends CI_Controller{
             exit;
         }
         $idea = $this->get->getIdea($ideaid);
-        header("Location: " . base_url() . 'home/idea/' . $ideaid . '/' . str_replace(' ', '-', $idea->title));
+        header("Location: " . base_url() . 'home/idea/' . $ideaid . '/' . Display::slugify($idea->title));
     }
 
     public function unvote($id){

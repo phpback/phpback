@@ -112,6 +112,7 @@ class Admin extends CI_Controller {
             $data['toall'] = 1;
         }
         $data['ideas'] = $this->get->getIdeas($data['form']['orderby'], $data['form']['isdesc'], 0, 150, $st, $cat);
+
         $this->load->view('admin/dashboard/header', $data);
         $this->load->view('admin/dashboard/ideas', $data);
     }

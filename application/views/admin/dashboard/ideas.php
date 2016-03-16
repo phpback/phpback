@@ -40,7 +40,7 @@
             </thead>
               <tbody>
                 <?php foreach ($newideas as $idea): ?>
-                <?php $freename = str_replace(" ", "-", $idea->title); ?>
+                <?php $freename = Display::slugify($idea->title); ?>
             <tr class="<?php
             switch ($idea->status) {
               case 'considered':
@@ -167,7 +167,7 @@
          </thead>
           <tbody>
             <?php foreach ($ideas as $idea): ?>
-            <?php $freename = str_replace(" ", "-", $idea->title); ?>
+            <?php $freename = Display::slugify($idea->title); ?>
         <tr class="<?php
         switch ($idea->status) {
           case 'considered':

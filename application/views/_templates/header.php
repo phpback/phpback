@@ -59,7 +59,7 @@ See LICENSE.TXT for details.  -->
     <div class="pull-right" style="padding-top:15px;padding-right:40px;">
       <small><span class="logged-as-label"><?= $lang['label_logged_as']; ?></span>
           <span style='color:#999;margin-left:5px;'>
-            <a href="<?php echo base_url() . 'home/profile/' . $_SESSION['phpback_userid'] . '/' . str_replace(" ", "-", $_SESSION['phpback_username']); ?>"><?php echo $_SESSION['phpback_username']; ?></a>
+            <a href="<?php echo base_url() . 'home/profile/' . $_SESSION['phpback_userid'].'/'.Display::slugify($_SESSION['phpback_username']); ?>"><?php echo $_SESSION['phpback_username']; ?></a>
           </span>
       <a href="<?php echo base_url() . 'action/logout'; ?>"><button type="button" class="btn btn-danger btn-xs" style="margin-left:10px;"><?php echo $lang['label_log_out']; ?></button></a></small>
     </div>
