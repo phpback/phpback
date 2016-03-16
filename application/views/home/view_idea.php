@@ -143,7 +143,7 @@
 					  <span style="margin-left:15px;margin-right:5px">
 					  	<?php if(isset($_SESSION['phpback_isadmin']) && $_SESSION['phpback_isadmin']): ?>
 					  	<?php $temp = base_url() . 'adminaction/deletecomment/' . $comment->id; ?>
-					  		<a style="color:#E25F5F" href="#" onclick="popup_sure(<?php echo $lang['text_sure_delete_comment']; ?>,'<?php echo $temp; ?>');"><i><small><?php echo $lang['label_delete_comment']; ?></small></i></a>
+					  		<a style="color:#E25F5F" href="#" onclick="popup_sure('<?php echo $lang['text_sure_delete_comment']; ?>','<?php echo $temp; ?>');"><i><small><?php echo $lang['label_delete_comment']; ?></small></i></a>
 					  	<?php else: ?>
 					  		<a style="color:#E25F5F" href="<?php echo base_url() . 'action/flag/'. $comment->id . '/' . $idea->id . '/' . str_replace(" ", "-", $idea->title);?>"><i><small><?php echo $lang['text_flag_comment']; ?></small></i></a>
 					  	<?php endif;?>
