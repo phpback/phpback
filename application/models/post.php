@@ -34,7 +34,6 @@ class Post extends CI_Model
 
         if($isadmin){
         	$data = array(
-	   			'id' => '',
 	   			'name' => $name,
                 'email' => $email,
 	   			'pass' => $pass,
@@ -44,7 +43,6 @@ class Post extends CI_Model
         }
         else{
         	$data = array(
-	   			'id' => '',
 	   			'name' => $name,
                 'email' => $email,
 	   			'pass' => $pass,
@@ -65,7 +63,6 @@ class Post extends CI_Model
         $category_id = (int) $category_id;
         if($author_id < 1 || $category_id < 1) return false;
         $data = array(
-	   			'id' => '',
 	   			'title' => $title,
 	   			'content' => $content,
 	   			'authorid' => $author_id,
@@ -90,7 +87,6 @@ class Post extends CI_Model
         if($idea_id < 1 || $user_id < 1) return false;
 
         $data = array(
-	   			'id' => '',
 	   			'content' => $comment,
 	   			'ideaid' => $idea_id,
 	   			'userid' => $user_id,
@@ -125,7 +121,6 @@ class Post extends CI_Model
         if(!$sql->num_rows()){
             if($votes <= $USER->votes){
                 $data = array(
-		   			'id' => '',
 		   			'ideaid' => $idea_id,
 		   			'userid' => $user_id,
 		   			'number' => $votes,
@@ -259,7 +254,6 @@ class Post extends CI_Model
     public function log($string, $to, $toid){
         $toid = (int) $toid;
         $data = array(
-        	'id' => '',
         	'content' => $string,
         	'date' => date("d/m/y H:i"),
         	'type' => $to,
@@ -270,7 +264,6 @@ class Post extends CI_Model
 
     public function add_category($name, $description){
         $data = array(
-            'id' => '',
             'name' => $name,
             'description' => $description,
             'ideas' => 0,

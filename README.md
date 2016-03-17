@@ -2,10 +2,10 @@
 
 
 ##About
-PHPBack is an open source feedback system you can use for your website.  It gives your customers a way to communicate their ideas to improve your products. User feedback has proved to be really efective even if you have a community project or a commercial project.
+PHPBack is an open source feedback system you can use for your website.  It gives your customers a way to communicate their ideas to improve your products. User feedback has proved to be really effective even if you have a community project or a commercial project.
 Please, vist our website for more information: [http://www.phpback.org/](http://www.phpback.org/)
 
-##Requeriments
+##Requirements
 * PHP 5.3+
 * MySQL 4.1+
 

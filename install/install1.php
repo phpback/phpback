@@ -157,7 +157,7 @@ if ($result->num_rows == 1) {
     header('Location: ../admin');
     exit;
 } else {
-    $server->query("INSERT INTO users(id,name,email,pass,votes,isadmin,banned) VALUES('','" . $_POST['adminname'] . "','" . $_POST['adminemail'] . "','" . $hashing->hash($_POST['adminpass']) . "', 20, 3,0)");
+    $server->query("INSERT INTO users(name,email,pass,votes,isadmin,banned) VALUES('" . $_POST['adminname'] . "','" . $_POST['adminemail'] . "','" . $hashing->hash($_POST['adminpass']) . "', 20, 3,0)");
 
     if (!@chmod('../install', 0777)) {
         $url = getBaseUrl();

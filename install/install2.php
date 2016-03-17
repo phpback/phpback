@@ -24,18 +24,18 @@ if ($mysql->connect_error) {
     exit(2);
 }
 
-$mysql->multi_query("INSERT INTO `settings` (`id`, `name`, `value`) VALUES
-('', 'recaptchapublic', '". $_POST['rpublic'] ."'),
-('', 'recaptchaprivate', '". $_POST['rprivate'] ."'),
-('', 'maxvotes', '". ((isset($_POST['maxvotes']) && $_POST['maxvotes'] != '')? $_POST['maxvotes'] : 20)."'),
-('', 'mainmail', '". $_POST['mainmail'] ."'),
-('', 'title', '". $_POST['title'] ."'),
-('', 'max_results', '".((isset($_POST['max_results']) && $_POST['max_results'] != '')? $_POST['max_results'] : 10)."'),
-('', 'language', '".(isset($_POST['language'])? $_POST['language'] : 'english')."'),
-('', 'smtp-host', '". $_POST['smtp-host'] ."'),
-('', 'smtp-port', '". $_POST['smtp-port'] ."'),
-('', 'smtp-user', '". $_POST['smtp-user'] ."'),
-('', 'smtp-pass', '". $_POST['smtp-password'] ."');");
+$mysql->multi_query("INSERT INTO `settings` (`name`, `value`) VALUES
+('recaptchapublic', '". $_POST['rpublic'] ."'),
+('recaptchaprivate', '". $_POST['rprivate'] ."'),
+('maxvotes', '". ((isset($_POST['maxvotes']) && $_POST['maxvotes'] != '')? $_POST['maxvotes'] : 20)."'),
+('mainmail', '". $_POST['mainmail'] ."'),
+('title', '". $_POST['title'] ."'),
+('max_results', '".((isset($_POST['max_results']) && $_POST['max_results'] != '')? $_POST['max_results'] : 10)."'),
+('language', '".(isset($_POST['language'])? $_POST['language'] : 'english')."'),
+('smtp-host', '". $_POST['smtp-host'] ."'),
+('smtp-port', '". $_POST['smtp-port'] ."'),
+('smtp-user', '". $_POST['smtp-user'] ."'),
+('smtp-pass', '". $_POST['smtp-password'] ."');");
 
 if(unlink('index2.php') && unlink('install2.php')) {
     header('Location: ../admin');
