@@ -57,8 +57,6 @@ class Post extends CI_Model
     }
 
     public function add_idea($title, $content, $author_id, $category_id){
-        
-
         $author_id = (int) $author_id;
         $category_id = (int) $category_id;
         if($author_id < 1 || $category_id < 1) return false;
@@ -73,8 +71,6 @@ class Post extends CI_Model
 	   			'categoryid' => $category_id,
 			); 
         $this->db->insert('ideas', $data);
-        $category = $this->get_row_by_id('categories', $category_id);
-        $this->update_by_id('categories', 'ideas', $category->ideas + 1, $category_id);
       	$this->log($this->lang->language['log_new_idea'] . ": $title", "user", $author_id);
         return true;
     }
@@ -234,7 +230,9 @@ class Post extends CI_Model
 
     public function change_status($ideaid, $status){
         $ideaid = (int) $ideaid;
-        if($status == 'completed' || $status == 'declined'){
+        $idea = $this->db->query("SELECT * FROM ideas WHERE id='$ideaid'")->row();
+
+        if ($status == 'completed' || $status == 'declined') {
             //Restore all votes
             $sql = $this->db->query("SELECT * FROM votes WHERE ideaid='$ideaid'");
             $votes = $sql->result();
@@ -243,12 +241,21 @@ class Post extends CI_Model
                 $this->update_by_id('users', 'votes', $user->votes + $vote->number, $vote->userid);
             }
             $this->db->query("DELETE FROM votes WHERE ideaid='$ideaid'");
+
+            if ($status == 'declined') {
+                $category = $this->get_row_by_id('categories', $idea->categoryid);
+                $this->update_by_id('categories', 'ideas', $category->ideas - 1, $category->id);
+            }
         }
         $this->update_by_id('ideas', 'status', $status, $ideaid);
     }
 
     public function approveidea($id){
+        $idea = $this->db->query("SELECT * FROM ideas WHERE id='$id'")->row();
+        $category = $this->get_row_by_id('categories', $idea->categoryid);
+
         $this->change_status($id, 'considered');
+        $this->update_by_id('categories', 'ideas', $category->ideas + 1, $category->id);
     }
 
     public function log($string, $to, $toid){

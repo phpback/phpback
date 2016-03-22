@@ -1,6 +1,7 @@
 	</div>
+	</div>
 	<hr>
-	<div style="text-align:center">  &copy; 2014 - Powered by <a href="http://www.phpback.org/" target="_blank">PHPBack</a></div>
+	<div class="footer">  &copy; <?php echo date("Y") ?> - Powered by <a href="http://www.phpback.org/" target="_blank">PHPBack</a></div>
     <script src="<?php echo base_url(); ?>public/js/jquery-1.8.3.min.js"></script>
     <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>public/js/bootstrap-select.js"></script>

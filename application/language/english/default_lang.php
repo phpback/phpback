@@ -21,7 +21,7 @@
     $lang['label_logged_as'] = 'Logged as';
     $lang['label_post_new_idea'] = 'Post a new idea';
     $lang['label_profiles'] = 'Profiles';
-    $lang['label_registration'] = 'Registration';
+    $lang['label_registration'] = 'Register';
     $lang['label_registration_form'] = 'Registration Form';
     $lang['label_reset_votes'] = 'Reset votes';
     $lang['label_search'] = 'Search';

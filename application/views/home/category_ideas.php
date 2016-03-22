@@ -1,26 +1,28 @@
-<div class="contentdiv pull-left" style="padding-left:40px;padding-right:50px;width:70%">
-			<small><ol class="breadcrumb">
-			  <li><a href="<?php echo base_url();?>">Feedback</a></li>
-			  <li class="active"><?php echo $category->name; ?></li>
-			</ol></small>
-			<div class="row">
-				<h5 style="color:#2C3E50;"><?php echo $category->name; ?></h5>
-				<span style="color:#34495E"><small><?php echo $category->description; ?></small></span>
-			</div>
-			<table id="ideastable" class="table table-condensed">
-			<thead>
-		        <tr>
-		          <th><small><?php echo $lang['label_idea']; ?> <a id="order-by--idea" href="<?= $category->url .'/title/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
-		          <th><small><?php echo $lang['label_votes']; ?> <a id="order-by--votes" href="<?= $category->url .'/votes/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
-		          <th><small><?php echo $lang['label_comments']; ?></small></th>
-		          <th><small><?php echo $lang['label_date']; ?> <a id="order-by--date" href="<?= $category->url .'/id/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
-		        </tr>
-		    </thead>
-		    </table>
+	<div class="col-md-9">
+	
+		<div class="breadcrumb-wrapper"><ol class="breadcrumb">
+			<li><a href="<?php echo base_url();?>">Feedback</a></li>
+			<li class="active"><?php echo $category->name; ?></li>
+		</ol></div>
+		<div>
+			<h5 style="color:#2C3E50;"><?php echo $category->name; ?></h5>
+			<span style="color:#34495E"><small><?php echo $category->description; ?></small></span>
+		</div>
+		<table id="ideastable" class="table table-condensed">
+		<thead>
+			<tr>
+			  <th><small><?php echo $lang['label_idea']; ?> <a id="order-by--idea" href="<?= $category->url .'/title/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
+			  <th><small><?php echo $lang['label_votes']; ?> <a id="order-by--votes" href="<?= $category->url .'/votes/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
+			  <th><small><?php echo $lang['label_comments']; ?></small></th>
+			  <th><small><?php echo $lang['label_date']; ?> <a id="order-by--date" href="<?= $category->url .'/id/'; echo ($type == 'desc') ? 'asc' : 'desc';?>"><span class="glyphicon glyphicon-chevron-<?php echo ($type == 'desc') ? 'down' : 'up'; ?>" style="margin-left:4px"></span></a></small></th>
+			</tr>
+		</thead>
+		</table>
+		
 		<?php foreach ($ideas as $idea): ?>
-			<div class="row" style="margin-bottom:10px">
-				<div class="pull-left" style="margin-right:25px;">
-					<div style="width:60px;height:50px;text-align:center;border-style:solid;border-width:1px;border-color:#3498DB;border-radius:5px;padding-top:4px;margin-bottom:2px">
+			<div class="row">
+				<div class="col-xs-4 col-sm-2">
+					<div class="vote-count-box">
 						<span style="color:#3498DB;"><b class="result-idea--votes">
 						<?php if($idea->votes <= 99999) {
 								if($idea->votes < 1000) echo $idea->votes;
@@ -34,47 +36,50 @@
 								echo "," . (((int) ($idea->votes / 100000)) - $t*10);
 							echo "M";
 							}?>
-						</b></span><br><div style="margin-top:-10px;font-size:14px"><?php echo $lang['label_votes']; ?></div>
+						</b></span>
+						<br><div style="margin-top:-10px;font-size:14px"><?php echo $lang['label_votes']; ?></div>
+					</div>
+					<div class="vote-label">	
 						<span class="label label-<?php
-				switch ($idea->status) {
-					case 'considered':
-						echo 'default';
-						break;
-					case 'declined':
-						echo 'danger';
-						break;
-					case 'started':
-						echo 'success';
-						break;
-					case 'planned':
-						echo 'warning';
-						break;
-					case 'completed':
-						echo 'info';
-						break;
-				}
-				?> result-idea--status" style="font-size:12px"><?php
-				switch ($idea->status) {
-					case 'considered':
-						echo $lang['idea_considered'];
-						break;
-					case 'declined':
-						echo $lang['idea_declined'];
-						break;
-					case 'started':
-						echo $lang['idea_started'];
-						break;
-					case 'planned':
-						echo $lang['idea_planned'];
-						break;
-					case 'completed':
-						echo $lang['idea_completed'];
-						break;
-				}
-				?></span>
+						switch ($idea->status) {
+							case 'considered':
+								echo 'default';
+								break;
+							case 'declined':
+								echo 'danger';
+								break;
+							case 'started':
+								echo 'success';
+								break;
+							case 'planned':
+								echo 'warning';
+								break;
+							case 'completed':
+								echo 'info';
+								break;
+						}
+						?> result-idea--status" style="font-size:12px"><?php
+						switch ($idea->status) {
+							case 'considered':
+								echo $lang['idea_considered'];
+								break;
+							case 'declined':
+								echo $lang['idea_declined'];
+								break;
+							case 'started':
+								echo $lang['idea_started'];
+								break;
+							case 'planned':
+								echo $lang['idea_planned'];
+								break;
+							case 'completed':
+								echo $lang['idea_completed'];
+								break;
+						}
+						?></span>
 					</div>
 				</div>
-				<div style="margin-top:-10px;margin-left:70px">
+				<div class="col-xs-8 col-sm-10">
 					<a class="result-idea--title" href="<?= $idea->url;?>"><?= $idea->title; ?></a>
 					<div style="margin-top:-10px">
 					<small class="result-idea--description">
@@ -90,9 +95,9 @@
 					</small></span>
 					</div>
 					<div style="margin-top:-10px">
-					<ul class="nav-pills" style="list-style:none;margin-left:-30px">
-					<li><small class="result-idea--comments"><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
-					</ul><br><br>
+						<ul class="nav-pills" style="list-style:none;margin-left:-40px">
+							<li><small class="result-idea--comments"><?php echo $idea->comments; ?> <?php echo $lang['label_comments']; ?></small></li>
+						</ul><br><br>
 					</div>
 				</div>
 			</div>
