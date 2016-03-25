@@ -27,9 +27,10 @@ class Home extends CI_Controller {
         $this->autoLoginByCookie();
 
         //Use this function to parse $freename variables getDisplayHelpers();
-        $data['categories'] = $this->get->getCategories();
-        $data['title'] = $this->get->getSetting('title');
-        $data['lang'] = $this->lang->language;
+        $data = $this->getDefaultData();
+        $data['welcomeTitle'] = $this->get->getSetting('welcometext-title');
+        $data['welcomeDescription'] = $this->get->getSetting('welcometext-description');
+
         $data['ideas'] = array(
             'completed' => $this->get->getIdeas('id', 1, 0, 10, array('completed')),
             'started' => $this->get->getIdeas('id', 1, 0, 10, array('started')),
@@ -44,16 +45,15 @@ class Home extends CI_Controller {
 
 	}
 
-	public function category($id, $name = "", $order = "votes", $type = "desc", $page = '1')
-    {
-        if(!$this->get->categoryExists($id)){
+	public function category($id, $name = "", $order = "votes", $type = "desc", $page = '1') {
+        if (!$this->get->categoryExists($id)){
             header('Location: ' . base_url() . 'home');
             return;
         }
+
+        $data = $this->getDefaultData();
         $data['ideas'] = $this->get->getIdeasByCategory($id, $order, $type, $page);
-        $data['categories'] = $this->get->getCategories();
         $data['category'] = $data['categories'][$id];
-        $data['title'] = $this->get->getSetting('title');
         $total = $this->get->getQuantityOfApprovedIdeas($id);
         $data['max_results'] = (int) $this->get->getSetting('max_results');
         $data['page'] = (int) $page;
@@ -62,8 +62,6 @@ class Home extends CI_Controller {
         $data['type'] = $type;
         $data['order'] = $order;
 
-        $data['lang'] = $this->lang->language;
-
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/category_ideas', $data);
 		$this->load->view('_templates/menu', $data);
@@ -71,12 +69,10 @@ class Home extends CI_Controller {
     }
 
     public function search() {
+        $data = $this->getDefaultData();
+
         $query = $this->input->post('query');
         $data['ideas'] = $this->get->getIdeasBySearchQuery($query);
-        $data['categories'] = $this->get->getCategories();
-        $data['title'] = $this->get->getSetting('title');
-
-        $data['lang'] = $this->lang->language;
 
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/search_results', $data);
@@ -95,16 +91,15 @@ class Home extends CI_Controller {
         $ideaUserName = $this->get->getUser($idea->authorid)->name;
         $idea->user = $ideaUserName;
         $comments = $this->get->getCommentsByIdea($id);
+
         foreach($comments as $comment){
             $userName = $this->get->getUser($comment->userid)->name;
             $comment->user = $userName;
         }
-        $data['title'] = $this->get->getSetting('title');
-        $data['comments'] = $comments;
-        $data['categories'] = $this->get->getCategories();
-        $data['idea'] = $idea;
 
-        $data['lang'] = $this->lang->language;
+        $data = $this->getDefaultData();
+        $data['comments'] = $comments;
+        $data['idea'] = $idea;
 
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/view_idea', $data);
@@ -114,23 +109,24 @@ class Home extends CI_Controller {
 
 
     public function profile($id, $error=0) {
+        $data = $this->getDefaultData();
+
         $data['user'] = $this->get->getUser($id);
-        if($data['user'] === false){
+
+        if ($data['user'] === false) {
             header('Location: ' . base_url() . 'home');
             return;
         }
+
         $data['logs'] = $this->get->get_logs('user', $id);
         $data['comments'] = $this->get->getUserComments($id, 20);
-        $data['categories'] = $this->get->getCategories();
         $data['ideas'] = $this->get->getUserIdeas($id);
-        $data['title'] = $this->get->getSetting('title');
+
 
         $data['error'] = $this->input->post('error', true);
         if(@isset($_SESSION['phpback_userid']) && $data['user']->id == $_SESSION['phpback_userid']){
             $data['votes'] = $this->get->getUserVotes($_SESSION['phpback_userid']);
         }
-
-        $data['lang'] = $this->lang->language;
 
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/user', $data);
@@ -156,12 +152,9 @@ class Home extends CI_Controller {
             return;
         }
 
-        $data['categories'] = $this->get->getCategories();
-        $data['title'] = $this->get->getSetting('title');
+        $data = $this->getDefaultData();
         $data['error'] = $error;
         $data['ban'] = $ban;
-
-        $data['lang'] = $this->lang->language;
 
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/login', $data);
@@ -170,16 +163,13 @@ class Home extends CI_Controller {
     }
 
     public function postidea($error = "none") {
-        $data['categories'] = $this->get->getCategories();
-        $data['title'] = $this->get->getSetting('title');
+        $data = $this->getDefaultData();
         $data['error'] = $error;
         $data['POST'] = array(
 					'title' => $this->input->post('title'),
 					'catid' => $this->input->post('catid'),
 					'desc' => $this->input->post('desc')
 				);
-
-        $data['lang'] = $this->lang->language;
 
         $this->load->view('_templates/header', $data);
         $this->load->view('home/post_idea', $data);
@@ -188,18 +178,22 @@ class Home extends CI_Controller {
     }
 
     public function register($error = "NULL") {
-
+        $data = $this->getDefaultData();
         $data['recaptchapublic'] = $this->get->getSetting('recaptchapublic');
-        $data['categories'] = $this->get->getCategories();
-        $data['title'] = $this->get->getSetting('title');
         $data['error'] = $error;
-
-        $data['lang'] = $this->lang->language;
 
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/register', $data);
 		$this->load->view('_templates/menu', $data);
 		$this->load->view('_templates/footer', $data);
+    }
+
+    private function getDefaultData() {
+        return array(
+            'title' => $this->get->getSetting('title'),
+            'categories' => $this->get->getCategories(),
+            'lang' => $this->lang->language,
+        );
     }
 
     private function verifyBanning() {

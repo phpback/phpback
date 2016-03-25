@@ -6,8 +6,8 @@
 		</ol>
 		</small>
 		<div>
-			<h4 id="welcome-mesagge--title">Welcome to our FeedBack</h4>
-			<div id="welcome-mesagge--text">Here you can suggest ideas to improve our services or vote on ideas from other people.</div>
+			<h4 id="welcome-mesagge--title"><?= $welcomeTitle; ?></h4>
+			<div id="welcome-mesagge--text"><?= $welcomeDescription; ?></div>
 		</div>
 		
 		<br/>

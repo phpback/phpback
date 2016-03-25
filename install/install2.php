@@ -25,13 +25,16 @@ if ($mysql->connect_error) {
 }
 
 $mysql->multi_query("INSERT INTO `settings` (`name`, `value`) VALUES
+('title', '". $_POST['title'] ."'),
+('welcometext-title', 'Welcome to our feedback'),
+('welcometext-description', 'Here you can suggest ideas to improve our services or vote on ideas from other people'),
+('recaptchapublic', '". $_POST['rpublic'] ."'),
 ('recaptchapublic', '". $_POST['rpublic'] ."'),
 ('recaptchaprivate', '". $_POST['rprivate'] ."'),
+('language', '".(isset($_POST['language'])? $_POST['language'] : 'english')."'),
 ('maxvotes', '". ((isset($_POST['maxvotes']) && $_POST['maxvotes'] != '')? $_POST['maxvotes'] : 20)."'),
 ('mainmail', '". $_POST['mainmail'] ."'),
-('title', '". $_POST['title'] ."'),
 ('max_results', '".((isset($_POST['max_results']) && $_POST['max_results'] != '')? $_POST['max_results'] : 10)."'),
-('language', '".(isset($_POST['language'])? $_POST['language'] : 'english')."'),
 ('smtp-host', '". $_POST['smtp-host'] ."'),
 ('smtp-port', '". $_POST['smtp-port'] ."'),
 ('smtp-user', '". $_POST['smtp-user'] ."'),
