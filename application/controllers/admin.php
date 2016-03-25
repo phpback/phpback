@@ -19,7 +19,7 @@ class Admin extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('get');
 
-        $this->version = '1.2.0';
+        $this->version = '1.3.0';
 	}
 
 	public function index($error = 'no'){
