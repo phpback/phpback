@@ -126,11 +126,16 @@ class Action extends CI_Controller{
     public function unvote($id){
         session_start();
         $vote = $this->get->get_row_by_id('votes', $id);
-        if(isset($_SESSION['phpback_userid']) && $_SESSION['phpback_userid'] == $vote->userid){
+
+        if ($vote && isset($_SESSION['phpback_userid']) && $_SESSION['phpback_userid'] == $vote->userid) {
             $idea = $this->get->getIdea($vote->ideaid);
+            $user = $this->get->getUser($vote->userid);
+
             $this->post->update_by_id('ideas', 'votes', $idea->votes - $vote->number, $idea->id);
+            $this->post->update_by_id('users', 'votes', $user->votes + $vote->number, $user->id);
             $this->post->delete_row_by_id('votes', $id);
         }
+
         header('Location:' . base_url() . 'home/profile/' . $vote->userid);
     }
 
