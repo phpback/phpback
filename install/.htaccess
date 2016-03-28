@@ -1,2 +1,0 @@
-#Prevent infinite redirect on install folder
-RewriteEngine Off
