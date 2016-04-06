@@ -1,0 +1,77 @@
+<?php
+    $lang['label_activity'] = 'Actividade';
+    $lang['label_ban_user'] = 'Banir utilizador';
+    $lang['label_categories'] = 'Categorias';
+    $lang['label_category'] = 'Categoria';
+    $lang['label_change_password'] = 'Alterar Senha';
+    $lang['label_change_estado'] = 'Mudar estado';
+    $lang['label_commented'] = 'Comentou em';
+    $lang['label_comments'] = 'Comentários';
+    $lang['label_date'] = 'Data';
+    $lang['label_delete_comment'] = 'Apagar comentário';
+    $lang['label_delete_idea'] = 'Apagar ideia';
+    $lang['label_delete_votes'] = 'Apagar votos';
+    $lang['label_description'] = 'Descrição';
+    $lang['label_idea'] = 'Ideia';
+    $lang['label_idea_title'] = 'Título da Ideia';
+    $lang['label_ideas'] = 'Ideias';
+    $lang['label_log'] = 'Log';
+    $lang['label_log_in'] = 'Entrar';
+    $lang['label_log_out'] = 'Sair';
+    $lang['label_logged_as'] = 'Conectado como';
+    $lang['label_post_new_idea'] = 'Adicionar uma nova ideia';
+    $lang['label_profiles'] = 'Perfis';
+    $lang['label_registration'] = 'Registar';
+    $lang['label_registration_form'] = 'Formulário de Registo';
+    $lang['label_reset_votes'] = 'Limpar votos';
+    $lang['label_search'] = 'Pesquisar';
+    $lang['label_sign_in'] = 'Entrar';
+    $lang['label_submit'] = 'Enviar';
+    $lang['label_vote'] = 'Votar';
+    $lang['label_votes'] = 'Votos';
+
+    $lang['text_shared_this_idea'] = 'partilhou esta ideia';
+    $lang['text_flag_comment'] = 'marcar comentário';
+    $lang['text_create_an_account'] = 'Ou crie uma conta';
+    $lang['text_registration_success'] = 'Registo efectuado com sucesso';
+    $lang['text_select_category'] = 'Seleccione a categoria...';
+    $lang['text_nothing_found'] = 'Nada foi encontrado...';
+    $lang['text_votes_left'] = 'votos restantes.';
+    $lang['text_sure_delete_idea'] = 'Tem a certeza que deseja apagar esta ideia?';
+    $lang['text_sure_delete_comment'] = 'Tem a certeza que deseja apagar este comentário?';
+
+    $lang['idea_completed'] = 'Finalizada';
+    $lang['idea_started'] = 'Iniciada';
+    $lang['idea_planned'] = 'Planeada';
+    $lang['idea_considered'] = 'Considerada';
+    $lang['idea_declined'] = 'Recusada';
+    $lang['idea_new'] = 'Sob Revisão';
+
+    $lang['last_completed_ideas'] = 'Últimas Ideias Finalizadas';
+    $lang['last_started_ideas'] = 'Últimas Ideias Iniciadas';
+    $lang['last_planned_ideas'] = 'Últimas Ideias Planeadas';
+    $lang['last_considered_ideas'] = 'Últimas Ideias Consideradas';
+
+    $lang['form_remember'] = 'Manter-se conectado';
+    $lang['form_full_name'] = 'Nome completo';
+    $lang['form_email'] = 'Endereço de Email';
+    $lang['form_password'] = 'Senha';
+    $lang['form_repeat_password'] = 'Repetir Senha';
+    $lang['form_password_old'] = 'Senha anterior';
+    $lang['form_password_new'] = 'Nova senha';
+    $lang['from_password_new_repeat'] = 'Repetir nova senha';
+
+    $lang['error_login_to_post'] = 'Deve estar autenticado para adicionar uma nova ideia';
+    $lang['error_login'] = 'Email ou Senha inválido(s)';
+    $lang['error_recaptcha'] = 'Código de verificação inválido';
+    $lang['error_name'] = 'Nome inválido';
+    $lang['error_email'] = 'Email inválido';
+    $lang['error_password'] = 'A senha deve ter no mínimo 6 caracteres';
+    $lang['error_password_old'] = 'A senha anterior está errada';
+    $lang['error_passwords'] = 'As senhas não coincidem';
+    $lang['error_email_exists'] = 'Email já registado';
+    $lang['error_banned'] = 'Foi banido por %s dia(s)';
+    $lang['error_banned_inf'] = 'Foi banido indefinidamente';
+    $lang['error_title'] = 'Título muito curto';
+    $lang['error_category'] = 'Por favor, seleccione a categoria';
+    $lang['error_description'] = 'Descrição muito curta';
