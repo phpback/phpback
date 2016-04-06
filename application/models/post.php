@@ -222,7 +222,10 @@ class Post extends CI_Model
         }
 
         $cat = $this->get_row_by_id('categories', $idea->categoryid);
-        $this->update_by_id('categories', 'ideas', $cat->ideas - 1, $cat->id);
+
+        if ($cat->status !== 'considered') {
+            $this->update_by_id('categories', 'ideas', $cat->ideas - 1, $cat->id);
+        }
 
         $this->db->query("DELETE FROM ideas WHERE id='$id'");
     }
