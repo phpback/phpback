@@ -29,7 +29,6 @@ $mysql->multi_query("INSERT INTO `settings` (`name`, `value`) VALUES
 ('welcometext-title', 'Welcome to our feedback'),
 ('welcometext-description', 'Here you can suggest ideas to improve our services or vote on ideas from other people'),
 ('recaptchapublic', '". $_POST['rpublic'] ."'),
-('recaptchapublic', '". $_POST['rpublic'] ."'),
 ('recaptchaprivate', '". $_POST['rprivate'] ."'),
 ('language', '".(isset($_POST['language'])? $_POST['language'] : 'english')."'),
 ('maxvotes', '". ((isset($_POST['maxvotes']) && $_POST['maxvotes'] != '')? $_POST['maxvotes'] : 20)."'),
