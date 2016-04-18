@@ -28,7 +28,7 @@ class Post extends CI_Model
         $isadmin = (int) $isadmin;
         if($votes < 1) return false;
 
-        $sql = $this->db->query("SELECT id FROM users WHERE email='" . $email . "'");
+        $sql = $this->db->query("SELECT id FROM users WHERE email='" . $this->db->escape($email) . "'");
 
         if($sql->num_rows()) return false;
 
@@ -155,12 +155,18 @@ class Post extends CI_Model
 
     public function update_by_id($table, $field, $value, $id){
         $id = (int) $id;
+        $table = $this->db->escape($table);
+        $field = $this->db->escape($field);
+        $value = $this->db->escape($value);
+
         $query = "UPDATE $table SET $field='$value' WHERE id='$id'";
         $this->db->query($query);
     }
 
     public function delete_row_by_id($table, $id){
         $id = (int) $id;
+        $table = $this->db->escape($table);
+
         $this->db->query("DELETE FROM $table WHERE id='$id'");
     }
 
@@ -254,6 +260,7 @@ class Post extends CI_Model
     }
 
     public function approveidea($id){
+        $id = (int) $id;
         $idea = $this->db->query("SELECT * FROM ideas WHERE id='$id'")->row();
         $category = $this->get_row_by_id('categories', $idea->categoryid);
 

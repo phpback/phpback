@@ -57,7 +57,8 @@ class Get extends CI_Model
         if (count($categories)) {
             $query .= "WHERE ( ";
             foreach ($categories as $catid) {
-                $query .= "categoryid='$catid' OR ";
+                $sanitizedCategoryId = (int) $catid;
+                $query .= "categoryid='$sanitizedCategoryId' OR ";
             }
             $query = substr($query, 0, -3);
             $query .= ") ";
@@ -66,11 +67,14 @@ class Get extends CI_Model
             if (count($categories)) $query .= "AND (";
             else $query .= "WHERE ( ";
             foreach ($status as $s) {
+                $s = $this->db->escape($s);
+
                 $query .= "status='$s' OR ";
             }
             $query = substr($query, 0, -3);
             $query .= ") ";
         }
+        $orderby = $this->db->escape($orderby);
         $query .= "ORDER BY $orderby ";
 
         if ($isdesc) $query .= "DESC";
@@ -122,18 +126,20 @@ class Get extends CI_Model
     
     public function getIdeasBySearchQuery($query){
         $keywords = explode(" ", $query);
-        $temp = array_shift($keywords);
+        $temp = $this->db->escape(array_shift($keywords));
         $query = "SELECT * FROM ideas WHERE ( title LIKE '%$temp%'";
 
-        foreach($keywords as $key){
-            $query .= " OR title LIKE '%$key%'";
+        foreach($keywords as $key) {
+            $escapedKey = $this->db->escape($key);
+            $query .= " OR title LIKE '%$escapedKey%'";
         }
         $query .= ") ORDER BY CASE ";
         $query .= " WHEN title LIKE '$temp%' THEN 0 ";
         $query .= " WHEN title LIKE '%$temp%' THEN 2 ";
         foreach($keywords as $id => $key){
-            $query .= " WHEN title LIKE '$key%' THEN ". ($id+1) ." ";
-            $query .= " WHEN title LIKE '%$key%' THEN ". ($id + 3) . " ";
+            $escapedKey = $this->db->escape($key);
+            $query .= " WHEN title LIKE '$escapedKey%' THEN ". ($id+1) ." ";
+            $query .= " WHEN title LIKE '%$escapedKey%' THEN ". ($id + 3) . " ";
         }
         $query .= "END";
 
@@ -179,6 +185,9 @@ class Get extends CI_Model
 
     public function get_row_by_id($table, $id){
         $id = (int) $id;
+
+        if (!$this->isValidTable($table)) return false;
+
         $sql = $this->db->query("SELECT * FROM $table WHERE id='$id'");
         if($sql->num_rows() == 0) return false;
         return $sql->row();
@@ -382,5 +391,9 @@ class Get extends CI_Model
             $category->url = base_url() . 'home/category/' . $category->id . '/';
             $category->url .= $this->display->getParsedString($category->name);
         }
+    }
+
+    private function isValidTable($table) {
+        return ctype_alnum($table) || $table === '_session';
     }
 }

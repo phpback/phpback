@@ -45,6 +45,7 @@ class Admin extends CI_Controller {
             exit;
         }
 	}
+
     public function dashboard(){
         $this->start();
         $data = array();
@@ -55,6 +56,7 @@ class Admin extends CI_Controller {
         $this->load->view('admin/dashboard/header');
         $this->load->view('admin/dashboard/index', $data);
     }
+
     public function ideas(){
         $this->start();
         $data = array();
@@ -111,6 +113,11 @@ class Admin extends CI_Controller {
             }
             $data['toall'] = 1;
         }
+
+        $this->redirectIfNotAlphaNumeric(array(
+            $data['form']['orderby']
+        ));
+
         $data['ideas'] = $this->get->getIdeas($data['form']['orderby'], $data['form']['isdesc'], 0, 150, $st, $cat);
 
         $this->load->view('admin/dashboard/header', $data);
@@ -119,12 +126,15 @@ class Admin extends CI_Controller {
     public function users($idban=0){
         $this->start(2);
         $data = array();
+
         $data['users'] = $this->get->get_users();
         $data['banned'] = $this->get->get_users('banned', 100);
+
         if($idban) $data['idban'] = $idban;
         $this->load->view('admin/dashboard/header', $data);
         $this->load->view('admin/dashboard/users', $data);
     }
+
     public function system(){
         $this->start(3);
         $data = array();
@@ -153,5 +163,17 @@ class Admin extends CI_Controller {
             exit;
         }
     }
+
+    private function redirectIfNotAlphaNumeric($textList) {
+        foreach ($textList as $text) {
+            if (!$this->isAlphaNumeric($text)) {
+                header('Location: ' . base_url() . 'admin/');
+                exit;
+            }
+        }
+    }
+
+    private function isAlphaNumeric($text) {
+        return ctype_alnum($text);
+    }
 }
-?>
