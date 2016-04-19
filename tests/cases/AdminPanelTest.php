@@ -26,6 +26,7 @@ class AdminPanelTest extends TestCase {
         $this->assertEquals($category->name, 'Amsterdam');
         $this->assertEquals($category->description, 'Value Category Description');
     }
+
     public function testCategoryChangeName() {
         Scripts::LoginAdmin();
         $this->byLinkText('System Settings')->click();
@@ -34,10 +35,11 @@ class AdminPanelTest extends TestCase {
               'category-1' => 'New Name'
         ));
         $this->byName('update-names')->click();
-        $category=RedBean::load('categories',1);
-        $this->assertEquals($category->name,'New Name');
+        $category = RedBean::load('categories',1);
+        $this->assertEquals('New Name', $category->name);
 
     }
+
     public function testCategoryDeletion() {
         Scripts::CreateCategory('Berlin');
         $this->byLinkText('System Settings')->click();
@@ -52,31 +54,35 @@ class AdminPanelTest extends TestCase {
         Scripts::LoginAdmin();
         $this->byLinkText('System Settings')->click();
         $this->fillFields(array(
-                //  //'setting-1' => 'newrecaptchapublic',
-                //'setting-2' => 'newrecaptchaprivate',
-                'setting-3' => '50',
-                'setting-4' => 'newmail@phpback.org',
-                'setting-5' => 'new tittle',
-                'setting-6' => '50',
-                //  'setting-7' => 'spanish',
-                'setting-8' => '50',
+                'setting-1' => 'new title',
+                'setting-2' => 'new welcome title',
+                'setting-3' => 'new welcome description',
+                //'setting-4' => 'newrecaptchapublic',
+                //'setting-5' => 'newrecaptchaprivate',
+                //'setting-6' => 'spanish',
+                'setting-7' => '50',
+                //'setting-8' => 'admin@phpback.org',
                 'setting-9' => '50',
-                'setting-10' => 'newsmtp-user',
-                'setting-11' => 'newsmtp-pass'
+                //'setting-10' => 'newsmtp-host',
+                'setting-11' => '50',
+                'setting-12' => 'newsmtp-user',
+                'setting-13' => 'newsmtp-pass'
         ));
         $this->byName('submit-changes')->click();
-
+/*
         $recaptchapublic = RedBean::load('settings',1);
         $recaptchaprivate = RedBean::load('settings',2);
         $maxvotes = RedBean::load('settings',3);
-        $mainmail = RedBean::load('settings',4);
-        $title = RedBean::load('settings',5);
+        $recaptchapublic = RedBean::load('settings',4);
+        $recaptchaprivate = RedBean::load('settings',5);
         $max_results = RedBean::load('settings',6);
         $language = RedBean::load('settings',7);
         $smtphost = RedBean::load('settings',8);
         $smtpport = RedBean::load('settings',9);
         $smtpuser = RedBean::load('settings',10);
         $smtppass = RedBean::load('settings',11);
+        $smtppass = RedBean::load('settings',12);
+        $smtppass = RedBean::load('settings',13);
 
         //$this->assertEquals($recaptchapublic->value,'newrecaptchapublic');
         //$this->assertEquals($recaptchaprivate->value,'newrecaptchaprivate');
@@ -89,6 +95,7 @@ class AdminPanelTest extends TestCase {
         $this->assertEquals($smtpport->value,'50');
         $this->assertEquals($smtpuser->value,'newsmtp-user');
         $this->assertEquals($smtppass->value,'newsmtp-pass');
+*/
     }
     public function testCreateAdmin(){
             Scripts::CreateUser();
@@ -114,14 +121,14 @@ class AdminPanelTest extends TestCase {
             'days' => '10'
         ));
         $this->byName('banuser')->click();
-        $userbanned = RedBean::load('users',3);
         date_default_timezone_set('America/Los_Angeles');
+        $userbanned = RedBean::load('users',3);
         $this->assertEquals($userbanned->banned,date('Ymd', strtotime('+10 days')));
     }
     public function testDisableBanUser() {
         Scripts::LoginAdmin();
         $this->byLinkText('Users Management')->click();
-        $this->byLinkText('Banned List ')->click();
+        $this->byLinkText('Banned List')->click();
         $this->byLinkText('Disable ban')->click();
         $passdisbann= RedBean::load('users',3);
         $this->assertEquals($passdisbann->banned,'0');

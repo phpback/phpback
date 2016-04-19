@@ -69,7 +69,7 @@ class Get extends CI_Model
             foreach ($status as $s) {
                 $s = $this->db->escape($s);
 
-                $query .= "status='$s' OR ";
+                $query .= "status=$s OR ";
             }
             $query = substr($query, 0, -3);
             $query .= ") ";
@@ -337,7 +337,8 @@ class Get extends CI_Model
     }
 
     public function category_id($name) {
-        $sql = $this->db->query("SELECT id FROM categories where name='$name'");
+        $name = $this->db->escape($name);
+        $sql = $this->db->query("SELECT id FROM categories where name=$name");
         if($sql->num_rows() == 0) return 0;
         else{
             $cat = $sql->row();
