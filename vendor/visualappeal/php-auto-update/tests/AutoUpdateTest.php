@@ -129,4 +129,16 @@ class AutoUpdateTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(AutoUpdate::NO_UPDATE_AVAILABLE, $response);
 	}
+
+	/**
+	 * Test the trailing slash method.
+	 */
+	public function testTrailingSlashes()
+	{
+		$dir = DIRECTORY_SEPARATOR . 'test';
+		$this->assertEquals(DIRECTORY_SEPARATOR . 'test' . DIRECTORY_SEPARATOR, $this->_update->addTrailingSlash($dir));
+
+		$dir = DIRECTORY_SEPARATOR . 'test' . DIRECTORY_SEPARATOR;
+		$this->assertEquals(DIRECTORY_SEPARATOR . 'test' . DIRECTORY_SEPARATOR, $this->_update->addTrailingSlash($dir));
+	}
 }
