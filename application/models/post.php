@@ -234,6 +234,7 @@ class Post extends CI_Model
         }
 
         $this->db->query("DELETE FROM ideas WHERE id='$id'");
+        $this->db->query("DELETE FROM votes WHERE ideaid='$id'");
     }
 
 
