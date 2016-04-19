@@ -28,7 +28,7 @@ class Post extends CI_Model
         $isadmin = (int) $isadmin;
         if($votes < 1) return false;
 
-        $sql = $this->db->query("SELECT id FROM users WHERE email='" . $email . "'");
+        $sql = $this->db->query("SELECT id FROM users WHERE email=" . $this->db->escape($email));
 
         if($sql->num_rows()) return false;
 
@@ -99,8 +99,6 @@ class Post extends CI_Model
 
 
     public function vote($idea_id, $user_id, $votes){
-        
-
         $idea_id = (int) $idea_id;
         $user_id = (int) $user_id;
         $votes = (int) $votes;
@@ -155,12 +153,20 @@ class Post extends CI_Model
 
     public function update_by_id($table, $field, $value, $id){
         $id = (int) $id;
-        $query = "UPDATE $table SET $field='$value' WHERE id='$id'";
+        $value = $this->db->escape($value);
+
+        if(!$this->isAlphaNumeric($table)) return false;
+        if(!$this->isAlphaNumeric($field)) return false;
+
+        $query = "UPDATE $table SET $field=$value WHERE id='$id'";
         $this->db->query($query);
     }
 
     public function delete_row_by_id($table, $id){
         $id = (int) $id;
+        if(!$this->isAlphaNumeric($table)) return false;
+
+
         $this->db->query("DELETE FROM $table WHERE id='$id'");
     }
 
@@ -222,9 +228,13 @@ class Post extends CI_Model
         }
 
         $cat = $this->get_row_by_id('categories', $idea->categoryid);
-        $this->update_by_id('categories', 'ideas', $cat->ideas - 1, $cat->id);
+
+        if ($idea->status !== 'new' && $idea->status !== 'declined') {
+            $this->update_by_id('categories', 'ideas', $cat->ideas - 1, $cat->id);
+        }
 
         $this->db->query("DELETE FROM ideas WHERE id='$id'");
+        $this->db->query("DELETE FROM votes WHERE ideaid='$id'");
     }
 
 
@@ -242,7 +252,7 @@ class Post extends CI_Model
             }
             $this->db->query("DELETE FROM votes WHERE ideaid='$ideaid'");
 
-            if ($status == 'declined') {
+            if ($status == 'declined' && $idea->status !== 'new') {
                 $category = $this->get_row_by_id('categories', $idea->categoryid);
                 $this->update_by_id('categories', 'ideas', $category->ideas - 1, $category->id);
             }
@@ -251,6 +261,7 @@ class Post extends CI_Model
     }
 
     public function approveidea($id){
+        $id = (int) $id;
         $idea = $this->db->query("SELECT * FROM ideas WHERE id='$id'")->row();
         $category = $this->get_row_by_id('categories', $idea->categoryid);
 
@@ -285,6 +296,7 @@ class Post extends CI_Model
 
     private function get_row_by_id($table, $id){
         $id = (int) $id;
+        if(!$this->isAlphaNumeric($table)) return false;
         $sql = $this->db->query("SELECT * FROM $table WHERE id='$id'");
         return $sql->row();
     }
@@ -295,6 +307,9 @@ class Post extends CI_Model
         if(@isset($data->value)) return $data->value;
         else return false;
     }
+
+    private function isAlphaNumeric($text) {
+        return ctype_alnum($text);
+    }
 }
 
-?>

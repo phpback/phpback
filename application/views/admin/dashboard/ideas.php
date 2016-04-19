@@ -80,7 +80,7 @@
           </tbody>
         </table>
         <div id="allideastable" class="row" style="display:none" >
-    <div class="col-md-5">
+    <div class="col-md-4">
             <form role="form" method="post" action="<?php echo base_url() . 'admin/ideas';?>">
             <input type="hidden" name="search" value="1">
             <table>
@@ -120,7 +120,7 @@
                 </label>
               </div>
               </td>
-              <td style="padding-left:10px;width:250px;">
+              <td style="padding-left:10px;width:250px;vertical-align:top">
               <div class="form-group">
                 <?php foreach ($categories as $category): ?>
                   <label class="checkbox">
