@@ -179,16 +179,12 @@ class Adminaction extends CI_Controller{
             //Install new update
             $result = $update->update();
             if ($result !== true) {
-                echo 'Update failed: ' . $result . '!<br>';
-                if ($result = AutoUpdate::ERROR_SIMULATE) {
-                    echo '<pre>';
-                    var_dump($update->getSimulationResults());
-                    echo '</pre>';
-                }
+                echo 'Update failed!<br>';
+                $update->printLogs();
             }
 
-            @include __DIR__. '../config/update.php';
-            @unlink(__DIR__.'../config/update.php');
+            @include __DIR__. '/../config/update.php';
+            @unlink(__DIR__.'/../config/update.php');
         }
 
         header('Location: ' . base_url() . 'admin/system');
