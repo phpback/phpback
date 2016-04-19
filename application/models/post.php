@@ -229,7 +229,7 @@ class Post extends CI_Model
 
         $cat = $this->get_row_by_id('categories', $idea->categoryid);
 
-        if ($idea->status !== 'new') {
+        if ($idea->status !== 'new' && $idea->status !== 'declined') {
             $this->update_by_id('categories', 'ideas', $cat->ideas - 1, $cat->id);
         }
 
