@@ -13,6 +13,6 @@
     $lang['log_settings'] = 'Einstellung wurden bearbeitet';
     $lang['log_user_admin'] = 'Nutzer wurde zum Administrator befördert';
     $lang['log_category_created'] = 'Kategorie wurde erstellt';
-    $lang['log_category_description'] = 'BEschreibung wurde aktualisiert';
+    $lang['log_category_description'] = 'Beschreibung wurde aktualisiert';
     $lang['log_category_changed'] = 'Kategorie \'%s1\' geändert zu \'%s2\'';
     $lang['log_category_deleted'] = 'Kategorie %s gelöscht';
