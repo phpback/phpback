@@ -96,7 +96,7 @@
 				<ul class="nav-pills" style="list-style:none;margin-left:-40px;">
 				<li>
 					<?php if($idea->status == 'new'): ?>
-						<a href="<?php echo base_url() . 'adminaction/approveidea/' . $idea->id; ?>"><button type="submit" class="btn btn-success btn-sm" style="width:130px">Approve Idea</button></a>
+						<a href="<?php echo base_url() . 'adminaction/approveidea/' . $idea->id; ?>"><button type="submit" class="btn btn-success btn-sm" style="width:130px"><?php echo $lang['label_idea_approve']; ?></button></a>
 					<?php elseif($idea->status != 'completed' && $idea->status != 'declined'): ?>
 						<div class="dropdown">
 						  <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" style="width:130px"><?php echo $lang['label_change_status']; ?></button>
