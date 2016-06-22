@@ -14,6 +14,7 @@
     $lang['label_description'] = 'Beschreibung';
     $lang['label_idea'] = 'Idee';
     $lang['label_idea_title'] = 'Ideentitel';
+    $lang['label_idea_approve'] = 'Idee freigeben';
     $lang['label_ideas'] = 'Ideen';
     $lang['label_log'] = 'Protokoll';
     $lang['label_log_in'] = 'Anmelden';
