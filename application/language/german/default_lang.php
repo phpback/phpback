@@ -36,7 +36,7 @@
     $lang['text_create_an_account'] = 'Zugang erstellen';
     $lang['text_registration_success'] = 'Registrierung erfolgreich';
     $lang['text_select_category'] = 'Kategorie wählen...';
-    $lang['text_nothing_found'] = 'Kein Ergebniss...';
+    $lang['text_nothing_found'] = 'Kein Ergebnis...';
     $lang['text_votes_left'] = 'verbleibende Stimmen.';
     $lang['text_sure_delete_idea'] = 'Sind Sie sicher, das Sie diese Idee löschen wollen?';
     $lang['text_sure_delete_comment'] = 'Sind Sie sicher, das Sie diesen Kommentar löschen wollen?';
@@ -60,7 +60,7 @@
     $lang['form_repeat_password'] = 'Kennwort wiederholen';
     $lang['form_password_old'] = 'Altes Kennwort';
     $lang['form_password_new'] = 'Neues Kennwort';
-    $lang['from_password_new_repeat'] = 'Neue sKennwort wiederholen';
+    $lang['from_password_new_repeat'] = 'Neues Kennwort wiederholen';
 
     $lang['error_login_to_post'] = 'Sie müssen sich anmelden, um eine neue Idee zu speichern';
     $lang['error_login'] = 'Ungültiges Kennwort oder E-Mail Adresse';
