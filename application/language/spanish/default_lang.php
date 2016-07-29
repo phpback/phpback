@@ -13,6 +13,7 @@
     $lang['label_delete_votes'] = 'Borrar votos';
     $lang['label_description'] = 'Descripción';
     $lang['label_idea'] = 'Idea';
+    $lang['label_idea_approve'] = 'Aprobar idea';
     $lang['label_idea_title'] = 'Título de idea';
     $lang['label_ideas'] = 'Ideas';
     $lang['label_log'] = 'Log';
