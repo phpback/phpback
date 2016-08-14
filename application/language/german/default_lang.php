@@ -4,7 +4,7 @@
     $lang['label_categories'] = 'Kategorien';
     $lang['label_category'] = 'Kategorie';
     $lang['label_change_password'] = 'Kennwort ändern';
-    $lang['label_change_status'] = 'Change Status';
+    $lang['label_change_status'] = 'Status ändern';
     $lang['label_commented'] = 'Kommentiert in';
     $lang['label_comments'] = 'Kommentare';
     $lang['label_date'] = 'Datum';
