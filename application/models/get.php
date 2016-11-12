@@ -28,7 +28,7 @@ class Get extends CI_Model
     	return $categoryList;
     }
 
-    
+
     public function getIdea($idea_id){
     	$idea_id = (int) $idea_id;
 
@@ -44,7 +44,7 @@ class Get extends CI_Model
     	return $this->db->query($query)->result();
     }
 
-    
+
     public function getQuantityOfApprovedIdeas($categoryid){
         $categoryid = (int) $categoryid;
         $query = $this->db->query("SELECT * FROM ideas WHERE categoryid='$categoryid' AND status !='new'");
@@ -93,7 +93,7 @@ class Get extends CI_Model
         if($result->num_rows() == 0) return false;
         return true;
     }
-    
+
     public function getIdeasByCategory($category, $order, $type, $page){
         $page = (int) $page;
     	$category = (int) $category;
@@ -123,7 +123,7 @@ class Get extends CI_Model
         return $this->decorateIdeas($ideas);
     }
 
-    
+
     public function getIdeasBySearchQuery($query){
         $keywords = explode(" ", $query);
         $temp = $this->db->escape(array_shift($keywords));
@@ -148,7 +148,7 @@ class Get extends CI_Model
         return $this->decorateIdeas($ideas);
     }
 
-    
+
     public function getUser($user_id){
         $user_id = (int) $user_id;
         return $this->get_row_by_id('users', $user_id);
@@ -290,7 +290,7 @@ class Get extends CI_Model
 
     public function get_logs($to, $toid, $limit = 0) {
         $toid = (int) $toid;
-        $limit = (int) $limit;     
+        $limit = (int) $limit;
         if($limit != 0) $sql = $this->db->query("SELECT * FROM logs WHERE type=". $this->db->escape($to) ." AND toid='$toid' ORDER BY id DESC LIMIT $limit");
         else $sql = $this->db->query("SELECT * FROM logs WHERE type=". $this->db->escape($to) ." AND toid='$toid' ORDER BY id DESC");
         return $sql->result();
@@ -366,6 +366,10 @@ class Get extends CI_Model
         $_SESSION['phpback_username'] = $user->name;
         $_SESSION['phpback_useremail'] = $user->email;
         $_SESSION['phpback_isadmin'] = $user->isadmin;
+    }
+
+    public function getAutoUpdaterEnabled() {
+        return $this->config->item('auto_update');
     }
 
     public function setSessionCookie() {

@@ -357,6 +357,17 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
+/*
+|--------------------------------------------------------------------------
+| AutoUpdater
+|--------------------------------------------------------------------------
+|
+| Toggle the auto updater. If your system has other means to update or
+| phpback is installed on a read-only filesystem, set this to FALSE.
+|
+*/
+$config['auto_update'] = TRUE;
+
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
