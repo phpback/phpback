@@ -11,7 +11,7 @@ See LICENSE.TXT for details.
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Action extends CI_Controller{
-    
+
     public function __construct(){
         parent::__construct();
         $this->load->helper('url');
@@ -20,7 +20,7 @@ class Action extends CI_Controller{
     }
     public function register(){
         require_once('public/recaptcha/recaptchalib.php');
-        
+
         $votes = $this->get->getSetting('maxvotes');
         $title = $this->get->getSetting('title');
         $mainmail = $this->get->getSetting('mainmail');
@@ -35,13 +35,13 @@ class Action extends CI_Controller{
                                     $_SERVER["REMOTE_ADDR"],
                                     $_POST["recaptcha_challenge_field"],
                                     $_POST["recaptcha_response_field"]);
-            
+
             if(!$resp->is_valid){
                 header('Location: '. base_url() .'home/register/recaptcha');
                 return;
             }
         }
-        if(strlen($name) < 7){
+        if(strlen($name) < 3){
             header('Location: '. base_url() .'home/register/name');
             return;
         }
@@ -61,23 +61,23 @@ class Action extends CI_Controller{
         if($this->post->add_user($name, $email, $pass, $votes, false)){
             $message = "Welcome to our feedback: $title\n\nYour Email: $email\nYour Password: $pass\n\n\nPlease login here:" . base_url() . "home/login\n";
             $this->load->library('email');
-                 
+
             $this->email->initialize($this->get->email_config());
 
             $this->email->from($mainmail, 'PHPBack');
-            $this->email->to($email); 
+            $this->email->to($email);
 
             $this->email->subject("New account - $title");
-            $this->email->message($message);    
+            $this->email->message($message);
 
             $this->email->send();
-            
+
             header('Location: '. base_url() .'home/login/register');
         }
         else header('Location: '. base_url() .'home/register/exists');
-        
+
     }
-    
+
     public function login(){
         session_start();
 
@@ -99,7 +99,7 @@ class Action extends CI_Controller{
             header('Location: ' . base_url() . 'home/login/errorlogin/');
         }
     }
-    
+
     public function logout(){
         session_start();
         session_destroy();
@@ -153,28 +153,28 @@ class Action extends CI_Controller{
         if(strlen($new) > 5){
             if($new == $rnew){
                 $user = $this->get->getUser($_SESSION['phpback_userid']);
-                
+
                 if($this->hashing->matches($old, $user->pass)){
                     $this->post->update_by_id('users', 'pass', $this->hashing->hash($new), $user->id);
                     $message = "You have changed your password to: $new\n";
                     $this->load->library('email');
                     $this->email->initialize($this->get->email_config());
-                    
+
                     $mainmail = $this->get->getSetting('mainmail');
                     $title = $this->get->getSetting('title');
 
                     $this->email->from($mainmail, 'PHPBack');
-                    $this->email->to($user->email); 
+                    $this->email->to($user->email);
 
                     $this->email->subject("Password changed - $title");
-                    $this->email->message($message);    
+                    $this->email->message($message);
 
                     $this->email->send();
-                    
+
                     header('Location: ' . $toredirect);
                 }
                 else $this->redirectpost($toredirect, array('error' => 2));
-                
+
             }
             else $this->redirectpost($toredirect, array('error' => 1));
         }
@@ -221,12 +221,12 @@ class Action extends CI_Controller{
             header("Location: " . base_url(). "home/login");
             exit;
         }
-        $this->post->flag($cid, $_SESSION['phpback_userid']);    
+        $this->post->flag($cid, $_SESSION['phpback_userid']);
         header("Location: " . base_url() . "home/idea/" . $ideaid . '/' .  $ideaname);
     }
 
     private function redirectpost($url, array $data){
-        
+
         echo '<html>
             <head>
                 <script type="text/javascript">
