@@ -38,7 +38,8 @@ class Post extends CI_Model
                 'email' => $email,
 	   			'pass' => $pass,
 	   			'votes' => $votes,
-	   			'isadmin' => $isadmin
+	   			'isadmin' => $isadmin,
+                'banned' => '0'
 			);
         }
         else{
@@ -48,7 +49,7 @@ class Post extends CI_Model
 	   			'pass' => $pass,
 	   			'votes' => $votes,
 	   			'isadmin' => '0'
-			); 
+			);
         }
 
 		$this->db->insert('users', $data);
@@ -69,14 +70,14 @@ class Post extends CI_Model
 	   			'comments' => '0',
 	   			'status' => 'new',
 	   			'categoryid' => $category_id,
-			); 
+			);
         $this->db->insert('ideas', $data);
       	$this->log($this->lang->language['log_new_idea'] . ": $title", "user", $author_id);
         return true;
     }
 
     public function add_comment($idea_id, $comment, $user_id){
-        
+
 
         $idea_id = (int) $idea_id;
         $user_id = (int) $user_id;
