@@ -143,14 +143,18 @@ class Admin extends CI_Controller {
         $data['categories'] = $this->get->getCategories();
         $data['version'] = $this->version;
 
-        $update = new AutoUpdate(__DIR__ . '/temp', __DIR__ . '/../../', 60);
-        $update->setCurrentVersion($this->version); // Current version of your application. This value should be from a database or another file which will be updated with the installation of a new version
-        $update->setUpdateUrl('http://www.phpback.org/upgrade/'); //Replace the url with your server update url
-        $update->checkUpdate();
+        if ($this->get->getAutoUpdaterEnabled()) {
+            $update = new AutoUpdate(__DIR__ . '/temp', __DIR__ . '/../../', 60);
+            $update->setCurrentVersion($this->version); // Current version of your application. This value should be from a database or another file which will be updated with the installation of a new version
+            $update->setUpdateUrl('http://www.phpback.org/upgrade/'); //Replace the url with your server update url
+            $update->checkUpdate();
 
-        $data['lastVersion'] = $update->getLatestVersion();
-        $data['version'] = $this->version;
-        $data['isLastVersion'] = !$update->newVersionAvailable();
+            $data['lastVersion'] = $update->getLatestVersion();
+            $data['isLastVersion'] = !$update->newVersionAvailable();
+        } else {
+            $data['lastVersion'] = $this->version;
+            $data['isLastVersion'] = false;
+        }
 
         $this->load->view('admin/dashboard/header', $data);
         $this->load->view('admin/dashboard/system', $data);
