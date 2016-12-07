@@ -212,7 +212,7 @@ class Action extends CI_Controller{
         $content = $this->input->post('content', true);
         if(isset($_SESSION['phpback_userid']))
             $this->post->add_comment($idea_id, $content, $_SESSION['phpback_userid']);
-        header("Location: " . base_url() . "home/idea/" . $idea_id . '/' .  $this->input->post('ideaname', true));
+        header("Location: " . $this->get->getIdea($idea_id)->url);
     }
 
     public function flag($cid, $ideaid, $ideaname){
