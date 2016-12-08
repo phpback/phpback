@@ -13,11 +13,11 @@
   <form name="login-form" action="<?php echo base_url() . 'action/login'; ?>" method="POST">
     <div class="form-group">
       <label for="InputEmail"><?php echo $lang['form_email']; ?></label>
-      <input type="email" class="form-control" id="InputEmail" placeholder="<?php echo $lang['form_email']; ?>" name="email">
+      <input type="email" class="form-control" id="InputEmail" placeholder="<?php echo $lang['form_email']; ?>" name="email" required>
     </div>
     <div class="form-group">
       <label for="InputPassword"><?php echo $lang['form_password']; ?></label>
-      <input type="password" class="form-control" id="InputPassword" placeholder="<?php echo $lang['form_password']; ?>" name="password">
+      <input type="password" class="form-control" id="InputPassword" placeholder="<?php echo $lang['form_password']; ?>" name="password" required>
     </div>
     <label class="checkbox" for="checkbox1">
       <input type="checkbox" value="" id="checkbox1" name="rememberme" data-toggle="checkbox">
