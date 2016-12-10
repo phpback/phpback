@@ -43,20 +43,18 @@
 			</tbody>
 		</table>
 		<div id="changepasswordtable" style="display:none">
-			<form role="form" name="password-change-form" method="post" action="<?= base_url() . 'action/changepassword'?>" onsubmit="return validateForm()">
+			<form role="form" method="post" action="<?= base_url() . 'action/changepassword'?>">
 	            <div class="form-group">
 	              <label><?= $lang['form_password_old']; ?></label>
-	              <input type="password" class="form-control" name="old" style="width:150px" required>
+	              <input type="password" class="form-control" name="old" style="width:150px">
 	            </div>
 	            <div class="form-group">
-				  
 	              <label><?= $lang['form_password_new']; ?></label>
-				  <div id="password-error-show" style="color:red"></div>
-	              <input type="password" class="form-control" name="new" style="width:150px;" minlength="6" required>
+	              <input type="password" class="form-control" name="new" style="width:150px;">
 	            </div>
 	            <div class="form-group">
 	              <label><?= $lang['from_password_new_repeat']; ?></label>
-	              <input type="password" class="form-control" name="rnew" style="width:150px" required>
+	              <input type="password" class="form-control" name="rnew" style="width:150px">
 	            </div>
 	            <div class="form-group">
 	              <button type="submit" class="btn btn-primary"><?= $lang['label_change_password']; ?></button>
@@ -166,20 +164,3 @@
 	</div>
 	</small>
 </div>
-
-<script>
-function validateForm() {
-    var pass = document.forms["password-change-form"]["new"].value;
-	var passVerify = document.forms["password-change-form"]["rnew"].value;
-	
-	var errorShowDiv = document.getElementById("password-error-show");
-	
-	var passMatchError = "<?php echo $lang['error_passwords']?>";
-	
-    if (pass != passVerify) {
-		errorShowDiv.innerHTML = passMatchError;
-        return false;
-    }
-	
-}
-</script>

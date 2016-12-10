@@ -46,7 +46,7 @@
 <body>
 	<div class="login-screen">
 		<div class="login-form">
-		<form action="install1.php" method="POST" name="install-form" onsubmit="return validateForm()">
+		<form action="install1.php" method="POST" name="install-form">
 			<div class="phpback_logo">
 				<img src="../public/img/logo_free.png" />
 			</div>
@@ -61,11 +61,11 @@
             </div>
 		<?php endif; ?>
       <div class="form-group">
-              <input type="text" class="form-control login-field" value="" placeholder="MySQL hostname" id="hostname" name="hostname" required/>
+              <input type="text" class="form-control login-field" value="" placeholder="MySQL hostname" id="hostname" name="hostname" />
               <label class="login-field-icon" for="hostname"></label>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control login-field" value="" placeholder="MySQL username" id="username" name="username" required/>
+              <input type="text" class="form-control login-field" value="" placeholder="MySQL username" id="username" name="username" />
               <label class="login-field-icon" for="username"></label>
             </div>
             <div class="form-group">
@@ -76,26 +76,24 @@
               <input type="text" class="form-control login-field" value="" placeholder="MySQL database*" id="database" name="database" />
               <label class="login-field-icon" for="database"></label>
             </div>
-            <small>*Leave blank for automatic database creation</small>
+            <small>* Left in blank for automatic database creation</small>
             <hr>
 
-			<h6>Create Admin account </h6>
+            <h6>PHPBack installation</h6>
             <div class="form-group">
-              <input type="text" class="form-control login-field" value="" placeholder="Admin Name" id="adminname" name="adminname" required/>
+              <input type="text" class="form-control login-field" value="" placeholder="Admin Name" id="adminname" name="adminname" />
               <label class="login-field-icon" for="adminname"></label>
             </div>
 			   <div class="form-group">
-              <input type="text" class="form-control login-field" value="" placeholder="Admin Email" id="adminemail" name="adminemail" required/>
+              <input type="text" class="form-control login-field" value="" placeholder="Admin Email" id="adminemail" name="adminemail" />
               <label class="login-field-icon" for="adminemail"></label>
             </div>
-			<div id="password-error-show" style="color:red"></div>
-				<div class="form-group">
-			   
-              <input type="password" class="form-control login-field" value="" placeholder="Admin password" id="adminpass" name="adminpass" minlength="6" required/>
+			   <div class="form-group">
+              <input type="password" class="form-control login-field" value="" placeholder="Admin password" id="adminpass" name="adminpass" />
               <label class="login-field-icon fui-lock" for="adminpass"></label>
             </div>
             <div class="form-group">
-              <input type="password" class="form-control login-field" value="" placeholder="Repeat admin password" id="adminrpass" name="adminrpass" required/>
+              <input type="password" class="form-control login-field" value="" placeholder="Repeat admin password" id="adminrpass" name="adminrpass" />
               <label class="login-field-icon fui-lock" for="adminrpass"></label>
             </div>
 
@@ -105,22 +103,5 @@
         </div>
         </div>
 </div>
-
-<script>
-function validateForm() {
-    var pass = document.forms["install-form"]["adminpass"].value;
-	var passVerify = document.forms["install-form"]["adminrpass"].value;
-	
-	var errorShowDiv = document.getElementById("password-error-show");
-	
-    if (pass != passVerify) {
-		errorShowDiv.innerHTML = "Passwords do not match";
-        return false;
-    }
-	
-}
-
-</script>
-
 </body>
 </html>
