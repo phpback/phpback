@@ -15,27 +15,31 @@
     <p class="bg-danger" style="width:100%;height:30px;padding-left:10px;padding-top:5px;"><?php echo $lang['error_password']; ?></p>
   <?php } elseif ($error == "pass2") {?>
     <p class="bg-danger" style="width:100%;height:30px;padding-left:10px;padding-top:5px;"><?php echo $lang['error_passwords']; ?></p>
-  <?php } elseif ($error == "exits") {?>
+  <?php } elseif ($error == "exists") {?>
     <p class="bg-danger" style="width:100%;height:30px;padding-left:10px;padding-top:5px;"><?php echo $lang['error_email_exists']; ?></p>
   <?php } ?>
 
-  <form name="registration-form" action="<?php echo base_url() . 'action/register'; ?>" method="POST">
+  <form name="registration-form" action="<?php echo base_url() . 'action/register'; ?>" method="POST" onsubmit="return validateForm()">
    	<div class="form-group">
       <label for="InputEmail"><?php echo $lang['form_email']; ?></label>
-      <input type="email" class="form-control" id="InputEmail" placeholder="<?php echo $lang['form_email']; ?>" name="email">
+      <input type="email" class="form-control" id="InputEmail" placeholder="<?php echo $lang['form_email']; ?>" name="email" required>
     </div>
 
     <div class="form-group">
       <label for="InputName"><?php echo $lang['form_full_name']; ?></label>
-      <input type="text" class="form-control" id="InputName" placeholder="<?php echo $lang['form_full_name']; ?>" name="name">
+      <input type="text" class="form-control" id="InputName" placeholder="<?php echo $lang['form_full_name']; ?>" name="name" required>
     </div>
+	
+	
+	
     <div class="form-group">
       <label for="InputPassword"><?php echo $lang['form_password']; ?></label>
-      <input type="password" class="form-control" id="InputPassword" placeholder="<?php echo $lang['form_password']; ?>" name="password">
-    </div>
+	  <div id="password-error-show" style="color:red"></div>
+      <input type="password" class="form-control" id="InputPassword" placeholder="<?php echo $lang['form_password']; ?>" name="password" minlength="6" required>
+	</div>
     <div class="form-group">
       <label for="InputPassword2"><?php echo $lang['form_repeat_password']; ?></label>
-      <input type="password" class="form-control" id="InputPassword2" placeholder="<?php echo $lang['form_repeat_password']; ?>" name="password2">
+      <input type="password" class="form-control" id="InputPassword2" placeholder="<?php echo $lang['form_repeat_password']; ?>" name="password2" required>
     </div>
   <?php if ($recaptchapublic != ""): ?>
     <script type="text/javascript">
@@ -58,3 +62,20 @@
     <div style="margin-top:10px"><button type="submit" class="btn btn-primary"><?php echo $lang['label_registration']; ?></button></div>
   </form>
 </div>
+
+<script>
+function validateForm() {
+    var pass = document.forms["registration-form"]["password"].value;
+	var passVerify = document.forms["registration-form"]["password2"].value;
+	
+	var errorShowDiv = document.getElementById("password-error-show");
+	
+	var passMatchError = "<?php echo $lang['error_passwords']?>";
+	
+    if (pass != passVerify) {
+		errorShowDiv.innerHTML = passMatchError;
+        return false;
+    }
+	
+}
+</script>
