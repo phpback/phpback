@@ -48,7 +48,8 @@ class Post extends CI_Model
                 'email' => $email,
 	   			'pass' => $pass,
 	   			'votes' => $votes,
-	   			'isadmin' => '0'
+	   			'isadmin' => '0',
+                'banned' => '0'
 			);
         }
 
