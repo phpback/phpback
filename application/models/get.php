@@ -18,7 +18,7 @@ class Get extends CI_Model
 	}
 
 	public function getCategories() {
-    	$result = $this->db->get('categories')->result();
+    	$result = $this->db->query('SELECT * FROM categories ORDER BY name')->result();
         $categoryList = array();
         foreach ($result as $category) {
             $categoryList[$category->id] = $category;
