@@ -13,6 +13,10 @@ Please, visit our website for more information: [http://www.phpback.org/](http:/
 Upload this folder to your web server, go to `yourwebsite.com/feedback/` (or folder name) and fill the form.
 If you have any questions, please visit our [Wiki](https://github.com/ivandiazwm/phpback/wiki/).
 
+Install on Cloudron, a platform to effortlessly run web apps on your own server.
+
+[![Install](https://cloudron.io/img/button.svg)](https://cloudron.io/button.html?app=org.phpback.cloudronapp)
+
 ##License
 PHPBack is licensed under GPLv3 (see `LICENSE.TXT` file) and it was made using Codeigniter Framework (see `system/license.txt` file).
 
