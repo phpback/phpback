@@ -1,0 +1,44 @@
+@mixin lato-font-face($variant, $weight: 400, $style: normal, $font-name: $lato-font-name) {
+
+	$variant: 'lato-' + $variant;
+
+	@if (italic == $style) {
+		$variant: $variant + '-italic';
+	}
+
+	font-family: $font-name;
+	src: url('#{$lato-font-path}/#{$variant}/#{$variant}.eot');
+	src:
+		url('#{$lato-font-path}/#{$variant}/#{$variant}.eot?#iefix')  format('embedded-opentype'),
+		url('#{$lato-font-path}/#{$variant}/#{$variant}.woff')             format('woff'),
+		url('#{$lato-font-path}/#{$variant}/#{$variant}.ttf')              format('truetype')
+	;
+	font-weight: $weight;
+	font-style: $style;
+}
+
+// Generates font-faces automatically by iterating provided variants map.
+@mixin lato-render-variants($variants) {
+	@each $variant, $weight in $variants {
+		@include lato-render-variant($variant, $weight);
+	}
+}
+
+// Generates font-face for specified variant and weight.
+// This is primarily for internal use.
+@mixin lato-render-variant($variant, $weight) {
+
+	$font-name: latoGetFontNameForVariant($variant);
+
+	// One for regular style.
+	/* Lato (#{$variant}, regular) */
+	@font-face {
+		@include lato-font-face($variant, $weight, normal, $font-name);
+	}
+
+	// One for italic style.
+	/* Lato (#{$variant}, italic) */
+	@font-face {
+		@include lato-font-face($variant, $weight, italic, $font-name);
+	}
+}

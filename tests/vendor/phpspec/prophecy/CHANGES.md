@@ -1,3 +1,46 @@
+1.7.0 / 2017-03-02
+==================
+
+* Add full PHP 7.1 Support (thanks @prolic)
+* Allow `sebastian/comparator ^2.0` (thanks @sebastianbergmann)
+* Allow `sebastian/recursion-context ^3.0` (thanks @sebastianbergmann)
+* Allow `\Error` instances in `ThrowPromise` (thanks @jameshalsall)
+* Support `phpspec/phpspect ^3.2` (thanks @Sam-Burns)
+* Fix failing builds (thanks @Sam-Burns)
+
+1.6.2 / 2016-11-21
+==================
+
+* Added support for detecting @method on interfaces that the class itself implements, or when the stubbed class is an interface itself (thanks @Seldaek)
+* Added support for sebastian/recursion-context 2 (thanks @sebastianbergmann)
+* Added testing on PHP 7.1 on Travis (thanks @danizord)
+* Fixed the usage of the phpunit comparator (thanks @Anyqax)
+
+1.6.1 / 2016-06-07
+==================
+
+  * Ignored empty method names in invalid `@method` phpdoc
+  * Fixed the mocking of SplFileObject
+  * Added compatibility with phpdocumentor/reflection-docblock 3
+
+1.6.0 / 2016-02-15
+==================
+
+  * Add Variadics support (thanks @pamil)
+  * Add ProphecyComparator for comparing objects that need revealing (thanks @jon-acker)
+  * Add ApproximateValueToken (thanks @dantleech)
+  * Add support for 'self' and 'parent' return type (thanks @bendavies)
+  * Add __invoke to allowed reflectable methods list (thanks @ftrrtf)
+  * Updated ExportUtil to reflect the latest changes by Sebastian (thanks @jakari)
+  * Specify the required php version for composer (thanks @jakzal)
+  * Exclude 'args' in the generated backtrace (thanks @oradwell)
+  * Fix code generation for scalar parameters (thanks @trowski)
+  * Fix missing sprintf in InvalidArgumentException __construct call (thanks @emmanuelballery)
+  * Fix phpdoc for magic methods (thanks @Tobion)
+  * Fix PhpDoc for interfaces usage (thanks @ImmRanneft)
+  * Prevent final methods from being manually extended (thanks @kamioftea)
+  * Enhance exception for invalid argument to ThrowPromise (thanks @Tobion)
+
 1.5.0 / 2015-04-27
 ==================
 

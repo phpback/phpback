@@ -1,7 +1,0 @@
-/build
-/composer.lock
-/tests/config.yml
-/vendor
-/.idea
-*~
-*.swp

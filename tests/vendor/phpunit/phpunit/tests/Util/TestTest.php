@@ -18,15 +18,11 @@ if (!defined('TEST_FILES_PATH')) {
 
 require TEST_FILES_PATH . 'CoverageNamespacedFunctionTest.php';
 require TEST_FILES_PATH . 'NamespaceCoveredFunction.php';
+require TEST_FILES_PATH . 'MultipleDataProviderTest.php';
 
-/**
- * @since      Class available since Release 3.3.6
- */
 class Util_TestTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers PHPUnit_Util_Test::getExpectedException
-     *
      * @todo   Split up in separate tests
      */
     public function testGetExpectedException()
@@ -98,9 +94,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getExpectedException
-     */
     public function testGetExpectedRegExp()
     {
         $this->assertArraySubset(
@@ -120,7 +113,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Util_Test::getRequirements
      * @dataProvider requirementsProvider
      */
     public function testGetRequirements($test, $result)
@@ -135,13 +127,16 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     {
         return [
             ['testOne',    []],
-            ['testTwo',    ['PHPUnit'    => '1.0']],
-            ['testThree',  ['PHP'        => '2.0']],
-            ['testFour',   ['PHPUnit'    => '2.0', 'PHP' => '1.0']],
-            ['testFive',   ['PHP'        => '5.4.0RC6']],
-            ['testSix',    ['PHP'        => '5.4.0-alpha1']],
-            ['testSeven',  ['PHP'        => '5.4.0beta2']],
-            ['testEight',  ['PHP'        => '5.4-dev']],
+            ['testTwo',    ['PHPUnit'    => ['version' => '1.0', 'operator' => '']]],
+            ['testThree',  ['PHP'        => ['version' => '2.0', 'operator' => '']]],
+            ['testFour',   [
+                'PHPUnit'    => ['version' => '2.0', 'operator' => ''],
+                'PHP'        => ['version' => '1.0', 'operator' => '']]
+            ],
+            ['testFive',   ['PHP'        => ['version' => '5.4.0RC6', 'operator' => '']]],
+            ['testSix',    ['PHP'        => ['version' => '5.4.0-alpha1', 'operator' => '']]],
+            ['testSeven',  ['PHP'        => ['version' => '5.4.0beta2', 'operator' => '']]],
+            ['testEight',  ['PHP'        => ['version' => '5.4-dev', 'operator' => '']]],
             ['testNine',   ['functions'  => ['testFunc']]],
             ['testTen',    ['extensions' => ['testExt']]],
             ['testEleven', ['OS'         => '/Linux/i']],
@@ -155,8 +150,8 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
             [
               'testAllPossibleRequirements',
               [
-                'PHP'       => '99-dev',
-                'PHPUnit'   => '9-dev',
+                'PHP'       => ['version' => '99-dev', 'operator' => ''],
+                'PHPUnit'   => ['version' => '9-dev', 'operator' => ''],
                 'OS'        => '/DOESNOTEXIST/i',
                 'functions' => [
                   'testFuncOne',
@@ -165,20 +160,165 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
                 'extensions' => [
                   'testExtOne',
                   'testExtTwo',
+                  'testExtThree',
+                ],
+                'extension_versions' => [
+                    'testExtThree' => ['version' => '2.0', 'operator' => '']
                 ]
               ]
-            ]
+            ],
+            ['testSpecificExtensionVersion',
+                [
+                    'extension_versions' => ['testExt' => ['version' => '1.8.0', 'operator' => '']],
+                    'extensions'         => ['testExt']
+                ]
+            ],
+            ['testPHPVersionOperatorLessThan',
+                [
+                    'PHP' => ['version' => '5.4', 'operator' => '<']
+                ]
+            ],
+            ['testPHPVersionOperatorLessThanEquals',
+                [
+                    'PHP' => ['version' => '5.4', 'operator' => '<=']
+                ]
+            ],
+            ['testPHPVersionOperatorGreaterThan',
+                [
+                    'PHP' => ['version' => '99', 'operator' => '>']
+                ]
+            ],
+            ['testPHPVersionOperatorGreaterThanEquals',
+                [
+                    'PHP' => ['version' => '99', 'operator' => '>=']
+                ]
+            ],
+            ['testPHPVersionOperatorEquals',
+                [
+                    'PHP' => ['version' => '5.4', 'operator' => '=']
+                ]
+            ],
+            ['testPHPVersionOperatorDoubleEquals',
+                [
+                    'PHP' => ['version' => '5.4', 'operator' => '==']
+                ]
+            ],
+            ['testPHPVersionOperatorBangEquals',
+                [
+                    'PHP' => ['version' => '99', 'operator' => '!=']
+                ]
+            ],
+            ['testPHPVersionOperatorNotEquals',
+                [
+                    'PHP' => ['version' => '99', 'operator' => '<>']
+                ]
+            ],
+            ['testPHPVersionOperatorNoSpace',
+                [
+                    'PHP' => ['version' => '99', 'operator' => '>=']
+                ]
+            ],
+            ['testPHPUnitVersionOperatorLessThan',
+                [
+                    'PHPUnit' => ['version' => '1.0', 'operator' => '<']
+                ]
+            ],
+            ['testPHPUnitVersionOperatorLessThanEquals',
+                [
+                    'PHPUnit' => ['version' => '1.0', 'operator' => '<=']
+                ]
+            ],
+            ['testPHPUnitVersionOperatorGreaterThan',
+                [
+                    'PHPUnit' => ['version' => '99', 'operator' => '>']
+                ]
+            ],
+            ['testPHPUnitVersionOperatorGreaterThanEquals',
+                [
+                    'PHPUnit' => ['version' => '99', 'operator' => '>=']
+                ]
+            ],
+            ['testPHPUnitVersionOperatorEquals',
+                [
+                    'PHPUnit' => ['version' => '1.0', 'operator' => '=']
+                ]
+            ],
+            ['testPHPUnitVersionOperatorDoubleEquals',
+                [
+                    'PHPUnit' => ['version' => '1.0', 'operator' => '==']
+                ]
+            ],
+            ['testPHPUnitVersionOperatorBangEquals',
+                [
+                    'PHPUnit' => ['version' => '99', 'operator' => '!=']
+                ]
+            ],
+            ['testPHPUnitVersionOperatorNotEquals',
+                [
+                    'PHPUnit' => ['version' => '99', 'operator' => '<>']
+                ]
+            ],
+            ['testPHPUnitVersionOperatorNoSpace',
+                [
+                    'PHPUnit' => ['version' => '99', 'operator' => '>=']
+                ]
+            ],
+            ['testExtensionVersionOperatorLessThanEquals',
+                [
+                    'extensions'         => ['testExtOne'],
+                    'extension_versions' => ['testExtOne' => ['version' => '1.0', 'operator' => '<=']]
+                ]
+            ],
+            ['testExtensionVersionOperatorGreaterThan',
+                [
+                    'extensions'         => ['testExtOne'],
+                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '>']]
+                ]
+            ],
+            ['testExtensionVersionOperatorGreaterThanEquals',
+                [
+                    'extensions'         => ['testExtOne'],
+                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '>=']]
+                ]
+            ],
+            ['testExtensionVersionOperatorEquals',
+                [
+                    'extensions'         => ['testExtOne'],
+                    'extension_versions' => ['testExtOne' => ['version' => '1.0', 'operator' => '=']]
+                ]
+            ],
+            ['testExtensionVersionOperatorDoubleEquals',
+                [
+                    'extensions'         => ['testExtOne'],
+                    'extension_versions' => ['testExtOne' => ['version' => '1.0', 'operator' => '==']]
+                ]
+            ],
+            ['testExtensionVersionOperatorBangEquals',
+                [
+                    'extensions'         => ['testExtOne'],
+                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '!=']]
+                ]
+            ],
+            ['testExtensionVersionOperatorNotEquals',
+                [
+                    'extensions'         => ['testExtOne'],
+                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '<>']]
+                ]
+            ],
+            ['testExtensionVersionOperatorNoSpace',
+                [
+                    'extensions'         => ['testExtOne'],
+                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '>=']]
+                ]
+            ],
         ];
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getRequirements
-     */
     public function testGetRequirementsMergesClassAndMethodDocBlocks()
     {
         $expectedAnnotations = [
-            'PHP'       => '5.4',
-            'PHPUnit'   => '3.7',
+            'PHP'       => ['version' => '5.4', 'operator' => ''],
+            'PHPUnit'   => ['version' => '3.7', 'operator' => ''],
             'OS'        => '/WINNT/i',
             'functions' => [
               'testFuncClass',
@@ -197,7 +337,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Util_Test::getMissingRequirements
      * @dataProvider missingRequirementsProvider
      */
     public function testGetMissingRequirements($test, $result)
@@ -214,24 +353,44 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
             ['testOne',            []],
             ['testNine',           ['Function testFunc is required.']],
             ['testTen',            ['Extension testExt is required.']],
-            ['testAlwaysSkip',     ['PHPUnit 1111111 (or later) is required.']],
-            ['testAlwaysSkip2',    ['PHP 9999999 (or later) is required.']],
+            ['testAlwaysSkip',     ['PHPUnit >= 1111111 is required.']],
+            ['testAlwaysSkip2',    ['PHP >= 9999999 is required.']],
             ['testAlwaysSkip3',    ['Operating system matching /DOESNOTEXIST/i is required.']],
             ['testAllPossibleRequirements', [
-              'PHP 99-dev (or later) is required.',
-              'PHPUnit 9-dev (or later) is required.',
+              'PHP >= 99-dev is required.',
+              'PHPUnit >= 9-dev is required.',
               'Operating system matching /DOESNOTEXIST/i is required.',
               'Function testFuncOne is required.',
               'Function testFuncTwo is required.',
               'Extension testExtOne is required.',
               'Extension testExtTwo is required.',
+              'Extension testExtThree >= 2.0 is required.',
             ]],
+            ['testPHPVersionOperatorLessThan', ['PHP < 5.4 is required.']],
+            ['testPHPVersionOperatorLessThanEquals', ['PHP <= 5.4 is required.']],
+            ['testPHPVersionOperatorGreaterThan', ['PHP > 99 is required.']],
+            ['testPHPVersionOperatorGreaterThanEquals', ['PHP >= 99 is required.']],
+            ['testPHPVersionOperatorNoSpace', ['PHP >= 99 is required.']],
+            ['testPHPVersionOperatorEquals', ['PHP = 5.4 is required.']],
+            ['testPHPVersionOperatorDoubleEquals', ['PHP == 5.4 is required.']],
+            ['testPHPUnitVersionOperatorLessThan', ['PHPUnit < 1.0 is required.']],
+            ['testPHPUnitVersionOperatorLessThanEquals', ['PHPUnit <= 1.0 is required.']],
+            ['testPHPUnitVersionOperatorGreaterThan', ['PHPUnit > 99 is required.']],
+            ['testPHPUnitVersionOperatorGreaterThanEquals', ['PHPUnit >= 99 is required.']],
+            ['testPHPUnitVersionOperatorEquals', ['PHPUnit = 1.0 is required.']],
+            ['testPHPUnitVersionOperatorDoubleEquals', ['PHPUnit == 1.0 is required.']],
+            ['testPHPUnitVersionOperatorNoSpace', ['PHPUnit >= 99 is required.']],
+            ['testExtensionVersionOperatorLessThan', ['Extension testExtOne < 1.0 is required.']],
+            ['testExtensionVersionOperatorLessThanEquals', ['Extension testExtOne <= 1.0 is required.']],
+            ['testExtensionVersionOperatorGreaterThan', ['Extension testExtOne > 99 is required.']],
+            ['testExtensionVersionOperatorGreaterThanEquals', ['Extension testExtOne >= 99 is required.']],
+            ['testExtensionVersionOperatorEquals', ['Extension testExtOne = 1.0 is required.']],
+            ['testExtensionVersionOperatorDoubleEquals', ['Extension testExtOne == 1.0 is required.']],
+            ['testExtensionVersionOperatorNoSpace', ['Extension testExtOne >= 99 is required.']],
         ];
     }
 
     /**
-     * @coversNothing
-     *
      * @todo   This test does not really test functionality of PHPUnit_Util_Test
      */
     public function testGetProvidedDataRegEx()
@@ -258,17 +417,59 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers PHPUnit_Util_Test::getDataFromTestWithAnnotation
+     * Check if all data providers are being merged.
      */
+    public function testMultipleDataProviders()
+    {
+        $dataSets = PHPUnit_Util_Test::getProvidedData('MultipleDataProviderTest', 'testOne');
+
+        $this->assertCount(9, $dataSets);
+
+        $aCount = 0;
+        $bCount = 0;
+        $cCount = 0;
+
+        for ($i = 0; $i < 9; $i++) {
+            $aCount += $dataSets[$i][0] != null ? 1 : 0;
+            $bCount += $dataSets[$i][1] != null ? 1 : 0;
+            $cCount += $dataSets[$i][2] != null ? 1 : 0;
+        }
+
+        $this->assertEquals(3, $aCount);
+        $this->assertEquals(3, $bCount);
+        $this->assertEquals(3, $cCount);
+    }
+
+    /**
+     * Check with a multiple yield / iterator data providers.
+     */
+    public function testMultipleYieldIteratorDataProviders()
+    {
+        $dataSets = PHPUnit_Util_Test::getProvidedData('MultipleDataProviderTest', 'testTwo');
+
+        $this->assertEquals(9, count($dataSets));
+
+        $aCount = 0;
+        $bCount = 0;
+        $cCount = 0;
+
+        for ($i = 0; $i < 9; $i++) {
+            $aCount += $dataSets[$i][0] != null ? 1 : 0;
+            $bCount += $dataSets[$i][1] != null ? 1 : 0;
+            $cCount += $dataSets[$i][2] != null ? 1 : 0;
+        }
+
+        $this->assertEquals(3, $aCount);
+        $this->assertEquals(3, $bCount);
+        $this->assertEquals(3, $cCount);
+    }
+
     public function testTestWithEmptyAnnotation()
     {
         $result = PHPUnit_Util_Test::getDataFromTestWithAnnotation("/**\n * @anotherAnnotation\n */");
         $this->assertNull($result);
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getDataFromTestWithAnnotation
-     */
     public function testTestWithSimpleCase()
     {
         $result = PHPUnit_Util_Test::getDataFromTestWithAnnotation('/**
@@ -277,9 +478,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([[1]], $result);
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getDataFromTestWithAnnotation
-     */
     public function testTestWithMultiLineMultiParameterCase()
     {
         $result = PHPUnit_Util_Test::getDataFromTestWithAnnotation('/**
@@ -289,9 +487,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([[1, 2], [3, 4]], $result);
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getDataFromTestWithAnnotation
-     */
     public function testTestWithVariousTypes()
     {
         $result = PHPUnit_Util_Test::getDataFromTestWithAnnotation('/**
@@ -302,9 +497,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([['ab'], [true], [null]], $result);
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getDataFromTestWithAnnotation
-     */
     public function testTestWithAnnotationAfter()
     {
         $result = PHPUnit_Util_Test::getDataFromTestWithAnnotation('/**
@@ -315,9 +507,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([[1], [2]], $result);
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getDataFromTestWithAnnotation
-     */
     public function testTestWithSimpleTextAfter()
     {
         $result = PHPUnit_Util_Test::getDataFromTestWithAnnotation('/**
@@ -328,9 +517,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([[1], [2]], $result);
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getDataFromTestWithAnnotation
-     */
     public function testTestWithCharacterEscape()
     {
         $result = PHPUnit_Util_Test::getDataFromTestWithAnnotation('/**
@@ -339,23 +525,28 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([['"', '"']], $result);
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getDataFromTestWithAnnotation
-     */
     public function testTestWithThrowsProperExceptionIfDatasetCannotBeParsed()
     {
-        $this->setExpectedExceptionRegExp(
-            'PHPUnit_Framework_Exception',
-            '/^The dataset for the @testWith annotation cannot be parsed.$/'
-        );
+        $this->expectException(PHPUnit_Framework_Exception::class);
+        $this->expectExceptionMessageRegExp('/^The dataset for the @testWith annotation cannot be parsed:/');
+
         PHPUnit_Util_Test::getDataFromTestWithAnnotation('/**
                                                            * @testWith [s]
                                                            */');
     }
 
+    public function testTestWithThrowsProperExceptionIfMultiLineDatasetCannotBeParsed()
+    {
+        $this->expectException(PHPUnit_Framework_Exception::class);
+        $this->expectExceptionMessageRegExp('/^The dataset for the @testWith annotation cannot be parsed:/');
+
+        PHPUnit_Util_Test::getDataFromTestWithAnnotation('/**
+                                                           * @testWith ["valid"]
+                                                           *           [invalid]
+                                                           */');
+    }
+
     /**
-     * @covers PHPUnit_Util_Test::getDependencies
-     *
      * @todo   Not sure what this test tests (name is misleading at least)
      */
     public function testParseAnnotation()
@@ -376,9 +567,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     {
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getDependencies
-     */
     public function testParseAnnotationThatIsOnlyOneLine()
     {
         $this->assertEquals(
@@ -394,9 +582,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers       PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
-     * @covers       PHPUnit_Util_Test::resolveElementToReflectionObjects
      * @dataProvider getLinesToBeCoveredProvider
      */
     public function testGetLinesToBeCovered($test, $lines)
@@ -426,9 +611,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers            PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
-     * @covers            PHPUnit_Util_Test::resolveElementToReflectionObjects
      * @expectedException PHPUnit_Framework_CodeCoverageException
      */
     public function testGetLinesToBeCovered2()
@@ -439,9 +621,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers            PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
-     * @covers            PHPUnit_Util_Test::resolveElementToReflectionObjects
      * @expectedException PHPUnit_Framework_CodeCoverageException
      */
     public function testGetLinesToBeCovered3()
@@ -452,9 +631,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers            PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
-     * @covers            PHPUnit_Util_Test::resolveElementToReflectionObjects
      * @expectedException PHPUnit_Framework_CodeCoverageException
      */
     public function testGetLinesToBeCovered4()
@@ -464,10 +640,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
-     */
     public function testGetLinesToBeCoveredSkipsNonExistentMethods()
     {
         $this->assertSame(
@@ -480,8 +652,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers            PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
      * @expectedException PHPUnit_Framework_CodeCoverageException
      */
     public function testTwoCoversDefaultClassAnnoationsAreNotAllowed()
@@ -492,10 +662,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
-     */
     public function testFunctionParenthesesAreAllowed()
     {
         $this->assertSame(
@@ -507,10 +673,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
-     */
     public function testFunctionParenthesesAreAllowedWithWhitespace()
     {
         $this->assertSame(
@@ -522,10 +684,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
-     */
     public function testMethodParenthesesAreAllowed()
     {
         $this->assertSame(
@@ -537,10 +695,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
-     */
     public function testMethodParenthesesAreAllowedWithWhitespace()
     {
         $this->assertSame(
@@ -552,10 +706,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers PHPUnit_Util_Test::getLinesToBeCovered
-     * @covers PHPUnit_Util_Test::getLinesToBeCoveredOrUsed
-     */
     public function testNamespacedFunctionCanBeCoveredOrUsed()
     {
         $this->assertEquals(

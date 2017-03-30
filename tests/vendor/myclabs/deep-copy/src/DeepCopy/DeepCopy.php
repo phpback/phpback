@@ -5,6 +5,9 @@ namespace DeepCopy;
 use DeepCopy\Exception\CloneException;
 use DeepCopy\Filter\Filter;
 use DeepCopy\Matcher\Matcher;
+use DeepCopy\TypeFilter\Spl\SplDoublyLinkedList;
+use DeepCopy\TypeFilter\TypeFilter;
+use DeepCopy\TypeMatcher\TypeMatcher;
 use ReflectionProperty;
 use DeepCopy\Reflection\ReflectionHelper;
 
@@ -24,7 +27,29 @@ class DeepCopy
      */
     private $filters = [];
 
+    /**
+     * Type Filters to apply.
+     * @var array
+     */
+    private $typeFilters = [];
+
     private $skipUncloneable = false;
+
+    /**
+     * @var bool
+     */
+    private $useCloneMethod;
+
+    /**
+     * @param bool $useCloneMethod   If set to true, when an object implements the __clone() function, it will be used
+     *                               instead of the regular deep cloning.
+     */
+    public function __construct($useCloneMethod = false)
+    {
+        $this->useCloneMethod = $useCloneMethod;
+
+        $this->addTypeFilter(new SplDoublyLinkedList($this), new TypeMatcher('\SplDoublyLinkedList'));
+    }
 
     /**
      * Cloning uncloneable properties won't throw exception.
@@ -39,8 +64,8 @@ class DeepCopy
 
     /**
      * Perform a deep copy of the object.
-     * @param object $object
-     * @return object
+     * @param mixed $object
+     * @return mixed
      */
     public function copy($object)
     {
@@ -57,8 +82,22 @@ class DeepCopy
         ];
     }
 
+    public function addTypeFilter(TypeFilter $filter, TypeMatcher $matcher)
+    {
+        $this->typeFilters[] = [
+            'matcher' => $matcher,
+            'filter'  => $filter,
+        ];
+    }
+
+
     private function recursiveCopy($var)
     {
+        // Matches Type Filter
+        if ($filter = $this->getFirstMatchedTypeFilter($this->typeFilters, $var)) {
+            return $filter->apply($var);
+        }
+
         // Resource
         if (is_resource($var)) {
             return $var;
@@ -82,11 +121,11 @@ class DeepCopy
      */
     private function copyArray(array $array)
     {
-        $copier = function($item) {
-            return $this->recursiveCopy($item);
-        };
+        foreach ($array as $key => $value) {
+            $array[$key] = $this->recursiveCopy($value);
+        }
 
-        return array_map($copier, $array);
+        return $array;
     }
 
     /**
@@ -112,13 +151,19 @@ class DeepCopy
         if (false === $isCloneable) {
             throw new CloneException(sprintf(
                 'Class "%s" is not cloneable.',
-                $object->getName()
+                $reflectedObject->getName()
             ));
         }
 
         $newObject = clone $object;
         $this->hashMap[$objectHash] = $newObject;
+        if ($this->useCloneMethod && $reflectedObject->hasMethod('__clone')) {
+            return $object;
+        }
 
+        if ($newObject instanceof \DateTimeInterface) {
+            return $newObject;
+        }
         foreach (ReflectionHelper::getProperties($reflectedObject) as $property) {
             $this->copyObjectProperty($newObject, $property);
         }
@@ -158,5 +203,44 @@ class DeepCopy
 
         // Copy the property
         $property->setValue($object, $this->recursiveCopy($propertyValue));
+    }
+
+    /**
+     * Returns first filter that matches variable, NULL if no such filter found.
+     * @param array $filterRecords Associative array with 2 members: 'filter' with value of type {@see TypeFilter} and
+     *                             'matcher' with value of type {@see TypeMatcher}
+     * @param mixed $var
+     * @return TypeFilter|null
+     */
+    private function getFirstMatchedTypeFilter(array $filterRecords, $var)
+    {
+        $matched = $this->first(
+            $filterRecords,
+            function (array $record) use ($var) {
+                /* @var TypeMatcher $matcher */
+                $matcher = $record['matcher'];
+
+                return $matcher->matches($var);
+            }
+        );
+
+        return isset($matched) ? $matched['filter'] : null;
+    }
+
+    /**
+     * Returns first element that matches predicate, NULL if no such element found.
+     * @param array    $elements
+     * @param callable $predicate Predicate arguments are: element.
+     * @return mixed|null
+     */
+    private function first(array $elements, callable $predicate)
+    {
+        foreach ($elements as $element) {
+            if (call_user_func($predicate, $element)) {
+                return $element;
+            }
+        }
+
+        return null;
     }
 }

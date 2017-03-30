@@ -1,3 +1,15 @@
+# application
 application/config/database.php
+
+# editor
 sftp-config.json
 .idea
+
+# tests
+phpunit.xml
+
+# dependencies
+vendor
+tests/vendor
+#composer.lock
+#tests/composer.lock

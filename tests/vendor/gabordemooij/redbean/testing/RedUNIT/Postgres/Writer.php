@@ -11,6 +11,11 @@ use RedBeanPHP\RedException\SQL as SQL;
 /**
  * Writer
  *
+ * Tests for PostgreSQL Query Writer.
+ * This test class contains Query Writer specific tests.
+ * Use this class to add tests to test Query Writer specific
+ * behaviours, quirks and issues.
+ *
  * @file    RedUNIT/Postgres/Writer.php
  * @desc    A collection of writer specific tests.
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -498,6 +503,36 @@ class Writer extends Postgres
 		$bean = R::load( 'bean', $bean->id );
 
 		asrt( $bean->circle, '<(9.2,1.2),7.9>' );
+	}
+
+	/**
+	 * Test money types.
+	 *
+	 * @return void
+	 */
+	public function testTypesMon()
+	{
+		$bean       = R::dispense( 'bean' );
+
+		$bean->amount = '22.99';
+
+		R::store( $bean );
+
+		$cols = R::getColumns( 'bean' );
+
+		asrt( $cols['amount'], 'numeric' );
+
+		R::nuke();
+
+		$bean       = R::dispense( 'bean' );
+
+		$bean->amount = '-22.99';
+
+		R::store( $bean );
+
+		$cols = R::getColumns( 'bean' );
+
+		asrt( $cols['amount'], 'numeric' );
 	}
 
 	/**

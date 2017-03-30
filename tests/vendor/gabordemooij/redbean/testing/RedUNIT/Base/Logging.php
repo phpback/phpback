@@ -5,10 +5,12 @@ namespace RedUNIT\Base;
 use RedUNIT\Base as Base;
 use RedBeanPHP\Facade as R;
 use RedBeanPHP\Logger as Logger;
-use RedBeanPHP\Logger\RDefault as RDefault; 
+use RedBeanPHP\Logger\RDefault as RDefault;
 
 /**
  * Logging
+ *
+ * Tests the Query Logging tools that are part of RedBeanPHP.
  *
  * @file    RedUNIT/Base/Logging.php
  * @desc    Tests Logging facilities.

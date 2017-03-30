@@ -1,0 +1,9 @@
+{
+  "directory": "public/",
+"timeout": 120000,
+  "registry": {
+    "search": [
+      "https://bower.herokuapp.com"
+    ]
+  }
+}

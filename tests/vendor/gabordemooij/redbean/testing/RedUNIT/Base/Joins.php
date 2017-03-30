@@ -6,9 +6,12 @@ use RedUNIT\Base as Base;
 use RedBeanPHP\Facade as R;
 use RedBeanPHP\OODBBean as OODBBean;
 
-
 /**
  * Joins
+ *
+ * Tests the @joined keyword, this keyword in an SQL snippet
+ * allows you to join another table and use one or more of its columns
+ * in the query snippet, for instance for sorting or filtering.
  *
  * @file    RedUNIT/Base/Joins.php
  * @desc    Tests joins in ownLists and trees.
@@ -57,7 +60,6 @@ class Joins extends Base
 	public function testJoins()
 	{
 		R::nuke();
-
 		list($a1, $a2, $a3) = R::dispense('area', 3);
 		list($p1, $p2) = R::dispense('person', 2);
 		list($v1, $v2, $v3, $v4) = R::dispense('visit', 4);
@@ -106,10 +108,10 @@ class Joins extends Base
 
 	/**
 	 * Helper for the next test.
-	 * 
+	 *
 	 * @param array  $books      the books we are going to check
 	 * @param string $numberList the numbers that are expected
-	 * 
+	 *
 	 * @return void
 	 */
 	private function checkBookNumbers( $books, $numberList )
@@ -190,7 +192,7 @@ class Joins extends Base
 		$books = $author->with(' ORDER BY @joined.category.title DESC, @joined.info.title ASC' )->ownBookList;
 		$this->checkBookNumbers( $books, '3,2,0,1' );
 		$books = $author->with(' ORDER BY @joined.category.title DESC, @joined.info.title ASC LIMIT 2' )->ownBookList;
-		$this->checkBookNumbers( $books, '3,2' );		
+		$this->checkBookNumbers( $books, '3,2' );
 	}
 
 	/**

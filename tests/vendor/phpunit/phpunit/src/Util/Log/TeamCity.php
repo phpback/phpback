@@ -13,8 +13,6 @@ use SebastianBergmann\Comparator\ComparisonFailure;
 /**
  * A TestListener that generates a logfile of the test execution using the
  * TeamCity format (for use with PhpStorm, for instance).
- *
- * @since Class available since Release 5.0.0
  */
 class PHPUnit_Util_Log_TeamCity extends PHPUnit_TextUI_ResultPrinter
 {
@@ -27,6 +25,11 @@ class PHPUnit_Util_Log_TeamCity extends PHPUnit_TextUI_ResultPrinter
      * @var string
      */
     private $startedTestName;
+
+    /**
+     * @var string
+     */
+    private $flowId;
 
     /**
      * @param string $progress
@@ -64,6 +67,25 @@ class PHPUnit_Util_Log_TeamCity extends PHPUnit_TextUI_ResultPrinter
     }
 
     /**
+     * A warning occurred.
+     *
+     * @param PHPUnit_Framework_Test    $test
+     * @param PHPUnit_Framework_Warning $e
+     * @param float                     $time
+     */
+    public function addWarning(PHPUnit_Framework_Test $test, PHPUnit_Framework_Warning $e, $time)
+    {
+        $this->printEvent(
+            'testFailed',
+            [
+                'name'    => $test->getName(),
+                'message' => self::getMessage($e),
+                'details' => self::getDetails($e)
+            ]
+        );
+    }
+
+    /**
      * A failure occurred.
      *
      * @param PHPUnit_Framework_Test                 $test
@@ -95,6 +117,7 @@ class PHPUnit_Util_Log_TeamCity extends PHPUnit_TextUI_ResultPrinter
                 }
 
                 if (!is_null($actualString) && !is_null($expectedString)) {
+                    $parameters['type']     = 'comparisonFailure';
                     $parameters['actual']   = $actualString;
                     $parameters['expected'] = $expectedString;
                 }
@@ -166,6 +189,12 @@ class PHPUnit_Util_Log_TeamCity extends PHPUnit_TextUI_ResultPrinter
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
+        if (stripos(ini_get('disable_functions'), 'getmypid') === false) {
+            $this->flowId = getmypid();
+        } else {
+            $this->flowId = false;
+        }
+
         if (!$this->isSummaryTestCountPrinted) {
             $this->isSummaryTestCountPrinted = true;
 
@@ -271,6 +300,10 @@ class PHPUnit_Util_Log_TeamCity extends PHPUnit_TextUI_ResultPrinter
     private function printEvent($eventName, $params = [])
     {
         $this->write("\n##teamcity[$eventName");
+
+        if ($this->flowId) {
+            $params['flowId'] = $this->flowId;
+        }
 
         foreach ($params as $key => $value) {
             $escapedValue = self::escapeValue($value);

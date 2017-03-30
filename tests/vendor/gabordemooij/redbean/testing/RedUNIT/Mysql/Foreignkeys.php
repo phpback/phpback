@@ -8,6 +8,10 @@ use RedBeanPHP\Facade as R;
 /**
  * Foreignkeys
  *
+ * Tests creation and validity of foreign keys,
+ * foreign key constraints and indexes in Mysql/MariaDB.
+ * Also tests whether the correct contraint action has been selected.
+ *
  * @file    RedUNIT/Mysql/Foreignkeys.php
  * @desc    Tests creation of foreign keys.
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -19,6 +23,23 @@ use RedBeanPHP\Facade as R;
  */
 class Foreignkeys extends Mysql
 {
+	/**
+	 * Test whether we can use foreign keys with keywords.
+	 *
+	 * @return void
+	 */
+	public function testKWConflicts()
+	{
+		R::nuke();
+		$metrics = R::dispense( 'metrics' );
+		$constraint = R::dispense( 'constraint' );
+		$constraint->xownMetrics[] = $metrics;
+		R::store( $constraint );
+		asrt( 1, R::count( 'metrics' ) );
+		R::trash($constraint);
+		asrt( 0, R::count( 'metrics') );
+	}
+
 	/**
 	 * Basic FK tests.
 	 *
@@ -276,7 +297,6 @@ class Foreignkeys extends Mysql
 		//Now add non-dep key
 		R::nuke();
 
-
 		$sql   = '
 			CREATE TABLE book (
 				id INT( 11 ) UNSIGNED NULL AUTO_INCREMENT,
@@ -363,7 +383,6 @@ class Foreignkeys extends Mysql
 
 		$writer->addIndex('song', 'index1', 'album_id');
 
-
 		$indexes = R::getAll( 'SHOW INDEX FROM song' );
 
 		asrt( count( $indexes ), 2 );
@@ -378,7 +397,6 @@ class Foreignkeys extends Mysql
 		$indexes = R::getAll( 'SHOW INDEX FROM song' );
 
 		asrt( count( $indexes ), 3 );
-
 
 		//Dont fail, just dont
 		try {

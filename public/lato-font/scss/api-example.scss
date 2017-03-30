@@ -1,0 +1,14 @@
+@import 'public-api';
+
+$lato-font-path: '/bower_component/lato-font/fonts';
+
+@include lato-include-font('black');
+@include lato-include-font('medium');
+
+h1 {
+	@include lato-font('black');
+}
+
+p.quote {
+	@include lato-font('medium', italic);
+}

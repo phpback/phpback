@@ -10,6 +10,10 @@ use RedBeanPHP\SimpleModel as SimpleModel;
 /**
  * Fusebox
  *
+ * Tests whether we can convert a bean to a model and
+ * a model to a bean. This process is called boxing and
+ * unboxing.
+ *
  * @file    RedUNIT/Blackhole/Fusebox.php
  * @desc    Tests Boxing/Unboxing of beans.
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -23,24 +27,6 @@ use RedBeanPHP\SimpleModel as SimpleModel;
 class Fusebox extends Blackhole
 {
 	/**
-	 * Test boxing.
-	 *
-	 * @return void
-	 */
-	public function testBasicBox()
-	{
-		$soup          = R::dispense( 'soup' );
-
-		$soup->flavour = 'tomato';
-
-		$this->giveMeSoup( $soup->box() );
-
-		$this->giveMeBean( $soup->box()->unbox() );
-
-		$this->giveMeBean( $soup );
-	}
-
-	/**
 	 * Test type hinting with boxed model
 	 *
 	 * @param Model_Soup $soup
@@ -48,9 +34,7 @@ class Fusebox extends Blackhole
 	private function giveMeSoup( \Model_Soup $soup )
 	{
 		asrt( ( $soup instanceof \Model_Soup ), TRUE );
-
 		asrt( 'A bit too salty', $soup->taste() );
-
 		asrt( 'tomato', $soup->flavour );
 	}
 
@@ -62,11 +46,21 @@ class Fusebox extends Blackhole
 	private function giveMeBean( OODBBean $bean )
 	{
 		asrt( ( $bean instanceof OODBBean ), TRUE );
-
 		asrt( 'A bit too salty', $bean->taste() );
-
 		asrt( 'tomato', $bean->flavour );
 	}
+
+	/**
+	 * Test boxing.
+	 *
+	 * @return void
+	 */
+	public function testBasicBox()
+	{
+		$soup = R::dispense( 'soup' );
+		$soup->flavour = 'tomato';
+		$this->giveMeSoup( $soup->box() );
+		$this->giveMeBean( $soup->box()->unbox() );
+		$this->giveMeBean( $soup );
+	}
 }
-
-

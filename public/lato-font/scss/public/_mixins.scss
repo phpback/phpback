@@ -1,0 +1,14 @@
+// Includes font-face for a specific font.
+@mixin lato-include-font ($variant) {
+	$weight: latoGetWeightForVariant($variant);
+	@include lato-render-variant($variant, $weight);
+}
+
+// Adds styles for specified font variant and style.
+@mixin lato-font ($variant, $style: normal) {
+
+	/* Lato (#{$variant}, #{$style}) */
+	font-family: latoGetFontNameForVariant($variant);
+	font-weight: latoGetWeightForVariant($variant);
+	font-style: $style;
+}

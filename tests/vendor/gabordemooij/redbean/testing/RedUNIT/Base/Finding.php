@@ -663,6 +663,10 @@ class Finding extends Base {
 		$logger->clear();
 		$found = R::findOne( 'book', ' title = ? LIMIT 1', array( 'b' ) );
 		asrt( count( $logger->grep('LIMIT 1') ), 1 );
+		$logger->clear();
+		$found = R::findOne( 'book', ' title = ? limit 1', array( 'b' ) );
+		asrt( count( $logger->grep('LIMIT 1') ), 0 );
+		asrt( count( $logger->grep('limit 1') ), 1 );
 		asrt( ( $found instanceof \RedBeanPHP\OODBBean ), TRUE );
 		$found = R::findOne( 'book', ' title = ? LIMIT 2', array( 'b' ) );
 		asrt( count( $logger->grep('LIMIT 2') ), 1 );
@@ -735,6 +739,9 @@ class Finding extends Base {
 		} catch ( RedException $exception ) {
 			pass();
 		}
+		R::nuke();
+		$bean = R::findOneOrDispense( 'jellybean' );
+		asrt( is_object( $bean ), TRUE );
 	}
 
 	/**

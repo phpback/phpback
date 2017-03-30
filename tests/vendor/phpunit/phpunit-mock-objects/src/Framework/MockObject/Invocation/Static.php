@@ -21,25 +21,25 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
      * @var array
      */
     protected static $uncloneableExtensions = [
-      'mysqli'    => true,
-      'SQLite'    => true,
-      'sqlite3'   => true,
-      'tidy'      => true,
-      'xmlwriter' => true,
-      'xsl'       => true
+        'mysqli'    => true,
+        'SQLite'    => true,
+        'sqlite3'   => true,
+        'tidy'      => true,
+        'xmlwriter' => true,
+        'xsl'       => true
     ];
 
     /**
      * @var array
      */
     protected static $uncloneableClasses = [
-      'Closure',
-      'COMPersistHelper',
-      'IteratorIterator',
-      'RecursiveIteratorIterator',
-      'SplFileObject',
-      'PDORow',
-      'ZipArchive'
+        'Closure',
+        'COMPersistHelper',
+        'IteratorIterator',
+        'RecursiveIteratorIterator',
+        'SplFileObject',
+        'PDORow',
+        'ZipArchive'
     ];
 
     /**
@@ -63,8 +63,13 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
     public $returnType;
 
     /**
+     * @var bool
+     */
+    public $returnTypeNullable = false;
+
+    /**
      * @param string $className
-     * @param string $methodname
+     * @param string $methodName
      * @param array  $parameters
      * @param string $returnType
      * @param bool   $cloneObjects
@@ -74,6 +79,12 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
         $this->className  = $className;
         $this->methodName = $methodName;
         $this->parameters = $parameters;
+
+        if (strpos($returnType, '?') === 0) {
+            $returnType               = substr($returnType, 1);
+            $this->returnTypeNullable = true;
+        }
+
         $this->returnType = $returnType;
 
         if (!$cloneObjects) {
@@ -116,11 +127,12 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
     {
         switch ($this->returnType) {
             case '':       return;
-            case 'string': return '';
-            case 'float':  return 0.0;
-            case 'int':    return 0;
-            case 'bool':   return false;
-            case 'array':  return [];
+            case 'string': return $this->returnTypeNullable ? null : '';
+            case 'float':  return $this->returnTypeNullable ? null : 0.0;
+            case 'int':    return $this->returnTypeNullable ? null : 0;
+            case 'bool':   return $this->returnTypeNullable ? null : false;
+            case 'array':  return $this->returnTypeNullable ? null : [];
+            case 'void':   return;
 
             case 'callable':
             case 'Closure':
@@ -133,14 +145,19 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
                 return $generator();
 
             default:
+                if ($this->returnTypeNullable) {
+                    return null;
+                }
+
                 $generator = new PHPUnit_Framework_MockObject_Generator;
 
-                return $generator->getMock($this->returnType);
+                return $generator->getMock($this->returnType, [], [], '', false);
         }
     }
 
     /**
-     * @param  object $original
+     * @param object $original
+     *
      * @return object
      */
     protected function cloneObject($original)

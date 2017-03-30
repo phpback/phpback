@@ -9,6 +9,9 @@ use RedBeanPHP\OODBBean as OODBBean;
 /**
  * Cursors
  *
+ * Tests whether RedBeanPHP can use cursors (using the
+ * findCollection method) to iterate over large data sets.
+ *
  * @file    RedUNIT/Base/Cursors.php
  * @desc    Tests whether we can use cursors
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -61,7 +64,7 @@ class Cursors extends Base
 			if ( $i > 5 ) break;
 		}
 		$key = array_rand( $list );
-		$content = $list[ $key ];		
+		$content = $list[ $key ];
 		$collection = R::findCollection( 'page', ' content = ? ', array( $content ) );
 		$bean = $collection->next();
 		asrt( $bean->content, $content );

@@ -1,0 +1,47 @@
+{
+  "name": "flat-ui",
+  "main": [
+    "less/flat-ui.less",
+    "dist/css/flat-ui.css",
+    "dist/js/flat-ui.js",
+    "dist/fonts/glyphicons/flat-ui-icons-regular.eot",
+    "dist/fonts/glyphicons/flat-ui-icons-regular.svg",
+    "dist/fonts/glyphicons/flat-ui-icons-regular.ttf",
+    "dist/fonts/glyphicons/flat-ui-icons-regular.woff"
+  ],
+  "ignore": [
+    ".*"
+  ],
+  "devDependencies": {
+    "jquery": "~1.11.1",
+    "jquery-ui": "~1.10.4",
+    "bootstrap": "~3.2.0",
+    "bootstrap-switch": "~3.0.2",
+    "holderjs": "~2.4.0",
+    "html5shiv": "~3.7.2",
+    "jquery-ui-touch-punch": "*",
+    "respond": "~1.4.2",
+    "typeahead.js": "~0.10.5",
+    "google-code-prettify": "~1.0.3",
+    "bootstrap-tagsinput": "~0.4.2",
+    "select2": "~3.5.1"
+  },
+  "dependencies": {
+    "videojs": "~4.7.2"
+  },
+  "resolutions": {
+    "jquery": "~1.11.1"
+  },
+  "homepage": "https://github.com/designmodo/Flat-UI",
+  "version": "2.3.0",
+  "_release": "2.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.3.0",
+    "commit": "8e35fb5360f38fbabf581617052b69a261c01466"
+  },
+  "_source": "https://github.com/designmodo/Flat-UI.git",
+  "_target": "^2.3.0",
+  "_originalSource": "flat-ui",
+  "_direct": true
+}

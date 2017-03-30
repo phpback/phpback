@@ -10,8 +10,6 @@
 
 /**
  * Constraint that accepts finite.
- *
- * @since      Class available since Release 4.8.0
  */
 class PHPUnit_Framework_Constraint_IsFinite extends PHPUnit_Framework_Constraint
 {

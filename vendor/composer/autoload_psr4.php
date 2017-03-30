@@ -6,7 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'VisualAppeal\\' => array($vendorDir . '/visualappeal/php-auto-update/src'),
-    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
-    'Desarrolla2\\Cache\\' => array($vendorDir . '/desarrolla2/cache/src'),
+    'ReCaptcha\\' => array($vendorDir . '/google/recaptcha/src/ReCaptcha'),
 );

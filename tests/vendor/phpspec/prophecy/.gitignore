@@ -1,4 +1,5 @@
 *.tgz
 *.phar
-bin
-vendor
+/composer.lock
+/vendor
+/phpunit.xml

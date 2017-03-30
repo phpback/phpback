@@ -9,9 +9,12 @@ use RedBeanPHP\OODBBean as OODBBean;
 use RedBeanPHP\Adapter as Adapter;
 use RedBeanPHP\QueryWriter\AQueryWriter as AQueryWriter;
 
-
 /**
  * Foreignkeys
+ *
+ * Tests whether foreign keys are correctly generated and whether
+ * depending beans are correctly removed. Also tests auto resolving
+ * types inferred by inspecting foreign keys.
  *
  * @file    RedUNIT/Base/Foreignkeys.php
  * @desc    Tests foreign key handling and dynamic foreign keys with
@@ -66,7 +69,9 @@ class Foreignkeys extends Base implements Observer
 		R::store( $book );
 		$book = $book->fresh();
 		asrt( $book->getMeta('sys.autoresolved.cover'), NULL );
-		$book->cover;
+		$cover = $book->cover;
+		asrt( ( $cover instanceof OODBBean ), TRUE );
+		asrt( $cover->getMeta( 'type' ), 'page' );
 		asrt( $book->getMeta('sys.autoresolved.cover'), NULL );
 		R::aliases( array() );
 		R::nuke();
@@ -229,7 +234,7 @@ class Foreignkeys extends Base implements Observer
 	 * @return void
 	 */
 	public function testDependency2()
-	{ 
+	{
 		$can = $this->createBeanInCan( TRUE );
 
 		asrt( R::count( 'bean' ), 1 );

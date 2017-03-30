@@ -14,6 +14,10 @@ use RedBeanPHP\QueryWriter\AQueryWriter as AQueryWriter;
 /**
  * Misc
  *
+ * This test suite contains tests for a various functionalities
+ * and scenarios. For more details please consult the document
+ * section attached to each individual test method listed here.
+ *
  * @file    RedUNIT/Blackhole/Misc.php
  * @desc    Tests various features that do not rely on a database connection.
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -32,6 +36,25 @@ class Misc extends Blackhole
 	public function getTargetDrivers()
 	{
 		return array( 'sqlite' );
+	}
+
+	/**
+	 * Test whether we can use the JSONSerializable interface and
+	 * whether old-style JSON is still the same (backwards compatibility).
+	 *
+	 * @return void
+	 */
+	public function testJSONSerialize()
+	{
+		$hotel = R::dispense( 'hotel' );
+		$hotel->name = 'Overlook';
+		$room = R::dispense( 'room' );
+		$room->number = 237;
+		$hotel->ownRoomList[] = $room;
+		$shine = (string) $hotel;
+		asrt( $shine, '{"id":0,"name":"Overlook"}' ); //basic JSON
+		$shine = json_encode( $hotel->jsonSerialize() ); //As of PHP 5.4 json_encode() will call jsonSerializable
+		asrt( $shine, '{"id":0,"name":"Overlook","ownRoom":[{"id":0,"number":237}]}' ); //should get full JSON
 	}
 
 	/**
@@ -113,23 +136,19 @@ class Misc extends Blackhole
 		R::store( $bean );
 		$bean = $bean->fresh();
 		$bean->ownBean;
-
 		$bean->setProperty( 'ownBean', array(), FALSE, FALSE );
 		asrt( count( $bean->ownBean ), 0 );
 		asrt( count( $bean->getMeta( 'sys.shadow.ownBean' ) ), 2 );
 		asrt( $bean->isTainted(), TRUE );
-
 		$bean->setProperty( 'ownBean', array(), TRUE, FALSE );
 		asrt( count( $bean->ownBean ), 0 );
 		asrt( count( $bean->getMeta( 'sys.shadow.ownBean' ) ), 0 );
 		asrt( $bean->isTainted(), TRUE );
-
 		$bean = $bean->fresh();
 		$bean->setProperty( 'ownBean', array(), TRUE, FALSE );
 		asrt( count( $bean->ownBean ), 0 );
 		asrt( count( $bean->getMeta( 'sys.shadow.ownBean' ) ), 0 );
 		asrt( $bean->isTainted(), FALSE );
-
 		$bean = $bean->fresh();
 		$bean->setProperty( 'ownBean', array(), TRUE, TRUE );
 		asrt( count( $bean->ownBean ), 0 );
@@ -145,12 +164,10 @@ class Misc extends Blackhole
 	public function testBeansToArray()
 	{
 		testpack('Test R::beansToArray method');
-
 		$bean1 = R::dispense( 'bean' );
 		$bean1->name = 'hello';
 		$bean2 = R::dispense( 'bean' );
 		$bean2->name = 'world';
-
 		$beans = array( $bean1, $bean2 );
 		$array = R::beansToArray( $beans );
 		asrt( $array[0]['name'], 'hello' );
@@ -165,30 +182,18 @@ class Misc extends Blackhole
 	public function testDebugCustomLogger()
 	{
 		testpack( 'Test debug mode with custom logger' );
-
 		$pdoDriver = new RPDO( R::getDatabaseAdapter()->getDatabase()->getPDO() );
-
 		$customLogger = new CustomLogger;
-
 		$pdoDriver->setDebugMode( TRUE, $customLogger );
-
 		$pdoDriver->Execute( 'SELECT 123' );
-
 		asrt( count( $customLogger->getLogMessage() ), 1 );
-
 		$pdoDriver->setDebugMode( TRUE, NULL );
 		asrt( ( $pdoDriver->getLogger() instanceof RDefault ), TRUE );
-
 		testpack( 'Test bean->getProperties method' );
-
 		$bean = R::dispense( 'bean' );
-
 		$bean->property = 'hello';
-
 		$props = $bean->getProperties();
-
 		asrt( isset( $props['property'] ), TRUE );
-
 		asrt( $props['property'], 'hello' );
 
 	}
@@ -203,64 +208,38 @@ class Misc extends Blackhole
 	public function testTransactionInFacade()
 	{
 		testpack( 'Test transaction in facade' );
-
 		$bean = R::dispense( 'bean' );
-
 		$bean->name = 'a';
-
 		R::store( $bean );
-
 		R::trash( $bean );
-
 		R::freeze( TRUE );
-
 		$bean = R::dispense( 'bean' );
-
 		$bean->name = 'a';
-
 		R::store( $bean );
-
 		asrt( R::count( 'bean' ), 1 );
-
 		R::trash( $bean );
-
 		asrt( R::count( 'bean' ), 0 );
-
 		$bean = R::dispense( 'bean' );
-
 		$bean->name = 'a';
-
 		$id = R::transaction( function() use( &$bean ) {
 			return R::transaction( function() use( &$bean ) {
 				return R::store( $bean );
 			} );
 		} );
-
 		asrt( (int) $id, (int) $bean->id );
-
 		R::trash( $bean );
-
 		$bean = R::dispense( 'bean' );
-
 		$bean->name = 'a';
-
 		$id = R::transaction( function() use( &$bean ) {
 			return R::store( $bean );
 		} );
-
 		asrt( (int) $id, (int) $bean->id );
-
 		R::trash( $bean );
-
 		$bean = R::dispense( 'bean' );
-
 		$bean->name = 'a';
-
-
 		try {
 			R::transaction( function () use ( $bean ) {
 				R::store( $bean );
-
 				R::transaction( function () {
 					throw new\Exception();
 				} );
@@ -269,11 +248,8 @@ class Misc extends Blackhole
 			pass();
 		}
 		asrt( R::count( 'bean' ), 0 );
-
 		$bean = R::dispense( 'bean' );
-
 		$bean->name = 'a';
-
 		try {
 			R::transaction( function () use ( $bean ) {
 				R::transaction( function () use ( $bean ) {
@@ -284,13 +260,9 @@ class Misc extends Blackhole
 		} catch (\Exception $e ) {
 			pass();
 		}
-
 		asrt( R::count( 'bean' ), 0 );
-
 		$bean = R::dispense( 'bean' );
-
 		$bean->name = 'a';
-
 		try {
 			R::transaction( function () use ( $bean ) {
 				R::transaction( function () use ( $bean ) {
@@ -300,21 +272,15 @@ class Misc extends Blackhole
 		} catch (\Exception $e ) {
 			pass();
 		}
-
 		asrt( R::count( 'bean' ), 1 );
-
 		R::freeze( FALSE );
-
 		try {
 			R::transaction( 'nope' );
-
 			fail();
 		} catch (\Exception $e ) {
 			pass();
 		}
-
 		testpack( 'Test Camelcase 2 underscore' );
-
 		$names = array(
 			'oneACLRoute'              => 'one_acl_route',
 			'ALLUPPERCASE'             => 'alluppercase',
@@ -325,162 +291,97 @@ class Misc extends Blackhole
 			'lowercase'                => 'lowercase',
 			'a1A2b'                    => 'a1a2b',
 		);
-
 		$bean = R::dispense( 'bean' );
-
 		foreach ( $names as $name => $becomes ) {
 			$bean->$name = 1;
-
 			asrt( isset( $bean->$becomes ), TRUE );
 		}
-
 		testpack( 'Misc Tests' );
-
-
 		R::debug( 1 );
-
 		flush();
 		ob_start();
-
 		R::exec( 'SELECT 123' );
-
 		$out = ob_get_contents();
-
 		ob_end_clean();
 		flush();
-
 		pass();
-
 		asrt( ( strpos( $out, 'SELECT 123' ) !== FALSE ), TRUE );
-
 		R::debug( 0 );
-
 		flush();
 		ob_start();
-
 		R::exec( 'SELECT 123' );
-
 		$out = ob_get_contents();
 		ob_end_clean();
-
 		flush();
-
 		pass();
-
 		asrt( $out, '' );
-
 		R::debug( 0 );
-
 		pass();
-
 		testpack( 'test to string override' );
-
 		$band = R::dispense( 'band' );
-
 		$str = strval( $band );
-
 		asrt( $str, 'bigband' );
-
 		testpack( 'test whether we can use isset/set in model' );
-
 		$band->setProperty( 'property1', 123 );
-
 		asrt( $band->property1, 123 );
-
 		asrt( $band->checkProperty( 'property1' ), TRUE );
 		asrt( $band->checkProperty( 'property2' ), FALSE );
-
 		$band = new \Model_Band;
-
 		$bean = R::dispense( 'band' );
-
 		$bean->property3 = 123;
-
 		$band->loadBean( $bean );
-
 		$bean->property4 = 345;
-
 		$band->setProperty( 'property1', 123 );
-
 		asrt( $band->property1, 123 );
-
 		asrt( $band->checkProperty( 'property1' ), TRUE );
 		asrt( $band->checkProperty( 'property2' ), FALSE );
-
 		asrt( $band->property3, 123 );
 		asrt( $band->property4, 345 );
-
 		testpack( 'Can we pass a\PDO object to Setup?' );
-
-		$pdo = new\PDO( 'sqlite:test.db' );
-
+		$pdo = new \PDO( 'sqlite:test.db' );
 		R::addDatabase( 'pdo', $pdo );
 		R::selectDatabase( 'pdo' );
-
 		R::getCell('SELECT 123;');
-
 		testpack( 'Test array interface of beans' );
-
 		$bean = R::dispense( 'bean' );
-
 		$bean->hello = 'hi';
 		$bean->world = 'planet';
-
 		asrt( $bean['hello'], 'hi' );
-
 		asrt( isset( $bean['hello'] ), TRUE );
 		asrt( isset( $bean['bye'] ), FALSE );
-
 		$bean['world'] = 'sphere';
-
 		asrt( $bean->world, 'sphere' );
-
 		foreach ( $bean as $key => $el ) {
 			if ( $el == 'sphere' || $el == 'hi' || $el == 0 ) {
 				pass();
 			} else {
 				fail();
 			}
-
 			if ( $key == 'hello' || $key == 'world' || $key == 'id' ) {
 				pass();
 			} else {
 				fail();
 			}
 		}
-
 		asrt( count( $bean ), 3 );
-
 		unset( $bean['hello'] );
-
 		asrt( count( $bean ), 2 );
-
 		asrt( count( R::dispense( 'countable' ) ), 1 );
-
 		// Otherwise untestable...
 		$bean->setBeanHelper( new SimpleFacadeBeanHelper() );
-
 		R::getRedBean()->setBeanHelper( new SimpleFacadeBeanHelper() );
-
 		pass();
-
 		// Test whether properties like owner and shareditem are still possible
 		testpack( 'Test Bean Interface for Lists' );
-
 		$bean = R::dispense( 'bean' );
-
 		// Must not be list, because first char after own is lowercase
 		asrt( is_array( $bean->owner ), FALSE );
-
 		// Must not be list, because first char after shared is lowercase
 		asrt( is_array( $bean->shareditem ), FALSE );
-
 		asrt( is_array( $bean->own ), FALSE );
 		asrt( is_array( $bean->shared ), FALSE );
-
 		asrt( is_array( $bean->own_item ), FALSE );
 		asrt( is_array( $bean->shared_item ), FALSE );
-
 		asrt( is_array( $bean->{'own item'} ), FALSE );
 		asrt( is_array( $bean->{'shared Item'} ), FALSE );
 	}

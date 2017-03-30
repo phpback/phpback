@@ -13,10 +13,16 @@ use RedBeanPHP\BeanHelper\SimpleFacadeBeanHelper as SimpleFacadeBeanHelper;
 use RedBeanPHP\Repository as Repository;
 use RedBeanPHP\Repository\Fluid as FluidRepo;
 use RedBeanPHP\Repository\Frozen as FrozenRepo;
-
+use RedBeanPHP\RedException as RedException;
 
 /**
  * Toolbox
+ *
+ * The Toolbox acts as a kind of micro service locator.
+ * The toolbox is passed around by RedBeanPHP core objects
+ * to share services. It contains an adapter, a query writer
+ * and the RedBeanPHP Object Database object (OODB).
+ * This test suite focuses on the toolbox.
  *
  * @file    RedUNIT/Blackhole/Toolbox.php
  * @desc    Toolbox tests.
@@ -28,6 +34,34 @@ use RedBeanPHP\Repository\Frozen as FrozenRepo;
  * with this source code in the file license.txt.
  */
 class Toolbox extends Blackhole {
+
+	/**
+	 * Tests the hasDatabase() method.
+	 *
+	 * @return void
+	 */
+	public function testDatabaseCheck()
+	{
+		R::addDatabase( 'key1', 'mysql:dsn1', 'user1', 'password1', TRUE );
+		asrt( R::hasDatabase( 'key1' ), TRUE );
+		asrt( R::hasDatabase( 'key2' ), FALSE );
+	}
+
+	/**
+	 * Github issue #458, selectDatabase causes PHP notice undefined index
+	 * if database key not found.
+	 *
+	 * @return void
+	 */
+	public function testInvalidDB()
+	{
+		try {
+			R::selectDatabase( 'idontexist' );
+			fail();
+		} catch ( RedException $exception ) {
+			pass();
+		}
+	}
 
 	/**
 	 * Test whether we can obtain a toolbox properly.
@@ -45,7 +79,6 @@ class Toolbox extends Blackhole {
 		asrt( ( $extractedToolbox[1] instanceof Adapter ), TRUE );
 		asrt( ( $extractedToolbox[2] instanceof QueryWriter ), TRUE );
 		asrt( ( $extractedToolbox[3] instanceof TB ), TRUE );
-
 		$beanHelper = new SimpleFacadeBeanHelper;
 		$toolbox2 = $beanHelper->getToolbox();
 		asrt( ( $toolbox2 instanceof TB), TRUE );

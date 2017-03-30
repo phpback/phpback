@@ -11,10 +11,12 @@
 
 namespace Symfony\Component\Yaml\Tests;
 
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Parser;
 
-class ParserTest extends \PHPUnit_Framework_TestCase
+class ParserTest extends TestCase
 {
     protected $parser;
 
@@ -31,9 +33,34 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getDataFormSpecifications
      */
-    public function testSpecifications($file, $expected, $yaml, $comment)
+    public function testSpecifications($file, $expected, $yaml, $comment, $deprecated)
     {
+        $deprecations = array();
+
+        if ($deprecated) {
+            set_error_handler(function ($type, $msg) use (&$deprecations) {
+                if (E_USER_DEPRECATED !== $type) {
+                    restore_error_handler();
+
+                    if (class_exists('PHPUnit_Util_ErrorHandler')) {
+                        return call_user_func_array('PHPUnit_Util_ErrorHandler::handleError', func_get_args());
+                    }
+
+                    return call_user_func_array('PHPUnit\Util\ErrorHandler::handleError', func_get_args());
+                }
+
+                $deprecations[] = $msg;
+            });
+        }
+
         $this->assertEquals($expected, var_export($this->parser->parse($yaml), true), $comment);
+
+        if ($deprecated) {
+            restore_error_handler();
+
+            $this->assertCount(1, $deprecations);
+            $this->assertContains('Using the comma as a group separator for floats is deprecated since version 3.2 and will be removed in 4.0.', $deprecations[0]);
+        }
     }
 
     public function getDataFormSpecifications()
@@ -58,7 +85,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 } else {
                     eval('$expected = '.trim($test['php']).';');
 
-                    $tests[] = array($file, var_export($expected, true), $test['yaml'], $test['test']);
+                    $tests[] = array($file, var_export($expected, true), $test['yaml'], $test['test'], isset($test['deprecated']) ? $test['deprecated'] : false);
                 }
             }
         }
@@ -90,7 +117,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     public function testEndOfTheDocumentMarker()
     {
-        $yaml = <<<EOF
+        $yaml = <<<'EOF'
 --- %YAML:1.0
 foo
 ...
@@ -188,6 +215,22 @@ EOF;
             'bar' => "one\ntwo\n",
         );
         $tests['Literal block chomping clip with multiple trailing newlines'] = array($expected, $yaml);
+
+        $yaml = <<<'EOF'
+foo:
+- bar: |
+    one
+
+    two
+EOF;
+        $expected = array(
+            'foo' => array(
+                array(
+                    'bar' => "one\n\ntwo",
+                ),
+            ),
+        );
+        $tests['Literal block chomping clip with embedded blank line inside unindented collection'] = array($expected, $yaml);
 
         $yaml = <<<'EOF'
 foo: |
@@ -421,29 +464,159 @@ EOF;
 
     public function testObjectSupportEnabled()
     {
-        $input = <<<EOF
-foo: !!php/object:O:30:"Symfony\Component\Yaml\Tests\B":1:{s:1:"b";s:3:"foo";}
+        $input = <<<'EOF'
+foo: !php/object:O:30:"Symfony\Component\Yaml\Tests\B":1:{s:1:"b";s:3:"foo";}
+bar: 1
+EOF;
+        $this->assertEquals(array('foo' => new B(), 'bar' => 1), $this->parser->parse($input, Yaml::PARSE_OBJECT), '->parse() is able to parse objects');
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testObjectSupportEnabledPassingTrue()
+    {
+        $input = <<<'EOF'
+foo: !php/object:O:30:"Symfony\Component\Yaml\Tests\B":1:{s:1:"b";s:3:"foo";}
 bar: 1
 EOF;
         $this->assertEquals(array('foo' => new B(), 'bar' => 1), $this->parser->parse($input, false, true), '->parse() is able to parse objects');
     }
 
-    public function testObjectSupportDisabledButNoExceptions()
+    /**
+     * @group legacy
+     */
+    public function testObjectSupportEnabledWithDeprecatedTag()
     {
-        $input = <<<EOF
-foo: !!php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}
+        $input = <<<'EOF'
+foo: !!php/object:O:30:"Symfony\Component\Yaml\Tests\B":1:{s:1:"b";s:3:"foo";}
 bar: 1
 EOF;
+        $this->assertEquals(array('foo' => new B(), 'bar' => 1), $this->parser->parse($input, Yaml::PARSE_OBJECT), '->parse() is able to parse objects');
+    }
 
+    /**
+     * @dataProvider invalidDumpedObjectProvider
+     */
+    public function testObjectSupportDisabledButNoExceptions($input)
+    {
         $this->assertEquals(array('foo' => null, 'bar' => 1), $this->parser->parse($input), '->parse() does not parse objects');
     }
 
     /**
+     * @dataProvider getObjectForMapTests
+     */
+    public function testObjectForMap($yaml, $expected)
+    {
+        $this->assertEquals($expected, $this->parser->parse($yaml, Yaml::PARSE_OBJECT_FOR_MAP));
+    }
+
+    /**
+     * @group legacy
+     * @dataProvider getObjectForMapTests
+     */
+    public function testObjectForMapEnabledWithMappingUsingBooleanToggles($yaml, $expected)
+    {
+        $this->assertEquals($expected, $this->parser->parse($yaml, false, false, true));
+    }
+
+    public function getObjectForMapTests()
+    {
+        $tests = array();
+
+        $yaml = <<<'EOF'
+foo:
+    fiz: [cat]
+EOF;
+        $expected = new \stdClass();
+        $expected->foo = new \stdClass();
+        $expected->foo->fiz = array('cat');
+        $tests['mapping'] = array($yaml, $expected);
+
+        $yaml = '{ "foo": "bar", "fiz": "cat" }';
+        $expected = new \stdClass();
+        $expected->foo = 'bar';
+        $expected->fiz = 'cat';
+        $tests['inline-mapping'] = array($yaml, $expected);
+
+        $yaml = "foo: bar\nbaz: foobar";
+        $expected = new \stdClass();
+        $expected->foo = 'bar';
+        $expected->baz = 'foobar';
+        $tests['object-for-map-is-applied-after-parsing'] = array($yaml, $expected);
+
+        $yaml = <<<'EOT'
+array:
+  - key: one
+  - key: two
+EOT;
+        $expected = new \stdClass();
+        $expected->array = array();
+        $expected->array[0] = new \stdClass();
+        $expected->array[0]->key = 'one';
+        $expected->array[1] = new \stdClass();
+        $expected->array[1]->key = 'two';
+        $tests['nest-map-and-sequence'] = array($yaml, $expected);
+
+        $yaml = <<<'YAML'
+map:
+  1: one
+  2: two
+YAML;
+        $expected = new \stdClass();
+        $expected->map = new \stdClass();
+        $expected->map->{1} = 'one';
+        $expected->map->{2} = 'two';
+        $tests['numeric-keys'] = array($yaml, $expected);
+
+        $yaml = <<<'YAML'
+map:
+  0: one
+  1: two
+YAML;
+        $expected = new \stdClass();
+        $expected->map = new \stdClass();
+        $expected->map->{0} = 'one';
+        $expected->map->{1} = 'two';
+        $tests['zero-indexed-numeric-keys'] = array($yaml, $expected);
+
+        return $tests;
+    }
+
+    /**
+     * @dataProvider invalidDumpedObjectProvider
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
-    public function testObjectsSupportDisabledWithExceptions()
+    public function testObjectsSupportDisabledWithExceptions($yaml)
     {
-        $this->parser->parse('foo: !!php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}', true, false);
+        $this->parser->parse($yaml, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
+    }
+
+    /**
+     * @group legacy
+     * @dataProvider invalidDumpedObjectProvider
+     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
+     */
+    public function testObjectsSupportDisabledWithExceptionsUsingBooleanToggles($yaml)
+    {
+        $this->parser->parse($yaml, true);
+    }
+
+    public function invalidDumpedObjectProvider()
+    {
+        $yamlTag = <<<'EOF'
+foo: !!php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}
+bar: 1
+EOF;
+        $localTag = <<<'EOF'
+foo: !php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}
+bar: 1
+EOF;
+
+        return array(
+            'yaml-tag' => array($yamlTag),
+            'local-tag' => array($localTag),
+        );
     }
 
     /**
@@ -473,7 +646,7 @@ EOF;
      */
     public function testUnindentedCollectionException()
     {
-        $yaml = <<<EOF
+        $yaml = <<<'EOF'
 
 collection:
 -item1
@@ -490,7 +663,7 @@ EOF;
      */
     public function testShortcutKeyUnindentedCollectionException()
     {
-        $yaml = <<<EOF
+        $yaml = <<<'EOF'
 
 collection:
 -  key: foo
@@ -503,11 +676,11 @@ EOF;
 
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     * @expectedExceptionMessage Multiple documents are not supported.
+     * @expectedExceptionMessageRegExp /^Multiple documents are not supported.+/
      */
     public function testMultipleDocumentsNotSupportedException()
     {
-        Yaml::parse(<<<EOL
+        Yaml::parse(<<<'EOL'
 # Ranking of 1998 home runs
 ---
 - Mark McGwire
@@ -527,7 +700,7 @@ EOL
      */
     public function testSequenceInAMapping()
     {
-        Yaml::parse(<<<EOF
+        Yaml::parse(<<<'EOF'
 yaml:
   hash: me
   - array stuff
@@ -535,12 +708,59 @@ EOF
         );
     }
 
+    public function testSequenceInMappingStartedBySingleDashLine()
+    {
+        $yaml = <<<'EOT'
+a:
+-
+  b:
+  -
+    bar: baz
+- foo
+d: e
+EOT;
+        $expected = array(
+            'a' => array(
+                array(
+                    'b' => array(
+                        array(
+                            'bar' => 'baz',
+                        ),
+                    ),
+                ),
+                'foo',
+            ),
+            'd' => 'e',
+        );
+
+        $this->assertSame($expected, $this->parser->parse($yaml));
+    }
+
+    public function testSequenceFollowedByCommentEmbeddedInMapping()
+    {
+        $yaml = <<<'EOT'
+a:
+    b:
+        - c
+# comment
+    d: e
+EOT;
+        $expected = array(
+            'a' => array(
+                'b' => array('c'),
+                'd' => 'e',
+            ),
+        );
+
+        $this->assertSame($expected, $this->parser->parse($yaml));
+    }
+
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
     public function testMappingInASequence()
     {
-        Yaml::parse(<<<EOF
+        Yaml::parse(<<<'EOF'
 yaml:
   - array stuff
   hash: me
@@ -554,7 +774,7 @@ EOF
      */
     public function testScalarInSequence()
     {
-        Yaml::parse(<<<EOF
+        Yaml::parse(<<<'EOF'
 foo:
     - bar
 "missing colon"
@@ -572,12 +792,11 @@ EOF
      *
      * @see http://yaml.org/spec/1.2/spec.html#id2759572
      * @see http://yaml.org/spec/1.1/#id932806
-     *
-     * @covers \Symfony\Component\Yaml\Parser::parse
+     * @group legacy
      */
     public function testMappingDuplicateKeyBlock()
     {
-        $input = <<<EOD
+        $input = <<<'EOD'
 parent:
     child: first
     child: duplicate
@@ -594,11 +813,11 @@ EOD;
     }
 
     /**
-     * @covers \Symfony\Component\Yaml\Inline::parseMapping
+     * @group legacy
      */
     public function testMappingDuplicateKeyFlow()
     {
-        $input = <<<EOD
+        $input = <<<'EOD'
 parent: { child: first, child: duplicate }
 parent: { child: duplicate, child: duplicate }
 EOD;
@@ -610,9 +829,77 @@ EOD;
         $this->assertSame($expected, Yaml::parse($input));
     }
 
+    /**
+     * @group legacy
+     * @dataProvider getParseExceptionOnDuplicateData
+     * @expectedDeprecation Duplicate key "%s" detected on line %d whilst parsing YAML. Silent handling of duplicate mapping keys in YAML is deprecated %s.
+     * throws \Symfony\Component\Yaml\Exception\ParseException in 4.0
+     */
+    public function testParseExceptionOnDuplicate($input, $duplicateKey, $lineNumber)
+    {
+        Yaml::parse($input);
+    }
+
+    public function getParseExceptionOnDuplicateData()
+    {
+        $tests = array();
+
+        $yaml = <<<EOD
+parent: { child: first, child: duplicate }
+EOD;
+        $tests[] = array($yaml, 'child', 1);
+
+        $yaml = <<<EOD
+parent:
+  child: first,
+  child: duplicate
+EOD;
+        $tests[] = array($yaml, 'child', 3);
+
+        $yaml = <<<EOD
+parent: { child: foo }
+parent: { child: bar }
+EOD;
+        $tests[] = array($yaml, 'parent', 2);
+
+        $yaml = <<<EOD
+parent: { child_mapping: { value: bar},  child_mapping: { value: bar} }
+EOD;
+        $tests[] = array($yaml, 'child_mapping', 1);
+
+        $yaml = <<<EOD
+parent:
+  child_mapping:
+    value: bar
+  child_mapping:
+    value: bar
+EOD;
+        $tests[] = array($yaml, 'child_mapping', 4);
+
+        $yaml = <<<EOD
+parent: { child_sequence: ['key1', 'key2', 'key3'],  child_sequence: ['key1', 'key2', 'key3'] }
+EOD;
+        $tests[] = array($yaml, 'child_sequence', 1);
+
+        $yaml = <<<EOD
+parent:
+  child_sequence:
+    - key1
+    - key2
+    - key3
+  child_sequence:
+    - key1
+    - key2
+    - key3
+EOD;
+        $tests[] = array($yaml, 'child_sequence', 6);
+
+        return $tests;
+    }
+
     public function testEmptyValue()
     {
-        $input = <<<EOF
+        $input = <<<'EOF'
 hash:
 EOF;
 
@@ -630,7 +917,7 @@ EOF;
                     'class' => 'Bar',
                 ),
             ),
-        ), Yaml::parse(<<<EOF
+        ), Yaml::parse(<<<'EOF'
 # comment 1
 services:
 # comment 2
@@ -647,7 +934,7 @@ EOF
 
     public function testStringBlockWithComments()
     {
-        $this->assertEquals(array('content' => <<<EOT
+        $this->assertEquals(array('content' => <<<'EOT'
 # comment 1
 header
 
@@ -658,7 +945,7 @@ header
 
 footer # comment3
 EOT
-        ), Yaml::parse(<<<EOF
+        ), Yaml::parse(<<<'EOF'
 content: |
     # comment 1
     header
@@ -675,7 +962,7 @@ EOF
 
     public function testFoldedStringBlockWithComments()
     {
-        $this->assertEquals(array(array('content' => <<<EOT
+        $this->assertEquals(array(array('content' => <<<'EOT'
 # comment 1
 header
 
@@ -686,7 +973,7 @@ header
 
 footer # comment3
 EOT
-        )), Yaml::parse(<<<EOF
+        )), Yaml::parse(<<<'EOF'
 -
     content: |
         # comment 1
@@ -706,7 +993,7 @@ EOF
     {
         $this->assertEquals(array(array(
             'title' => 'some title',
-            'content' => <<<EOT
+            'content' => <<<'EOT'
 # comment 1
 header
 
@@ -717,7 +1004,7 @@ header
 
 footer # comment3
 EOT
-        )), Yaml::parse(<<<EOF
+        )), Yaml::parse(<<<'EOF'
 -
     title: some title
     content: |
@@ -746,7 +1033,7 @@ EOF
             'map' => array('key' => 'var-value'),
             'list_in_map' => array('key' => array('var-value')),
             'map_in_map' => array('foo' => array('bar' => 'var-value')),
-        ), Yaml::parse(<<<EOF
+        ), Yaml::parse(<<<'EOF'
 var:  &var var-value
 scalar: *var
 list: [ *var ]
@@ -762,7 +1049,7 @@ EOF
 
     public function testYamlDirective()
     {
-        $yaml = <<<EOF
+        $yaml = <<<'EOF'
 %YAML 1.2
 ---
 foo: 1
@@ -773,7 +1060,7 @@ EOF;
 
     public function testFloatKeys()
     {
-        $yaml = <<<EOF
+        $yaml = <<<'EOF'
 foo:
     1.2: "bar"
     1.3: "baz"
@@ -787,6 +1074,409 @@ EOF;
         );
 
         $this->assertEquals($expected, $this->parser->parse($yaml));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
+     * @expectedExceptionMessage A colon cannot be used in an unquoted mapping value
+     */
+    public function testColonInMappingValueException()
+    {
+        $yaml = <<<'EOF'
+foo: bar: baz
+EOF;
+
+        $this->parser->parse($yaml);
+    }
+
+    public function testColonInMappingValueExceptionNotTriggeredByColonInComment()
+    {
+        $yaml = <<<'EOT'
+foo:
+    bar: foobar # Note: a comment after a colon
+EOT;
+
+        $this->assertSame(array('foo' => array('bar' => 'foobar')), $this->parser->parse($yaml));
+    }
+
+    /**
+     * @dataProvider getCommentLikeStringInScalarBlockData
+     */
+    public function testCommentLikeStringsAreNotStrippedInBlockScalars($yaml, $expectedParserResult)
+    {
+        $this->assertSame($expectedParserResult, $this->parser->parse($yaml));
+    }
+
+    public function getCommentLikeStringInScalarBlockData()
+    {
+        $tests = array();
+
+        $yaml = <<<'EOT'
+pages:
+    -
+        title: some title
+        content: |
+            # comment 1
+            header
+
+                # comment 2
+                <body>
+                    <h1>title</h1>
+                </body>
+
+            footer # comment3
+EOT;
+        $expected = array(
+            'pages' => array(
+                array(
+                    'title' => 'some title',
+                    'content' => <<<'EOT'
+# comment 1
+header
+
+    # comment 2
+    <body>
+        <h1>title</h1>
+    </body>
+
+footer # comment3
+EOT
+                    ,
+                ),
+            ),
+        );
+        $tests[] = array($yaml, $expected);
+
+        $yaml = <<<'EOT'
+test: |
+    foo
+    # bar
+    baz
+collection:
+    - one: |
+        foo
+        # bar
+        baz
+    - two: |
+        foo
+        # bar
+        baz
+EOT;
+        $expected = array(
+            'test' => <<<'EOT'
+foo
+# bar
+baz
+
+EOT
+            ,
+            'collection' => array(
+                array(
+                    'one' => <<<'EOT'
+foo
+# bar
+baz
+
+EOT
+                    ,
+                ),
+                array(
+                    'two' => <<<'EOT'
+foo
+# bar
+baz
+EOT
+                    ,
+                ),
+            ),
+        );
+        $tests[] = array($yaml, $expected);
+
+        $yaml = <<<'EOT'
+foo:
+  bar:
+    scalar-block: >
+      line1
+      line2>
+  baz:
+# comment
+    foobar: ~
+EOT;
+        $expected = array(
+            'foo' => array(
+                'bar' => array(
+                    'scalar-block' => "line1 line2>\n",
+                ),
+                'baz' => array(
+                    'foobar' => null,
+                ),
+            ),
+        );
+        $tests[] = array($yaml, $expected);
+
+        $yaml = <<<'EOT'
+a:
+    b: hello
+#    c: |
+#        first row
+#        second row
+    d: hello
+EOT;
+        $expected = array(
+            'a' => array(
+                'b' => 'hello',
+                'd' => 'hello',
+            ),
+        );
+        $tests[] = array($yaml, $expected);
+
+        return $tests;
+    }
+
+    public function testBlankLinesAreParsedAsNewLinesInFoldedBlocks()
+    {
+        $yaml = <<<'EOT'
+test: >
+    <h2>A heading</h2>
+
+    <ul>
+    <li>a list</li>
+    <li>may be a good example</li>
+    </ul>
+EOT;
+
+        $this->assertSame(
+            array(
+                'test' => <<<'EOT'
+<h2>A heading</h2>
+<ul> <li>a list</li> <li>may be a good example</li> </ul>
+EOT
+                ,
+            ),
+            $this->parser->parse($yaml)
+        );
+    }
+
+    public function testAdditionallyIndentedLinesAreParsedAsNewLinesInFoldedBlocks()
+    {
+        $yaml = <<<'EOT'
+test: >
+    <h2>A heading</h2>
+
+    <ul>
+      <li>a list</li>
+      <li>may be a good example</li>
+    </ul>
+EOT;
+
+        $this->assertSame(
+            array(
+                'test' => <<<'EOT'
+<h2>A heading</h2>
+<ul>
+  <li>a list</li>
+  <li>may be a good example</li>
+</ul>
+EOT
+                ,
+            ),
+            $this->parser->parse($yaml)
+        );
+    }
+
+    /**
+     * @dataProvider getBinaryData
+     */
+    public function testParseBinaryData($data)
+    {
+        $this->assertSame(array('data' => 'Hello world'), $this->parser->parse($data));
+    }
+
+    public function getBinaryData()
+    {
+        return array(
+            'enclosed with double quotes' => array('data: !!binary "SGVsbG8gd29ybGQ="'),
+            'enclosed with single quotes' => array("data: !!binary 'SGVsbG8gd29ybGQ='"),
+            'containing spaces' => array('data: !!binary  "SGVs bG8gd 29ybGQ="'),
+            'in block scalar' => array(
+                <<<'EOT'
+data: !!binary |
+    SGVsbG8gd29ybGQ=
+EOT
+    ),
+            'containing spaces in block scalar' => array(
+                <<<'EOT'
+data: !!binary |
+    SGVs bG8gd 29ybGQ=
+EOT
+    ),
+        );
+    }
+
+    /**
+     * @dataProvider getInvalidBinaryData
+     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
+     */
+    public function testParseInvalidBinaryData($data, $expectedMessage)
+    {
+        if (method_exists($this, 'expectException')) {
+            $this->expectExceptionMessageRegExp($expectedMessage);
+        } else {
+            $this->setExpectedExceptionRegExp(ParseException::class, $expectedMessage);
+        }
+
+        $this->parser->parse($data);
+    }
+
+    public function getInvalidBinaryData()
+    {
+        return array(
+            'length not a multiple of four' => array('data: !!binary "SGVsbG8d29ybGQ="', '/The normalized base64 encoded data \(data without whitespace characters\) length must be a multiple of four \(\d+ bytes given\)/'),
+            'invalid characters' => array('!!binary "SGVsbG8#d29ybGQ="', '/The base64 encoded data \(.*\) contains invalid characters/'),
+            'too many equals characters' => array('data: !!binary "SGVsbG8gd29yb==="', '/The base64 encoded data \(.*\) contains invalid characters/'),
+            'misplaced equals character' => array('data: !!binary "SGVsbG8gd29ybG=Q"', '/The base64 encoded data \(.*\) contains invalid characters/'),
+            'length not a multiple of four in block scalar' => array(
+                <<<'EOT'
+data: !!binary |
+    SGVsbG8d29ybGQ=
+EOT
+                ,
+                '/The normalized base64 encoded data \(data without whitespace characters\) length must be a multiple of four \(\d+ bytes given\)/',
+            ),
+            'invalid characters in block scalar' => array(
+                <<<'EOT'
+data: !!binary |
+    SGVsbG8#d29ybGQ=
+EOT
+                ,
+                '/The base64 encoded data \(.*\) contains invalid characters/',
+            ),
+            'too many equals characters in block scalar' => array(
+                <<<'EOT'
+data: !!binary |
+    SGVsbG8gd29yb===
+EOT
+                ,
+                '/The base64 encoded data \(.*\) contains invalid characters/',
+            ),
+            'misplaced equals character in block scalar' => array(
+                <<<'EOT'
+data: !!binary |
+    SGVsbG8gd29ybG=Q
+EOT
+                ,
+                '/The base64 encoded data \(.*\) contains invalid characters/',
+            ),
+        );
+    }
+
+    public function testParseDateAsMappingValue()
+    {
+        $yaml = <<<'EOT'
+date: 2002-12-14
+EOT;
+        $expectedDate = new \DateTime();
+        $expectedDate->setTimeZone(new \DateTimeZone('UTC'));
+        $expectedDate->setDate(2002, 12, 14);
+        $expectedDate->setTime(0, 0, 0);
+
+        $this->assertEquals(array('date' => $expectedDate), $this->parser->parse($yaml, Yaml::PARSE_DATETIME));
+    }
+
+    /**
+     * @param $lineNumber
+     * @param $yaml
+     * @dataProvider parserThrowsExceptionWithCorrectLineNumberProvider
+     */
+    public function testParserThrowsExceptionWithCorrectLineNumber($lineNumber, $yaml)
+    {
+        if (method_exists($this, 'expectException')) {
+            $this->expectException('\Symfony\Component\Yaml\Exception\ParseException');
+            $this->expectExceptionMessage(sprintf('Unexpected characters near "," at line %d (near "bar: "123",").', $lineNumber));
+        } else {
+            $this->setExpectedException('\Symfony\Component\Yaml\Exception\ParseException', sprintf('Unexpected characters near "," at line %d (near "bar: "123",").', $lineNumber));
+        }
+
+        $this->parser->parse($yaml);
+    }
+
+    public function parserThrowsExceptionWithCorrectLineNumberProvider()
+    {
+        return array(
+            array(
+                4,
+                <<<'YAML'
+foo:
+    -
+        # bar
+        bar: "123",
+YAML
+            ),
+            array(
+                5,
+                <<<'YAML'
+foo:
+    -
+        # bar
+        # bar
+        bar: "123",
+YAML
+            ),
+            array(
+                8,
+                <<<'YAML'
+foo:
+    -
+        # foobar
+        baz: 123
+bar:
+    -
+        # bar
+        bar: "123",
+YAML
+            ),
+            array(
+                10,
+                <<<'YAML'
+foo:
+    -
+        # foobar
+        # foobar
+        baz: 123
+bar:
+    -
+        # bar
+        # bar
+        bar: "123",
+YAML
+            ),
+        );
+    }
+
+    public function testParseMultiLineQuotedString()
+    {
+        $yaml = <<<EOT
+foo: "bar
+  baz
+   foobar
+foo"
+bar: baz
+EOT;
+
+        $this->assertSame(array('foo' => 'bar baz foobar foo', 'bar' => 'baz'), $this->parser->parse($yaml));
+    }
+
+    public function testParseMultiLineUnquotedString()
+    {
+        $yaml = <<<EOT
+foo: bar
+  baz
+   foobar
+  foo
+bar: baz
+EOT;
+
+        $this->assertSame(array('foo' => 'bar baz foobar foo', 'bar' => 'baz'), $this->parser->parse($yaml));
     }
 }
 

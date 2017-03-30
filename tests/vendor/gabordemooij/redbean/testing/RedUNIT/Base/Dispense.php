@@ -11,6 +11,9 @@ use RedBeanPHP\OODBBean as OODBBean;
 /**
  * Dispense
  *
+ * Tests whether we can dispense beans and tests all
+ * features of the dispense/dispenseAll functions.
+ *
  * @file    RedUNIT/Base/Dispense.php
  * @desc    Tests bean dispensing functionality.
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -69,7 +72,6 @@ class Dispense extends Base
 		asrt( isset( $bean["abd"] ), FALSE );
 		asrt( isset( $bean["abc"] ), TRUE );
 	}
-
 
 	/**
 	 * Tests the facade-only dispenseAll method.

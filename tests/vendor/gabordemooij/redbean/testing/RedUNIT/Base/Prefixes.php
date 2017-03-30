@@ -22,6 +22,9 @@ define('FRIENDLIST', 'sharedTbl_friend');
 /**
  * Prefixes
  *
+ * Tests whether we can use tables with prefixes.
+ * Some people seem to like that.
+ *
  * @file    RedUNIT/Base/Prefixes.php
  * @desc    Tests whether you can use RedBeanPHP with table prefixes.
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -37,7 +40,7 @@ class Prefixes extends Base
 	 * Test prerequisites.
 	 */
 	public function testPrerequisites()
-	{	
+	{
 		R::nuke();
 		$bean = R::xdispense( 'type_with_underscore' );
 		asrt( ( $bean instanceof OODBBean ), TRUE );

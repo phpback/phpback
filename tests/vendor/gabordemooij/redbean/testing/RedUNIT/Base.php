@@ -5,6 +5,11 @@ namespace RedUNIT;
 /**
  * Base
  *
+ * This is the base class for all multi-driver Unit Tests.
+ * By default base class derived tests will offer 'test rounds' for
+ * all well known RedBeanPHP drivers: mysql (MySQL/MariaDB), pgsql (PostgreSQL),
+ * sqlite (SQLite3) and CUBRID (CUBRID).
+ *
  * @file    RedUNIT/Base.php
  * @desc    Base class for all drivers that support all database systems.
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -18,16 +23,17 @@ class Base extends RedUNIT
 {
 
 	/**
-	 * List of DB drivers
+	 * List of DB drivers.
+	 * Contains the list of database drivers as returned by getTargetDrivers().
 	 *
 	 * @var array
 	 */
-	protected static $driverList = array( 'mysql', 'pgsql', 'sqlite', 'CUBRID', 'oracle' );
+	protected static $driverList = array( 'mysql', 'pgsql', 'sqlite', 'CUBRID' );
 
 	/**
 	 * Adds a driver to the list.
 	 *
-	 * @param string $driverID
+	 * @param string $driverID driver identifier.
 	 */
 	public static function addToDriverList( $driverID )
 	{
@@ -35,7 +41,10 @@ class Base extends RedUNIT
 	}
 
 	/**
-	 * What drivers should be loaded for this test pack?
+	 * Returns a list of drivers for which this driver supports
+	 * 'test rounds'. This class only supports all base drivers.
+	 *
+	 * @see RedUNIT::getTargetDrivers() for details.
 	 *
 	 * @return array
 	 */
