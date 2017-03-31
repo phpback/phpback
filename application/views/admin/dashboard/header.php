@@ -15,18 +15,18 @@ See LICENSE.TXT for details.  -->
     <link rel="icon" type="image/x-icon" href="<?php echo base_url();?>favicon.ico" sizes="16x16">
 
     <!-- Loading Bootstrap -->
-    <link href="<?php echo base_url(); ?>public/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>public/bootstrap/css/prettify.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <script src="<?php echo base_url(); ?>public/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Loading Flat UI -->
-    <link href="<?php echo base_url(); ?>public/css/flat-ui.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>public/css/docs.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/flat-ui/dist/css/flat-ui.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/css/demo.css" rel="stylesheet">
 
     <!-- Loading custom styles-->
     <link href="<?php echo base_url(); ?>public/css/all.css" rel="stylesheet">
 
     <link rel="shortcut icon" href="images/favicon.ico">
-    <script src="<?php echo base_url(); ?>public/js/jquery-1.8.3.min.js"></script>
+    <script src="<?php echo base_url(); ?>public/jquery/dist/jquery.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>

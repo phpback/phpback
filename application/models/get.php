@@ -165,7 +165,7 @@ class Get extends CI_Model
         $sql = $this->db->query("SELECT * FROM users WHERE email=" . $this->db->escape($email));
         if($sql->num_rows() != 0){
             $user = $sql->row();
-            if ($this->hashing->matches($password, $user->pass)) return $user->id;
+            if (password_verify($password, $user->pass)) return $user->id;
             else return 0;
         }
         else return 0;
@@ -200,7 +200,8 @@ class Get extends CI_Model
         $sql = $this->db->query("SELECT * FROM _sessions WHERE id='$token[0]' AND userid='$token[1]'");
         if(!$sql->num_rows()) return 0;
         $s = $sql->row();
-        if ($this->hashing->matches($token[2], $s->token)){
+		// todo check
+        if (password_verify($token[2], $s->token)){
             $sql = $this->db->query("DELETE FROM _sessions WHERE id='$token[0]'");
             return $token[1];
         }
@@ -209,6 +210,7 @@ class Get extends CI_Model
 
     public function new_token($userid){
         $userid = (int) $userid;
+		// todo more secure
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $token = '';
         for ($i = 0; $i < 32; $i++) {
@@ -217,7 +219,7 @@ class Get extends CI_Model
         $data = array(
         	'id' => '0',
         	'userid' => $userid,
-        	'token' => $this->hashing->hash($token)
+        	'token' => password_hash($token, PASSWORD_DEFAULT)
         	);
         $this->db->insert('_sessions', $data);
         $sql = $this->db->query("SELECT * FROM _sessions WHERE userid='$userid' ORDER BY id DESC LIMIT 1");

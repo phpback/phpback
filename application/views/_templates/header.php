@@ -14,12 +14,11 @@ See LICENSE.TXT for details.  -->
     <link rel="icon" type="image/x-icon" href="<?php echo base_url();?>favicon.ico" sizes="16x16">
 
     <!-- Loading Bootstrap -->
-    <link href="<?= base_url(); ?>public/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="<?= base_url(); ?>public/bootstrap/css/prettify.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 
     <!-- Loading Flat UI -->
-    <link href="<?= base_url(); ?>public/css/flat-ui.css" rel="stylesheet">
-    <!-- <link href="<?= base_url(); ?>public/css/demo.css" rel="stylesheet"> -->
+    <link href="<?php echo base_url(); ?>public/flat-ui/dist/css/flat-ui.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/css/demo.css" rel="stylesheet">
 
     <!-- Loading custom styles-->
     <link href="<?php echo base_url(); ?>public/css/all.css" rel="stylesheet">

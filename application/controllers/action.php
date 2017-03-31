@@ -154,7 +154,7 @@ class Action extends CI_Controller{
             if($new == $rnew){
                 $user = $this->get->getUser($_SESSION['phpback_userid']);
 
-                if($this->hashing->matches($old, $user->pass)){
+                if(password_verify($old, $user->pass)){
                     $this->post->update_by_id('users', 'pass', $this->hashing->hash($new), $user->id);
                     $message = "You have changed your password to: $new\n";
                     $this->load->library('email');

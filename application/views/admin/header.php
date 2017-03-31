@@ -14,19 +14,14 @@ See LICENSE.TXT for details.  -->
     <link rel="icon" type="image/x-icon" href="<?php echo base_url();?>favicon.ico" sizes="16x16">
     
     <!-- Loading Bootstrap -->
-    <link href="<?php echo base_url(); ?>public/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>public/bootstrap/css/prettify.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <script src="<?php echo base_url(); ?>public/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Loading Flat UI -->
-    <link href="<?php echo base_url(); ?>public/css/flat-ui.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/flat-ui/dist/css/flat-ui.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>public/css/demo.css" rel="stylesheet">
 
-    <script src="<?php echo base_url(); ?>public/js/jquery-1.8.3.min.js"></script>
-    <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
-    <script src="<?php echo base_url(); ?>public/js/bootstrap-select.js"></script>
-    <script src="<?php echo base_url(); ?>public/js/bootstrap-switch.js"></script>
-    <script src="<?php echo base_url(); ?>public/js/flatui-checkbox.js"></script>
-    <script src="<?php echo base_url(); ?>public/js/flatui-radio.js"></script>
+    <script src="<?php echo base_url(); ?>public/jquery/dist/jquery.min.js"></script>
     <script src="<?php echo base_url(); ?>public/js/jquery.tagsinput.js"></script>
     <script src="<?php echo base_url(); ?>public/js/jquery.placeholder.js"></script>
     <script src="<?php echo base_url(); ?>public/bootstrap/js/application.js"></script>
