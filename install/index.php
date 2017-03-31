@@ -9,7 +9,8 @@
   <title>PHPBack Installation</title>
 
     <script src="../public/bower_components/jquery/dist/jquery.min.js"></script>
-    <link href="../public/bower_components/flat-ui/dist/css/flat-ui.css" rel="stylesheet">
+    <link href="../public/bower_components/flat-ui/dist/css/flat-ui.min.css" rel="stylesheet">
+    <link href="../public/bower_components/flat-ui/dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="../public/bower_components/flat-ui/dist/js/flat-ui.min.js"></script>
 
   <style type="text/css">

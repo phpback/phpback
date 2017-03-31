@@ -15,7 +15,8 @@ See LICENSE.TXT for details.  -->
     <script src="<?php echo base_url(); ?>public/bower_components/jquery/dist/jquery.min.js"></script>
 
     <!-- Loading Flat UI -->
-    <link href="<?php echo base_url(); ?>public/bower_components/flat-ui/dist/css/flat-ui.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/bower_components/flat-ui/dist/css/flat-ui.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/bower_components/flat-ui/dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="<?php echo base_url(); ?>public/bower_components/flat-ui/dist/js/flat-ui.min.js"></script>
 
     <script src="<?php echo base_url(); ?>public/js/jquery.tagsinput.js"></script>
