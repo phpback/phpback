@@ -1,0 +1,141 @@
+a:hover {
+    text-decoration: none;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.breadcrumb {
+    margin-bottom: 0;
+}
+
+.breadcrumb-wrapper
+{
+    font-size: 83%;
+	line-height: 2;
+	margin-bottom: 10px;
+}
+
+
+.header {
+    background-color: #333;
+    margin-bottom: 25px;
+}
+
+.header--title-container {
+    color:#ECF0F1;
+    padding-left:30px;
+}
+
+.header--title {
+
+}
+
+.logged-as-label {
+    color:#ECF0F1;
+}
+
+.nav.nav-tabs {
+    cursor: pointer;
+}
+
+
+
+.ideas-completed, .ideas-started, .ideas-planned, .ideas-considered
+{
+	border: 1px solid #3498DB;
+	border-radius:5px;
+
+	margin-bottom:10px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.ideas-started
+{
+	border-color:#2ECC71;
+}
+
+.ideas-planned
+{
+	border-color:#F1C40F;
+}
+
+.ideas-considered
+{
+	border-color:#95A5A6;
+}
+
+
+
+.vote-count-box
+{
+	width: 60px;
+	text-align:center;
+	border:1px solid #3498DB;
+	border-radius:5px;
+	padding-top:4px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:2px
+}
+
+.view-idea-vote
+{
+	width: 100%;
+	max-width: 90px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+
+
+.vote-label
+{
+	text-align: center;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+
+.comment-box
+{
+	margin-top:10px;
+	border: 1px solid #C0C0C0;
+	border-radius:3px;
+	padding-left:5px;
+	padding-top:3px;
+}
+.comment-text
+{
+	padding:10px;
+	line-height: normal;
+	font-size: 83%;
+}
+
+
+.sidemenu
+{
+	border:1px solid #C0C0C0;
+	border-radius:5px;
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:8px;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+
+
+.footer
+{
+	text-align:center;
+	font-size: 83%;
+}
+
+
+/* Line up labels and badges with text better */
+.label, .badge { 
+	vertical-align:2px;
+}
+
