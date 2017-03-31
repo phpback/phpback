@@ -14,8 +14,8 @@ See LICENSE.TXT for details.  -->
     <link rel="icon" type="image/x-icon" href="<?php echo base_url();?>favicon.ico" sizes="16x16">
 
     <!-- Loading Flat UI -->
-    <link href="<?php echo base_url(); ?>public/bower_components/flat-ui/dist/css/flat-ui.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>public/bower_components/flat-ui/dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/bower_components/flat-ui/dist/css/flat-ui.min.css" rel="stylesheet">
 
     <!-- Loading custom styles-->
     <link href="<?php echo base_url(); ?>public/css/all.css" rel="stylesheet">
