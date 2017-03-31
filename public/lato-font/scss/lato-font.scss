@@ -1,8 +1,0 @@
-@import 'internal/variables';
-@import 'internal/functions';
-@import 'internal/mixins';
-
-/*!
-	Lato font.
-*/
-@include lato-render-variants($lato-variants);

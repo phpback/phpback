@@ -1,0 +1,23 @@
+{
+  "name": "phpback",
+  "homepage": "https://github.com/ivandiazwm/phpback",
+  "authors": [
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "flat-ui": "^2.3.0",
+    "jquery": "^3.2.1",
+    "lato-font": "^2.0.0"
+  }
+}

@@ -6,12 +6,8 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta charset="utf-8">
   <link rel="icon" type="image/x-icon" href="../favicon.ico" sizes="16x16">
-        
-    <link href="../public/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-    <link href="../public/flat-ui/dist/css/flat-ui.css" rel="stylesheet">
-    <link href="../public/css/demo.css" rel="stylesheet">
-    <script src="../public/jquery/dist/jquery.min.js"></script>
-    <script src="../public/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link href="../public/bower_components/flat-ui/dist/css/flat-ui.css" rel="stylesheet">
+    <script src="../public/bower_components/jquery/dist/jquery.min.js"></script>
 
   <style type="text/css">
   a:hover{
