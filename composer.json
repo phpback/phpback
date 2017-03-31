@@ -1,6 +1,5 @@
 {
     "require": {
-        "google/recaptcha": "~1.1",
-        "ircmaxell/password-compat": "^1.0"
+        "google/recaptcha": "~1.1"
     }
 }
