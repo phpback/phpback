@@ -120,7 +120,7 @@ class Action extends CI_Controller{
             exit;
         }
         $idea = $this->get->getIdea($ideaid);
-        header("Location: " . base_url() . 'home/idea/' . $ideaid . '/' . Display::slugify($idea->title));
+        header("Location: " . $idea->url);
     }
 
     public function unvote($id){
@@ -215,14 +215,14 @@ class Action extends CI_Controller{
         header("Location: " . $this->get->getIdea($idea_id)->url);
     }
 
-    public function flag($cid, $ideaid, $ideaname){
+    public function flag($cid, $idea_id){
         session_start();
         if(!isset($_SESSION['phpback_userid'])){
             header("Location: " . base_url(). "home/login");
             exit;
         }
         $this->post->flag($cid, $_SESSION['phpback_userid']);
-        header("Location: " . base_url() . "home/idea/" . $ideaid . '/' .  $ideaname);
+        header("Location: " . $this->get->getIdea($idea_id)->url);
     }
 
     private function redirectpost($url, array $data){

@@ -126,18 +126,18 @@ class Get extends CI_Model
 
     public function getIdeasBySearchQuery($query){
         $keywords = explode(" ", $query);
-        $temp = $this->db->escape(array_shift($keywords));
+        $temp = $this->db->escape_like_str(array_shift($keywords));
         $query = "SELECT * FROM ideas WHERE ( title LIKE '%$temp%'";
 
         foreach($keywords as $key) {
-            $escapedKey = $this->db->escape($key);
+            $escapedKey = $this->db->escape_like_str($key);
             $query .= " OR title LIKE '%$escapedKey%'";
         }
         $query .= ") ORDER BY CASE ";
         $query .= " WHEN title LIKE '$temp%' THEN 0 ";
         $query .= " WHEN title LIKE '%$temp%' THEN 2 ";
-        foreach($keywords as $id => $key){
-            $escapedKey = $this->db->escape($key);
+        foreach($keywords as $id => $key) {
+            $escapedKey = $this->db->escape_like_str($key);
             $query .= " WHEN title LIKE '$escapedKey%' THEN ". ($id+1) ." ";
             $query .= " WHEN title LIKE '%$escapedKey%' THEN ". ($id + 3) . " ";
         }

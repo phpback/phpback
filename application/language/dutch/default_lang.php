@@ -13,6 +13,7 @@
     $lang['label_delete_votes'] = 'Verwijder stemmen';
     $lang['label_description'] = 'Omschrijving';
     $lang['label_idea'] = 'Idee';
+    $lang['label_idea_approve'] = 'Goedkeuring idee';
     $lang['label_idea_title'] = 'Idee titel';
     $lang['label_ideas'] = 'Ideën';
     $lang['label_log'] = 'Log';

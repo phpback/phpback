@@ -13,6 +13,7 @@
     $lang['label_delete_votes'] = 'Hapus voting';
     $lang['label_description'] = 'Deskripsi';
     $lang['label_idea'] = 'Ide';
+    $lang['label_idea_approve'] = 'Setujui ide';
     $lang['label_idea_title'] = 'Judul ide';
     $lang['label_ideas'] = 'Ide';
     $lang['label_log'] = 'Log';
