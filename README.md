@@ -6,7 +6,7 @@ PHPBack is an open source feedback system you can use for your website.  It give
 Please, visit our website for more information: [http://www.phpback.org/](http://www.phpback.org/)
 
 ## Requirements
-* PHP 5.3+
+* PHP 5.6+
 * MySQL 4.1+
 
 ## Installation
