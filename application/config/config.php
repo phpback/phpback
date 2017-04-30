@@ -366,7 +366,7 @@ $config['proxy_ips'] = '';
 | phpback is installed on a read-only filesystem, set this to FALSE.
 |
 */
-$config['auto_update'] = TRUE;
+$config['auto_update'] = FALSE;
 
 
 /* End of file config.php */
