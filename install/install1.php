@@ -63,7 +63,7 @@ function exitOnError($errorMessage) {
  * @param type $database
  */
 function createDbConfigFile($hostname, $username, $password, $database) {
-    @chmod('../application/config', 0777);
+    @chmod('../application/config', 0755);
     if (($file = fopen('../application/config/database.php', 'w+')) == FALSE) {
         exitOnError('ERROR #1: Config file could not be created');
     }
@@ -143,7 +143,7 @@ do {
 $result = $server->query("SELECT id FROM settings WHERE name='title'");
 
 if ($result->num_rows == 1) {
-    if (!@chmod('../install', 0777)) {
+    if (!@chmod('../install', 0755)) {
         echo "PLEASE DELETE install/ FOLDER MANUALLY. THEN GO TO yourwebsite.com/feedback/admin/ TO LOG IN.";
         exit;
     }
@@ -159,7 +159,7 @@ if ($result->num_rows == 1) {
 } else {
     $server->query("INSERT INTO users(name,email,pass,votes,isadmin,banned) VALUES('" . $_POST['adminname'] . "','" . $_POST['adminemail'] . "','" . $hashing->hash($_POST['adminpass']) . "', 20, 3,0)");
 
-    if (!@chmod('../install', 0777)) {
+    if (!@chmod('../install', 0755)) {
         $url = getBaseUrl();
         displayMessage("PLEASE DELETE install/index.php, install/install1.php AND install/database_tables.sql FILES MANUALLY.<br />
             THEN GO TO <a href='" . $url . "/install/index2.php'>yourwebsite.com/feedback/install/index2.php</a> TO CONTINUE THE INSTALLATION.");
