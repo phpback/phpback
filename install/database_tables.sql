@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `pass` tinytext COLLATE utf8_unicode_ci NOT NULL,
   `votes` int(11) NOT NULL,
   `isadmin` tinyint(1) NOT NULL,
-  `banned` int(11) NOT NULL,
+  `banned` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
