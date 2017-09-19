@@ -15,7 +15,7 @@
     $lang['label_idea'] = 'Idee';
     $lang['label_idea_approve'] = 'Goedkeuring idee';
     $lang['label_idea_title'] = 'Idee titel';
-    $lang['label_ideas'] = 'Ideën';
+    $lang['label_ideas'] = 'Ideeën';
     $lang['label_log'] = 'Log';
     $lang['label_log_in'] = 'Inloggen';
     $lang['label_log_out'] = 'Uitloggn';
