@@ -19,7 +19,7 @@ class Action extends CI_Controller{
         $this->load->model('post');
     }
     public function register(){
-        require_once('public/recaptcha/recaptchalib.php');
+        require_once('public/recaptcha/autoload.php');
 
         $votes = $this->get->getSetting('maxvotes');
         $title = $this->get->getSetting('title');
@@ -31,12 +31,10 @@ class Action extends CI_Controller{
         $name = $this->input->post('name', true);
 
         if($this->get->getSetting('recaptchapublic') != ""){
-            $resp = recaptcha_check_answer($this->get->getSetting('recaptchaprivate'),
-                                    $_SERVER["REMOTE_ADDR"],
-                                    $_POST["recaptcha_challenge_field"],
-                                    $_POST["recaptcha_response_field"]);
+            $recaptcha = new \ReCaptcha\ReCaptcha($this->get->getSetting('recaptchaprivate'));
+            $resp = $recaptcha->verify($_POST["g-recaptcha-response"],  $_SERVER['REMOTE_ADDR']);
 
-            if(!$resp->is_valid){
+            if(!$resp->isSuccess()){
                 header('Location: '. base_url() .'home/register/recaptcha');
                 return;
             }
