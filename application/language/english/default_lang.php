@@ -19,7 +19,7 @@
     $lang['label_log'] = 'Log';
     $lang['label_log_in'] = 'Log in';
     $lang['label_log_out'] = 'Log out';
-    $lang['label_logged_as'] = 'Logged as';
+    $lang['label_logged_as'] = 'Logged in as';
     $lang['label_post_new_idea'] = 'Post a new idea';
     $lang['label_profiles'] = 'Profiles';
     $lang['label_registration'] = 'Register';
