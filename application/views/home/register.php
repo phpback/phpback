@@ -48,10 +48,11 @@
 	 };
  	</script>
     <script type="text/javascript"
-     src="https://www.google.com/recaptcha/api/challenge?k=<?php echo $recaptchapublic; ?>">
+     src="https://www.google.com/recaptcha/api.js" async defer>
   </script>
+  <div class="g-recaptcha" data-sitekey="<?php echo $recaptchapublic; ?>"></div>
   <noscript>
-     <iframe src="https://www.google.com/recaptcha/api/noscript?k=<?php echo $recaptchapublic; ?>"
+     <iframe src="https://www.google.com/recaptcha/api/fallback?k=<?php echo $recaptchapublic; ?>"
          height="300" width="500" frameborder="0"></iframe><br>
      <textarea name="recaptcha_challenge_field" rows="3" cols="40">
      </textarea>
