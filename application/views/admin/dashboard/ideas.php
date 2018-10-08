@@ -142,7 +142,7 @@
                <td style="padding-left:10px;">
                  <label class="checkbox"t>
                     <input type="checkbox" <?php if($form['isdesc']) echo 'checked=""';?> name="isdesc" data-toggle="checkbox">
-                    Descresing order
+                    Decreasing order
                   </label>
                </td>
               </tr>
