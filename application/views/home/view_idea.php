@@ -36,7 +36,7 @@
 				</div>
 				<div class="col-xs-12 col-sm-10">
 					<h6><?php echo $idea->title; ?></h6>
-					<span style="color:#34495E"><small><?php echo $idea->content; ?></small></span>
+					<span style="color:#34495E"><small><?php echo nl2br($idea->content); ?></small></span>
 					<div>
 					<ul class="nav-pills" style="list-style:none;margin-left:-40px">
 					<li style="padding-right:10px"><span class="label label-<?php
