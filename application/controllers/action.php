@@ -191,6 +191,15 @@ class Action extends CI_Controller{
         }
         if(@isset($_SESSION['phpback_userid'])) {
             $this->post->add_idea($title, $desc, $_SESSION['phpback_userid'], $catid);
+            $admins = $this->get->get_admin_users();
+            $adminMails = array_map(function (\stdClass $admin) {
+                return $admin->email;
+            }, $admins);
+            $adminMails = implode(', ', $adminMails);
+            $generalTitle = $this->get->getSetting('title');
+            $message = 'A new idea with title "' . $title . '" has been posted in your feeeback system : ' . $this->get->getSetting('title') . '.';
+
+            $this->sendMail($message, "New idea - $generalTitle", $adminMails);
         }
         header("Location: " . base_url() . "home/profile/" . $_SESSION['phpback_userid']);
     }
