@@ -22,8 +22,6 @@ class Action extends CI_Controller{
         require_once('public/recaptcha/autoload.php');
 
         $votes = $this->get->getSetting('maxvotes');
-        $title = $this->get->getSetting('title');
-        $mainmail = $this->get->getSetting('mainmail');
 
         $email = $this->input->post('email', true);
         $pass = $this->input->post('password', true);
@@ -57,18 +55,10 @@ class Action extends CI_Controller{
         }
 
         if($this->post->add_user($name, $email, $pass, $votes, false)){
+            $title = $this->get->getSetting('title');
             $message = "Welcome to our feedback: $title\n\nYour Email: $email\nYour Password: $pass\n\n\nPlease login here:" . base_url() . "home/login\n";
-            $this->load->library('email');
 
-            $this->email->initialize($this->get->email_config());
-
-            $this->email->from($mainmail, 'PHPBack');
-            $this->email->to($email);
-
-            $this->email->subject("New account - $title");
-            $this->email->message($message);
-
-            $this->email->send();
+            $this->sendMail($message, "New account - $title", $email);
 
             header('Location: '. base_url() .'home/login/register');
         }
@@ -199,9 +189,24 @@ class Action extends CI_Controller{
             $this->redirectpost(base_url() . "home/postidea/errordesc", array('title' => $title, 'desc' => $desc, 'catid' => $catid));
             return;
         }
-        if(@isset($_SESSION['phpback_userid']))
+        if(@isset($_SESSION['phpback_userid'])) {
             $this->post->add_idea($title, $desc, $_SESSION['phpback_userid'], $catid);
+        }
         header("Location: " . base_url() . "home/profile/" . $_SESSION['phpback_userid']);
+    }
+
+    private function sendMail($message, $title, $recipients)
+    {
+        $mainmail = $this->get->getSetting('mainmail');
+        $this->load->library('email');
+
+        $this->email->initialize($this->get->email_config());
+        $this->email->from($mainmail, 'PHPBack');
+        $this->email->to($recipients);
+        $this->email->subject($title);
+        $this->email->message($message);
+
+        return $this->email->send();
     }
 
     public function comment($idea_id){
