@@ -197,7 +197,8 @@ class Action extends CI_Controller{
             }, $admins);
             $adminMails = implode(', ', $adminMails);
             $generalTitle = $this->get->getSetting('title');
-            $message = 'A new idea with title "' . $title . '" has been posted in your feeeback system : ' . $this->get->getSetting('title') . '.';
+            $lastIdea = $this->get->getLastIdea();
+            $message = 'A new idea has been posted in your feedback system ' . $this->get->getSetting('title') . '. To find it, click the following link : ' . $lastIdea->url;
 
             $this->sendMail($message, "New idea - $generalTitle", $adminMails);
         }

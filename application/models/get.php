@@ -28,6 +28,17 @@ class Get extends CI_Model
     	return $categoryList;
     }
 
+    /**
+     * @return \stdClass
+     */
+    public function getLastIdea()
+    {
+    	$query = "SELECT * FROM ideas ORDER BY id DESC LIMIT 1";
+    	$res = $this->db->query($query)->result();
+
+        return $this->decorateIdea(current($res));
+    }
+
 
     public function getIdea($idea_id){
     	$idea_id = (int) $idea_id;
