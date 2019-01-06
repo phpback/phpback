@@ -131,6 +131,9 @@ body {
 {
 	text-align:center;
 	font-size: 83%;
+	bottom: 0; 
+        position: fixed; 
+        width: 100%;
 }
 
 
