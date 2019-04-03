@@ -16,3 +16,4 @@
     $lang['log_category_description'] = 'descripción ha sido modificada';
     $lang['log_category_changed'] = 'Categoría \'%s1\' cambiada a\'%s2\'';
     $lang['log_category_deleted'] = 'Categoría %s borrada';
+    $lang['log_new_idea_mail_content'] = 'A new idea has been posted in your feedback system %s. To find it, click the following link : %s.';

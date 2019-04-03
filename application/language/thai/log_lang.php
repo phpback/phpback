@@ -16,3 +16,4 @@
     $lang['log_category_description'] = 'อัพเดทรายละเอียดแล้ว';
     $lang['log_category_changed'] = 'หมวดหมู่ \'%s1\' ถูกเปลี่ยนเป็น \'%s2\'';
     $lang['log_category_deleted'] = 'หมวดหมู่ %s ถูกลบแล้ว';
+    $lang['log_new_idea_mail_content'] = 'A new idea has been posted in your feedback system %s. To find it, click the following link : %s.';

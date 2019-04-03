@@ -16,3 +16,4 @@
     $lang['log_category_description'] = 'omschrijving is gewijzigd';
     $lang['log_category_changed'] = 'Categorie \'%s1\' gewijzigd in \'%s2\'';
     $lang['log_category_deleted'] = 'Categorie %s verwijderd';
+    $lang['log_new_idea_mail_content'] = 'A new idea has been posted in your feedback system %s. To find it, click the following link : %s.';

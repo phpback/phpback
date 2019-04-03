@@ -16,3 +16,4 @@
     $lang['log_category_description'] = 'deskripsi telah diperbarui';
     $lang['log_category_changed'] = 'Kategori \'%s1\' diubah ke \'%s2\'';
     $lang['log_category_deleted'] = 'Kategori %s dihapus';
+    $lang['log_new_idea_mail_content'] = 'A new idea has been posted in your feedback system %s. To find it, click the following link : %s.';

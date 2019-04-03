@@ -16,3 +16,4 @@
     $lang['log_category_description'] = '説明が更新されました';
     $lang['log_category_changed'] = 'カテゴリが「%s1」から「%s2」に変更されました';
     $lang['log_category_deleted'] = '%s カテゴリを削除';
+    $lang['log_new_idea_mail_content'] = 'A new idea has been posted in your feedback system %s. To find it, click the following link : %s.';
