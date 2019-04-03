@@ -196,11 +196,12 @@ class Action extends CI_Controller{
                 return $admin->email;
             }, $admins);
             $adminMails = implode(', ', $adminMails);
-            $generalTitle = $this->get->getSetting('title');
+            $generalTitle = '' !== $this->get->getSetting('title') ? $this->get->getSetting('title') : 'PHPBack';
             $lastIdea = $this->get->getLastIdea();
-            $message = 'A new idea has been posted in your feedback system ' . $this->get->getSetting('title') . '. To find it, click the following link : ' . $lastIdea->url;
+            $message = sprintf($this->lang->language['log_new_idea_mail_content'], $generalTitle, $lastIdea->url);
+            $fullTitle = $this->lang->language['log_new_idea'] . ' : ' . $generalTitle;
 
-            $this->sendMail($message, "New idea - $generalTitle", $adminMails);
+            $this->sendMail($message, $fullTitle, $adminMails);
         }
         header("Location: " . base_url() . "home/profile/" . $_SESSION['phpback_userid']);
     }
