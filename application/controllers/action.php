@@ -196,17 +196,43 @@ class Action extends CI_Controller{
                 return $admin->email;
             }, $admins);
             $adminMails = implode(', ', $adminMails);
-            $generalTitle = $this->get->getSetting('title');
+            $generalTitle = '' !== $this->get->getSetting('title') ? $this->get->getSetting('title') : 'PHPBack';
             $lastIdea = $this->get->getLastIdea();
-            $message = 'A new idea has been posted in your feedback system ' . $this->get->getSetting('title') . '. To find it, click the following link : ' . $lastIdea->url;
+            $message = sprintf($this->lang->language['log_new_idea_mail_content'], $generalTitle, $lastIdea->url);
+            $fullTitle = $this->lang->language['log_new_idea'] . ' : ' . $generalTitle;
 
-            $this->sendMail($message, "New idea - $generalTitle", $adminMails);
+            $this->sendMail($message, $fullTitle, $adminMails);
         }
         header("Location: " . base_url() . "home/profile/" . $_SESSION['phpback_userid']);
     }
 
+    public function comment($idea_id){
+        session_start();
+        $idea_id = (int) $idea_id;
+        $content = $this->input->post('content', true);
+        if(isset($_SESSION['phpback_userid'])) {
+            $this->post->add_comment($idea_id, $content, $_SESSION['phpback_userid']);
+            $comments = $this->get->getCommentsByIdea($idea_id);
+            $usersMails = [];
+            foreach ($comments as $comment) {
+                $usersMails[] = $this->get->getUser($comment->userid)->email;
+            }
+            $usersMails = array_unique($usersMails);
+            $generalTitle = '' !== $this->get->getSetting('title') ? $this->get->getSetting('title') : 'PHPBack';
+            $idea = $this->get->getIdea($idea_id);
+            $message = sprintf($this->lang->language['log_new_comment_mail_content'], $generalTitle, $idea->url);
+            $title = sprintf($this->lang->language['log_commented'], $idea_id);
+
+            $this->sendMail($message, $title, $usersMails);
+        }
+        header("Location: " . $this->get->getIdea($idea_id)->url);
+    }
+
     private function sendMail($message, $title, $recipients)
     {
+        if (empty($recipients)) {
+            return false;
+        }
         $mainmail = $this->get->getSetting('mainmail');
         $this->load->library('email');
 
@@ -217,15 +243,6 @@ class Action extends CI_Controller{
         $this->email->message($message);
 
         return $this->email->send();
-    }
-
-    public function comment($idea_id){
-        session_start();
-        $idea_id = (int) $idea_id;
-        $content = $this->input->post('content', true);
-        if(isset($_SESSION['phpback_userid']))
-            $this->post->add_comment($idea_id, $content, $_SESSION['phpback_userid']);
-        header("Location: " . $this->get->getIdea($idea_id)->url);
     }
 
     public function flag($cid, $idea_id){

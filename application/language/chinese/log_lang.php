@@ -16,3 +16,5 @@
     $lang['log_category_description'] = '修改了描述';
     $lang['log_category_changed'] = '分类 \'%s1\' 变更为 \'%s2\'';
     $lang['log_category_deleted'] = '分类 %s 删除了';
+    $lang['log_new_idea_mail_content'] = 'A new idea has been posted in your feedback system %s. To find it, click the following link : %s.';
+    $lang['log_new_comment_mail_content'] = 'A new comment has been posted in your feedback system %s. To find it, click the following link : %s.';
