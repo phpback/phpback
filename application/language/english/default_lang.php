@@ -30,6 +30,7 @@
     $lang['label_submit'] = 'Submit';
     $lang['label_vote'] = 'Vote';
     $lang['label_votes'] = 'Votes';
+    $lang['label_status'] = 'Status';
 
     $lang['text_shared_this_idea'] = 'shared this idea';
     $lang['text_flag_comment'] = 'flag comment';

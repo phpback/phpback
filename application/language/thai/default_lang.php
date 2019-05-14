@@ -30,6 +30,7 @@
     $lang['label_submit'] = 'ส่ง';
     $lang['label_vote'] = 'โหวต';
     $lang['label_votes'] = 'โหวต';
+    $lang['label_status'] = 'Status';
 
     $lang['text_shared_this_idea'] = 'แบ่งปันไอเดีย';
     $lang['text_flag_comment'] = 'ติดธงข้อเสนอแนะ';

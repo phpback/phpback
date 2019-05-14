@@ -30,6 +30,7 @@
     $lang['label_submit'] = 'Übermitteln';
     $lang['label_vote'] = 'Wählen';
     $lang['label_votes'] = 'Stimmen';
+    $lang['label_status'] = 'Status';
 
     $lang['text_shared_this_idea'] = 'Idee teilen';
     $lang['text_flag_comment'] = 'Kommentar markieren';

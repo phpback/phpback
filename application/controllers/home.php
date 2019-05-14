@@ -45,14 +45,14 @@ class Home extends CI_Controller {
 
 	}
 
-	public function category($id, $name = "", $order = "votes", $type = "desc", $page = '1') {
-        if (!$this->get->categoryExists($id)){
+	public function category($id, $name = "", $order = "votes", $type = "desc", $page = '1', $status = "considered") {
+        if (!$this->get->categoryExists($id) || 'new' == $status) {
             header('Location: ' . base_url() . 'home');
             return;
         }
 
         $data = $this->getDefaultData();
-        $data['ideas'] = $this->get->getIdeasByCategory($id, $order, $type, $page);
+        $data['ideas'] = $this->get->getIdeasByCategory($id, $order, $type, $page, $status);
         $data['category'] = $data['categories'][$id];
         $total = $this->get->getQuantityOfApprovedIdeas($id);
         $data['max_results'] = (int) $this->get->getSetting('max_results');
@@ -61,6 +61,8 @@ class Home extends CI_Controller {
         if(($total % $data['max_results']) > 0) $data['pages']++;
         $data['type'] = $type;
         $data['order'] = $order;
+		$data['fullUrl'] = $data['category']->url . "/" . $data['order'] . "/" . $data['type'] . "/1";
+		$data['idea_status'] = 'idea_' . $status;
 
         $this->load->view('_templates/header', $data);
 		$this->load->view('home/category_ideas', $data);
