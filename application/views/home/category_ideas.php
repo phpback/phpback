@@ -6,8 +6,24 @@
 		</ol></div>
 		<div>
 			<h5 style="color:#2C3E50;"><?php echo $category->name; ?></h5>
-			<span style="color:#34495E"><small><?php echo $category->description; ?></small></span>
+			<div class="dropdown pull-right">
+				<button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<?= $lang['label_status'] ?> : <?= $lang[$idea_status] ?>
+					<span class="caret"></span>
+				</button>
+				<span class="dropdown-arrow dropdown-arrow-inverse"></span>
+				<ul class="dropdown-menu dropdown-inverse" aria-labelledby="dropdownMenu1">
+					<li><a href="<?= $fullUrl ?>/declined"><?= $lang['idea_declined'] ?></a></li>
+					<li><a href="<?= $fullUrl ?>/considered"><?= $lang['idea_considered'] ?></a></li>
+					<li><a href="<?= $fullUrl ?>/planned"><?= $lang['idea_planned'] ?></a></li>
+					<li><a href="<?= $fullUrl ?>/started"><?= $lang['idea_started'] ?></a></li>
+					<li><a href="<?= $fullUrl ?>/completed"><?= $lang['idea_completed'] ?></a></li>
+				</ul>
+			</div>
+
+			<div style="color:#34495E"><small><?php echo $category->description; ?></small></div>
 		</div>
+
 		<table id="ideastable" class="table table-condensed">
 		<thead>
 			<tr>
