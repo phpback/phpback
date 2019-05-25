@@ -24,7 +24,7 @@
 									<?= $lang['idea_completed']; ?>
 								</span>
 								<a href="<?= $idea->url; ?>">
-									<?= $idea->title; ?>
+									<?= mb_strimwidth($idea->title, 0, 48, "...", "UTF-8"); ?>
 								</a>
 							</td>
 						</tr>
@@ -43,7 +43,7 @@
 									<?= $lang['idea_planned']; ?>
 								</span>
 								<a href="<?= $idea->url; ?>">
-									<?= $idea->title; ?>
+									<?= mb_strimwidth($idea->title, 0, 48, "...", "UTF-8"); ?>
 								</a>
 							</td>
 						</tr>
@@ -65,7 +65,7 @@
 										<?= $lang['idea_started']; ?>
 									</span>
 									<a href="<?= $idea->url; ?>">
-										<?= $idea->title; ?>
+										<?= mb_strimwidth($idea->title, 0, 48, "...", "UTF-8"); ?>
 									</a>
 								</td>
 							</tr>
@@ -84,7 +84,7 @@
 									<?= $lang['idea_considered']; ?>
 								</span>
 								<a href="<?= $idea->url; ?>">
-									<?= $idea->title; ?>
+									<?= mb_strimwidth($idea->title, 0, 48, "...", "UTF-8"); ?>
 								</a>
 							</td>
 						</tr>
