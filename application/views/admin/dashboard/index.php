@@ -31,7 +31,7 @@
           <tbody>
             <?php foreach ($logs as $log): ?>
             <tr>
-            <td><?php echo mb_strimwidth($log->content, 0, 100, "...", "UTF-8"); ?></td>
+            <td><?php echo mb_strimwidth($log->content, 0, 100, "&hellip;", "UTF-8"); ?></td>
             <td><?php echo $log->date; ?></td>
             </tr>
             <?php endforeach; ?>

@@ -61,7 +61,7 @@
             }
             ?>">
               <td>
-                <a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>" target="_blank"><?php echo  mb_strimwidth($idea->title, 0, 24, "...", "UTF-8"); ?></a>
+                <a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>" target="_blank"><?php echo mb_strimwidth($idea->title, 0, 24, "&hellip;", "UTF-8"); ?></a>
               </td>
               <td>
                 <?php echo $categories[$idea->categoryid]->name; ?>
@@ -188,7 +188,7 @@
         }
         ?>">
           <td>
-            <a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>" target="_blank"><?php echo  mb_strimwidth($idea->title, 0, 24, "...", "UTF-8"); ?></a>
+            <a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>" target="_blank"><?php echo mb_strimwidth($idea->title, 0, 24, "&hellip;", "UTF-8"); ?></a>
           </td>
           <td>
             <?php echo $categories[$idea->categoryid]->name; ?>

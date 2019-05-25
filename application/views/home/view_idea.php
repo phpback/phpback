@@ -2,7 +2,7 @@
 			<div class="breadcrumb-wrapper"><ol class="breadcrumb">
 			  <li><a href="<?php echo base_url();?>">Feedback</a></li>
 			  <li><a href="<?php echo base_url() . 'home/category/' . $idea->categoryid . "/" . str_replace(" ", "-", $categories[$idea->categoryid]->name); ?>"><?php echo $categories[$idea->categoryid]->name;?></a></li>
-			  <li class="active"><?php echo mb_strimwidth($idea->title, 0, 100, "...", "UTF-8"); ?></li>
+			  <li class="active"><?php echo mb_strimwidth($idea->title, 0, 100, "&hellip;", "UTF-8"); ?></li>
 			</ol></div>
 			
 			<div class="row">
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-10">
-					<h6><?php echo mb_strimwidth($idea->title, 0, 60, "...", "UTF-8"); ?></h6>
+					<h6><?php echo mb_strimwidth($idea->title, 0, 60, "&hellip;", "UTF-8"); ?></h6>
 					<span style="color:#34495E"><small><?php echo $idea->content; ?></small></span>
 					<div>
 					<ul class="nav-pills" style="list-style:none;margin-left:-40px">
