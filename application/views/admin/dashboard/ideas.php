@@ -28,14 +28,14 @@
         <li id="table3"><a onclick="showtable('commentstable','table3');">Flagged comments</a></li>
       </ul>
       <div id="listing">
-        <table id="newideastable" class="table table-condensed" style="">
+        <table id="newideastable" class="table table-condensed" style="table-layout:fixed;width:100%;">
           <thead>
                 <tr>
-                  <th>Idea</th>
-                  <th>Category</th>
-                  <th>Comments</th>
-                  <th>Votes</th>
-                  <th>Date</th>
+                  <th style="width:40%">Idea</th>
+                  <th style="width:20%">Category</th>
+                  <th style="width:15%">Comments</th>
+                  <th style="width:10%">Votes</th>
+                  <th style="width:15%">Date</th>
                 </tr>
             </thead>
               <tbody>
@@ -60,7 +60,7 @@
                 break;
             }
             ?>">
-              <td>
+              <td style="word-wrap:break-word;">
                 <a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>" target="_blank"><?php echo $idea->title; ?></a>
               </td>
               <td>
@@ -142,7 +142,7 @@
                <td style="padding-left:10px;">
                  <label class="checkbox"t>
                     <input type="checkbox" <?php if($form['isdesc']) echo 'checked=""';?> name="isdesc" data-toggle="checkbox">
-                    Decreasing order
+                    Descresing order
                   </label>
                </td>
               </tr>
@@ -156,13 +156,13 @@
             </form>
           </div>
     <div class="col-md-7">
-          <table class="table table-condensed" style="font-size:15px;width:100%">
+          <table class="table table-condensed" style="table-layout:fixed;font-size:15px;width:100%">
             <thead>
             <tr>
-              <th>Idea</th>
-              <th>Category</th>
-              <th>Votes</th>
-              <th>Date</th>
+              <th style="width:45%">Idea</th>
+              <th style="width:25%">Category</th>
+              <th style="width:10%">Votes</th>
+              <th style="width:20%">Date</th>
             </tr>
          </thead>
           <tbody>
@@ -187,7 +187,7 @@
             break;
         }
         ?>">
-          <td>
+          <td style="word-wrap:break-word;">
             <a href="<?php echo base_url() . 'home/idea/' . $idea->id . "/" . $freename;?>" target="_blank"><?php echo $idea->title; ?></a>
           </td>
           <td>

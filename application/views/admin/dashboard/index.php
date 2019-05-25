@@ -21,17 +21,17 @@
       </div><!-- /.navbar-collapse -->
     </nav><!-- /navbar -->
     <div class="row">
-      <table class="table table-condensed" style="font-size:15px;width:80%;margin-left:10%;">
+      <table class="table table-condensed" style="table-layout:fixed;font-size:15px;width:80%;margin-left:10%;">
             <thead>
             <tr>
-              <th>Log</th>
-              <th>Date</th>
+              <th style="width:80%">Log</th>
+              <th style="width:20%">Date</th>
             </tr>
          </thead>
           <tbody>
             <?php foreach ($logs as $log): ?>
             <tr>
-            <td><?php echo $log->content; ?></td>
+            <td style="word-wrap:break-word;"><?php echo $log->content; ?></td>
             <td><?php echo $log->date; ?></td>
             </tr>
             <?php endforeach; ?>

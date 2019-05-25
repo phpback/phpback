@@ -34,7 +34,7 @@
 					  </ul>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-10">
+				<div class="col-xs-12 col-sm-10" style="word-wrap:break-word;">
 					<h6><?php echo $idea->title; ?></h6>
 					<span style="color:#34495E"><small><?php echo nl2br($idea->content); ?></small></span>
 					<div>

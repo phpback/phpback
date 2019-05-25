@@ -16,10 +16,10 @@
 			<div class="ideas-completed">
 				<h6><?= $lang['last_completed_ideas']; ?></h6>
 				<small>
-				<table class="table table-hover">
+				<table class="table table-hover" style="table-layout:fixed">
 					<?php foreach ($ideas['completed'] as $idea): ?>
 						<tr>
-							<td>
+							<td style="word-wrap:break-word;">
 								<span class="label label-info completed-idea--tag" style="margin-right:5px">
 									<?= $lang['idea_completed']; ?>
 								</span>
@@ -35,10 +35,10 @@
 			<div class="ideas-planned">
 				<h6><?= $lang['last_planned_ideas']; ?></h6>
 				<small>
-				<table class="table table-hover">
+				<table class="table table-hover" style="table-layout:fixed">
 					<?php foreach ($ideas['planned'] as $idea): ?>
 						<tr>
-							<td>
+							<td style="word-wrap:break-word;">
 								<span class="label label-warning planned-idea--tag" style="margin-right:5px">
 									<?= $lang['idea_planned']; ?>
 								</span>
@@ -57,10 +57,10 @@
 			<div class="ideas-started">
 				<h6><?= $lang['last_started_ideas']; ?></h6>
 				<small>
-					<table class="table table-hover">
+					<table class="table table-hover" style="table-layout:fixed">
 						<?php foreach ($ideas['started'] as $idea): ?>
 							<tr>
-								<td>
+								<td style="word-wrap:break-word;">
 									<span class="label label-success started-idea--tag" style="margin-right:5px">
 										<?= $lang['idea_started']; ?>
 									</span>
@@ -76,10 +76,10 @@
 			<div class="ideas-considered">
 				<h6><?= $lang['last_considered_ideas']; ?></h6>
 				<small>
-				<table class="table table-hover">
+				<table class="table table-hover" style="table-layout:fixed">
 					<?php foreach ($ideas['considered'] as $idea): ?>
 						<tr>
-							<td>
+							<td style="word-wrap:break-word;">
 								<span class="label label-default considered-idea--tag" style="margin-right:5px">
 									<?= $lang['idea_considered']; ?>
 								</span>

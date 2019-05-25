@@ -73,17 +73,17 @@
   		<li id="table3"><a onclick="showtable('commentstable','table3');"><?php echo $lang['label_comments']; ?></a></li>
 	</ul>
 	<div id="listing">
-		<table id="activitytable" class="table table-striped">
+		<table id="activitytable" class="table table-striped" style="table-layout:fixed;">
 			<thead>
 		        <tr>
-		          <th><?php echo $lang['label_log']; ?></th>
-		          <th><?php echo $lang['label_date']; ?></th>
+		          <th style="width:80%"><?php echo $lang['label_log']; ?></th>
+		          <th style="width:20%"><?php echo $lang['label_date']; ?></th>
 		        </tr>
 		    </thead>
       		<tbody>
       			<?php foreach ($logs as $log): ?>
 				<tr>
-					<td>
+					<td style="word-wrap:break-word;">
 						<?php echo $log->content; ?>
 					</td>
 					<td>
@@ -93,14 +93,14 @@
 			    <?php endforeach; ?>
 			</tbody>
 		</table>
-		<table id="ideastable" class="table table-condensed" style="display:none">
+		<table id="ideastable" class="table table-condensed" style="display:none;table-layout:fixed;">
 			<thead>
 		        <tr>
-		          <th><?php echo $lang['label_idea']; ?></th>
-		          <th><?php echo $lang['label_category']; ?></th>
-		          <th><?php echo $lang['label_comments']; ?></th>
-		          <th><?php echo $lang['label_votes']; ?></th>
-		          <th><?php echo $lang['label_date']; ?></th>
+		          <th style="width:40%"><?php echo $lang['label_idea']; ?></th>
+		          <th style="width:20%"><?php echo $lang['label_category']; ?></th>
+		          <th style="width:12%"><?php echo $lang['label_comments']; ?></th>
+		          <th style="8%"><?php echo $lang['label_votes']; ?></th>
+		          <th style="20%"><?php echo $lang['label_date']; ?></th>
 		        </tr>
 		    </thead>
       		<tbody>
@@ -124,7 +124,7 @@
 						break;
 				}
 				?>">
-					<td>
+					<td style="word-wrap:break-word;">
 						<a href="<?= $idea->url;?>"><?= $idea->title; ?></a>
 					</td>
 					<td>
@@ -143,17 +143,17 @@
 			    <?php endforeach; ?>
 			</tbody>
 		</table>
-		<table id="commentstable" class="table table-striped" style="display:none">
+		<table id="commentstable" class="table table-striped" style="display:none;table-layout:fixed">
 			<thead>
 		        <tr>
-		          <th><?php echo $lang['label_commented']; ?></th>
-		          <th><?php echo $lang['label_date']; ?></th>
+		          <th width="80%"><?php echo $lang['label_commented']; ?></th>
+		          <th width="20%"><?php echo $lang['label_date']; ?></th>
 		        </tr>
 		    </thead>
       		<tbody>
       			<?php foreach ($comments as $comment): ?>
 				<tr>
-					<td>
+					<td style="word-wrap:break-word;">
 						<a href="<?= $comment['idea']->url;?>"><?php echo $comment['idea']->title; ?></a>
 					</td>
 					<td>
