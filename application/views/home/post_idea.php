@@ -36,7 +36,7 @@
 	  </div>
 	  <div class="form-group">
 	  <label><?php echo $lang['label_description'];?></label>
-	    <textarea class="form-control" rows="4" name="description" minlength="20" max="1500" required><?php if(@isset($POST['desc'])) echo $POST['desc'];?></textarea>
+	    <textarea class="form-control" rows="4" name="description" minlength="20" maxlength="1500" required><?php if(@isset($POST['desc'])) echo $POST['desc'];?></textarea>
 	  </div>
 	  <button type="submit" class="btn btn-primary"><?php echo $lang['label_submit'];?></button>
 	</form>
