@@ -22,6 +22,7 @@
 			</div>
 
 			<div style="color:#34495E"><small><?php echo $category->description; ?></small></div>
+			<div id="category-description"><small><?php echo $category->description; ?></small></div>
 		</div>
 
 		<table id="ideastable" class="table table-condensed">
