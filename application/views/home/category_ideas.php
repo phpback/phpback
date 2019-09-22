@@ -1,5 +1,5 @@
 	<div class="col-md-9">
-	
+
 		<div class="breadcrumb-wrapper"><ol class="breadcrumb">
 			<li><a href="<?php echo base_url();?>">Feedback</a></li>
 			<li class="active"><?php echo $category->name; ?></li>
@@ -21,7 +21,7 @@
 				</ul>
 			</div>
 
-			<div id="category-description"><small><?php echo $category->description; ?></small></div>
+			<div class="category-description"><small><?php echo $category->description; ?></small></div>
 		</div>
 
 		<table id="ideastable" class="table table-condensed">
@@ -34,7 +34,7 @@
 			</tr>
 		</thead>
 		</table>
-		
+
 		<?php foreach ($ideas as $idea): ?>
 			<div class="row">
 				<div class="col-xs-4 col-sm-2">
@@ -55,7 +55,7 @@
 						</b></span>
 						<br><div style="margin-top:-10px;font-size:14px"><?php echo $lang['label_votes']; ?></div>
 					</div>
-					<div class="vote-label">	
+					<div class="vote-label">
 						<span class="label label-<?php
 						switch ($idea->status) {
 							case 'considered':
