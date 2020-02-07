@@ -23,7 +23,7 @@
 	<form name="post-idea-form" method="post" action="<?php echo base_url() . 'action/newidea'?>">
 	  <div class="form-group">
 	    <label for="exampleInputEmail1"><?php echo $lang['label_idea_title']; ?></label>
-	    <input type="text" class="form-control" name="title" value="<?php if(@isset($POST['title'])) echo $POST['title'];?>" minlength="9" max="100" required>
+	    <input type="text" class="form-control" name="title" value="<?php if(@isset($POST['title'])) echo $POST['title'];?>" minlength="9" maxlength="100" required>
 	  </div>
 	  <div class="form-group">
 	  <label><?php echo $lang['label_category']; ?></label>
@@ -36,7 +36,7 @@
 	  </div>
 	  <div class="form-group">
 	  <label><?php echo $lang['label_description'];?></label>
-	    <textarea class="form-control" rows="4" name="description" minlength="20" max="1500" required><?php if(@isset($POST['desc'])) echo $POST['desc'];?></textarea>
+	    <textarea class="form-control" rows="4" name="description" minlength="20" maxlength="1500" required><?php if(@isset($POST['desc'])) echo $POST['desc'];?></textarea>
 	  </div>
 	  <button type="submit" class="btn btn-primary"><?php echo $lang['label_submit'];?></button>
 	</form>
