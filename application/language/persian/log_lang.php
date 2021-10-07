@@ -1,0 +1,20 @@
+<?php
+    $lang['log_commented'] = 'ایده %s نظر داد';
+    $lang['log_comment_deleted'] = 'حذف نظر %s';
+    $lang['log_idea_approved'] = 'ایده تایید شد %s';
+    $lang['log_idea_deleted'] = 'ایده حذف شد %s';
+    $lang['log_idea_status'] = 'وضعیت ایده از %s1 به %s2 تعویض شد';
+    $lang['log_user_registered'] = 'کاربر ثبت نام کرد';
+    $lang['log_new_idea'] = 'ایده جدید ایجاد شد';
+    $lang['log_idea_voted'] = 'ایده %s1 رای داده شد با %s2 رای';
+    $lang['log_user_banned'] = 'کاربر %s1 مسدود شد برای %s2 روز';
+    $lang['log_user_was_banned'] = 'کاربر %s مسدود شده است';
+    $lang['log_user_unbanned'] = 'لغو مسدود بودن کاربر %s';
+    $lang['log_settings'] = 'تنظیمات ویرایش شده است';
+    $lang['log_user_admin'] = 'کاربر به مدیر تبدیل شده اشت';
+    $lang['log_category_created'] = 'دسته بندی جدید ایجاد شد';
+    $lang['log_category_description'] = 'توضیحات بروزرسانی شد';
+    $lang['log_category_changed'] = 'دسته بندی \'%s1\' به \'%s2\' ویرایش شد';
+    $lang['log_category_deleted'] = 'دسته بندی %s حذف شد';
+    $lang['log_new_idea_mail_content'] = 'ایده جدیدی در سیستم بازخورد شما %s ارسال شده است. برای یافتن آن ، روی پیوند زیر کلیک کنید: %s.';
+    $lang['log_new_comment_mail_content'] = 'نظر جدیدی در سیستم بازخورد شما %s ارسال شده است. برای یافتن آن ، روی پیوند زیر کلیک کنید: %s.';
