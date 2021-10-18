@@ -138,7 +138,10 @@ body {
 
 
 /* Line up labels and badges with text better */
-.label, .badge { 
+.label, .badge {
 	vertical-align:2px;
 }
 
+.category-description {
+    color: #34495E
+}

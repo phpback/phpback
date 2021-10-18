@@ -30,6 +30,7 @@
     $lang['label_submit'] = 'Versturen';
     $lang['label_vote'] = 'Stem';
     $lang['label_votes'] = 'Stemmen';
+    $lang['label_status'] = 'Status';
 
     $lang['text_shared_this_idea'] = 'heeft dit idee gedeeld';
     $lang['text_flag_comment'] = 'flag reactie';

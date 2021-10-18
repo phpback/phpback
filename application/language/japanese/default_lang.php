@@ -30,6 +30,7 @@
     $lang['label_submit'] = '送信';
     $lang['label_vote'] = '投票';
     $lang['label_votes'] = '投票';
+    $lang['label_status'] = 'Status';
 
     $lang['text_shared_this_idea'] = 'この考えを共有しました';
     $lang['text_flag_comment'] = 'flag comment';

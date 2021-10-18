@@ -30,6 +30,7 @@
     $lang['label_submit'] = '提交';
     $lang['label_vote'] = '投票';
     $lang['label_votes'] = '投票';
+    $lang['label_status'] = 'Status';
 
     $lang['text_shared_this_idea'] = '分享想法';
     $lang['text_flag_comment'] = '标记评论';

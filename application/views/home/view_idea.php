@@ -154,7 +154,7 @@
 							<?php endif;?>
 							</span>
 						<div class="comment-text">
-							<?php echo $comment->content;?>
+							<?php echo nl2br($comment->content);?>
 						</div>
 					 </div>
 				</div>

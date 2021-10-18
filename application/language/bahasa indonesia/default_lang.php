@@ -30,6 +30,7 @@
     $lang['label_submit'] = 'Kirim';
     $lang['label_vote'] = 'Voting';
     $lang['label_votes'] = 'Voting';
+    $lang['label_status'] = 'Status';
 
     $lang['text_shared_this_idea'] = 'bagikan ide ini';
     $lang['text_flag_comment'] = 'tandai komentar';

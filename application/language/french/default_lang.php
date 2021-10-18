@@ -30,6 +30,7 @@ $lang['label_sign_in'] = 'Se connecter';
 $lang['label_submit'] = 'Soumettre';
 $lang['label_vote'] = 'Vote';
 $lang['label_votes'] = 'Votes';
+$lang['label_status'] = 'Statut';
 
 $lang['text_shared_this_idea'] = 'a partagé cette idée';
 $lang['text_flag_comment'] = 'signaler commentaire';

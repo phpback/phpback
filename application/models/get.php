@@ -105,12 +105,12 @@ class Get extends CI_Model
         return true;
     }
 
-    public function getIdeasByCategory($category, $order, $type, $page){
+    public function getIdeasByCategory($category, $order, $type, $page, $status){
         $page = (int) $page;
     	$category = (int) $category;
         $max = $this->getSetting('max_results');
         $from = ($page - 1) * $max;
-    	$query = "SELECT * FROM ideas WHERE categoryid='$category' AND status !='new' ORDER BY ";
+    	$query = "SELECT * FROM ideas WHERE categoryid='$category' AND status = '$status' ORDER BY ";
         switch ($order) {
             case 'id':
                 $query .= "id ";
@@ -165,6 +165,9 @@ class Get extends CI_Model
         return $this->get_row_by_id('users', $user_id);
     }
 
+    /**
+     * Get all ideas a user has created
+     */
     public function getUserIdeas($user_id){
         $user_id = (int) $user_id;
         $ideas = $this->db->query("SELECT * FROM ideas WHERE authorid='$user_id'")->result();
